@@ -1,0 +1,111 @@
+@use "@/assets/scss/config/mixins" as *;
+
+.ant {
+  &-form {
+    &-item {
+      margin-bottom: 0;
+
+      &-label {
+        padding-bottom: 0 !important;
+        margin-bottom: 8px;
+
+        label {
+          @include text(20, var(--black-1), 500, normal);
+        }
+      }
+    }
+  }
+
+  &-input {
+    height: var(--form-height);
+    border: 1px solid var(--form-border-color);
+    background: var(--form-bg);
+    @include text(20, var(--form-color), 400, normal);
+    padding: 0 var(--form-padding-x);
+    border-radius: var(--form-border-radius);
+  }
+
+  &-select {
+    --local-right-space: calc(var(--form-padding-x) * 2 + var(--size-icon-24));
+
+    &-selector {
+      height: var(--form-height) !important;
+      padding: 0 var(--local-right-space) 0 var(--form-padding-x) !important;
+      display: flex;
+      align-items: center;
+      background: var(--form-color) !important;
+      border: 1px solid var(--form-border-color);
+      border-radius: var(--form-border-radius) !important;
+    }
+
+    &-arrow {
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      margin: 0px;
+      height: unset;
+      width: unset;
+      display: block;
+
+      .icon {
+        display: block;
+        --icon-color: rgba(var(--primary), 0.8);
+      }
+    }
+
+    &-selection {
+      &-search {
+        left: var(--space-16) !important;
+        right: var(--local-right-space) !important;
+        display: flex;
+        align-items: center;
+      }
+
+      &-placeholder {
+        padding-right: 0px !important;
+        @include text(20, var(--form-color), 400, normal);
+        line-height: normal !important;
+      }
+
+      &-item {
+        @include text(20, var(--form-color), 400, normal);
+      }
+    }
+  }
+
+  &-picker {
+    display: flex;
+    align-items: center;
+    height: var(--form-height);
+    padding: 0px var(--form-padding-x);
+    background: var(--form-bg) !important;
+    border: 1px solid var(--form-border-color);
+    border-radius: var(--form-border-radius) !important;
+
+    &-input {
+      input {
+        @include text(20, var(--form-color), 400, normal);
+      }
+    }
+
+    &-suffix {
+      .icon {
+      }
+    }
+  }
+}
+
+textarea.ant-input {
+  padding-top: var(--space-16);
+  min-height: 120px;
+}
+
+.ant-form {
+  .ant-tabs-nav {
+    margin-bottom: 0px !important;
+  }
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--red-1) !important;
+}

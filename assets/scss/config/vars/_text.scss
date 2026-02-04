@@ -1,0 +1,86 @@
+@use "@/assets/scss/config/mixins" as *;
+
+:root {
+  --size-text-64: 64px;
+  --size-text-48: 48px;
+  --size-text-40: 40px;
+  --size-text-32: 32px;
+  --size-text-28: 28px;
+  --size-text-24: 24px;
+  --size-text-22: 22px;
+  --size-text-21: 21px;
+  --size-text-20: 20px;
+  --size-text-18: 18px;
+  --size-text-16: 16px;
+
+  @include devices(xxl) {
+    --size-text-64: 56px;
+    --size-text-48: 44px;
+    --size-text-40: 36px;
+    --size-text-32: 30px;
+    --size-text-28: 26px;
+    --size-text-24: 22px;
+    --size-text-22: 21px;
+    --size-text-21: 20px;
+    --size-text-20: 19px;
+    --size-text-18: 17px;
+  }
+
+  @include devices(xl) {
+    --size-text-64: 52px;
+    --size-text-48: 40px;
+    --size-text-40: 32px;
+    --size-text-32: 28px;
+    --size-text-28: 24px;
+    --size-text-24: 21px;
+    --size-text-22: 20px;
+    --size-text-21: 19px;
+    --size-text-20: 18px;
+    --size-text-18: 16px;
+  }
+
+  @include devices(lg) {
+    --size-text-64: 48px;
+    --size-text-48: 36px;
+    --size-text-40: 30px;
+    --size-text-32: 26px;
+    --size-text-28: 22px;
+    --size-text-24: 20px;
+    --size-text-22: 19px;
+    --size-text-21: 18px;
+    --size-text-20: 17px;
+  }
+
+  @include devices(md) {
+    --size-text-64: 44px;
+    --size-text-48: 34px;
+    --size-text-40: 28px;
+    --size-text-32: 24px;
+    --size-text-28: 20px;
+    --size-text-24: 19px;
+    --size-text-22: 18px;
+    --size-text-21: 17px;
+    --size-text-20: 16px;
+  }
+
+  @include devices(sm) {
+    --size-text-64: 40px;
+    --size-text-48: 32px;
+    --size-text-40: 26px;
+    --size-text-32: 22px;
+    --size-text-28: 19px;
+    --size-text-24: 18px;
+    --size-text-22: 17px;
+    --size-text-21: 16px;
+  }
+
+  @include devices(xs) {
+    --size-text-64: 36px;
+    --size-text-48: 28px;
+    --size-text-40: 24px;
+    --size-text-32: 20px;
+    --size-text-28: 18px;
+    --size-text-24: 17px;
+    --size-text-22: 16px;
+  }
+}

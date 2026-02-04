@@ -1,0 +1,54 @@
+@forward "vars/space";
+@forward "vars/color";
+@forward "vars/text";
+@use "./mixins" as *;
+
+:root {
+  --width-container: 1800px;
+  --width-mini-container: 1320px;
+  --height-header-part: 72px;
+  --search-width: 600px;
+  --size-icon-24: 24px;
+  --size-icon-32: 32px;
+  --size-btn-64: 64px;
+  --size-btn-56: 56px;
+  --size-btn-52: 52px;
+  --size-btn-48: 48px;
+  --width-logo: 207px;
+
+  --height-header: 106px;
+  --form-height: var(--size-btn-56);
+  --form-border-color: rgba(38, 54, 75, 0.2);
+  --form-bg: rgba(38, 54, 75, 0.02);
+  --form-border-radius: 12px;
+  --form-padding-x: var(--space-16);
+  --form-color: var(--black);
+
+  @include devices(xl) {
+    --search-width: 480px;
+    --width-logo: 180px;
+    --size-btn-64: 56px;
+    --size-btn-52: 48px;
+    --size-btn-56: 52px;
+    --size-icon-24: 20px;
+    --size-icon-32: 28px;
+  }
+
+  @include devices(lg) {
+    --search-width: 320px;
+    --width-logo: 160px;
+    --size-btn-64: 52px;
+    --size-btn-52: 44px;
+    --size-btn-56: 48px;
+    --size-btn-48: 44px;
+    --size-icon-24: 18px;
+    --size-icon-32: 24px;
+  }
+
+  @include devices(md) {
+    --size-btn-64: 46px;
+    --size-btn-52: 40px;
+    --size-btn-56: 40px;
+    --size-btn-48: 40px;
+  }
+}

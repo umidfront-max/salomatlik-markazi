@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  farhod_med_admin:
+    container_name: farhod_med_admin
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+    ports:
+      - "3032:80"   # OUTSIDE:INSIDE → your Nitro server listens on 3000 inside
+    environment:
+      NODE_ENV: production
+      PORT: 80
+    restart: unless-stopped

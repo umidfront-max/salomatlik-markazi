@@ -1,0 +1,51 @@
+@forward "module/section";
+@forward "module/swiper";
+@forward "module/ant-modal";
+@forward "module/form";
+@forward "module/swiper-nav";
+@forward "module/ant-tabs";
+@use "@/assets/scss/config/mixins" as *;
+
+.search {
+  max-width: var(--search-width);
+  width: 100%;
+  position: relative;
+
+  &-input {
+    --local-opacity: 1;
+    height: var(--size-btn-64);
+    width: 100%;
+    border-radius: var(--size-btn-64);
+    border: 1px solid #e5edf4;
+    background-color: #f4f8fa;
+    padding: 0 calc((var(--space-20) * 2) + var(--size-icon-24)) 0
+      var(--space-20);
+    @include text(20, rgba(var(--black), var(--local-opacity)));
+
+ 
+
+    &::placeholder {
+      --local-opacity: 0.6;
+    }
+  }
+
+  &-icon {
+    --icon-size: var(--size-icon-24);
+    position: absolute;
+    right: var(--space-20);
+    top: 50%;
+    transform: translateY(-50%);
+  
+  }
+}
+
+.dropdown {
+  &-content {
+    background: var(--white-1);
+    border: 1px solid #d3e0ea;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px 0 rgba(var(--black), 0.1);
+    min-width: 140px;
+    padding: 12px;
+  }
+}

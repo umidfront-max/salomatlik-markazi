@@ -1,0 +1,23 @@
+@use "@/assets/scss/config/mixins" as *;
+
+.ant-tabs {
+  &-nav {
+    margin-bottom: var(--space-32) !important;
+  }
+
+  &-tab {
+    &-btn {
+      @include text(22, #334554, 500, 150%);
+
+      .ant-tabs-tab-active & {
+        color: var(--primary-1) !important;
+      }
+    }
+  }
+
+  &-ink {
+    &-bar {
+      background: var(--primary-1);
+    }
+  }
+}

@@ -1,0 +1,26 @@
+@use "@/assets/scss/config/mixins" as *;
+.ant-modal {
+    
+    &-header {
+        padding: var(--space-32) var(--space-32) 0 var(--space-32);
+        border-bottom: none;
+    }
+    &-title {
+        @include text(32, var(--black-1), 700, 140%);
+    }
+
+    &-body {
+        padding: var(--space-32) var(--space-32) var(--space-32) var(--space-32);
+    }
+    &-close {
+        top: var(--space-32);
+        right: var(--space-32);
+
+        &-x {
+            width: auto;
+            height: auto;
+            line-height: unset;
+            display: block
+        }
+    }
+}

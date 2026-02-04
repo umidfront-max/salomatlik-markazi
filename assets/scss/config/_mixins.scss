@@ -1,0 +1,62 @@
+@forward 'mixins/breakpoints';
+
+@mixin image($fit: cover) {
+    width: 100%;
+    height: 100%;
+    object-fit: $fit;
+    object-position: center;
+}
+
+@mixin slice($limit) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $limit;
+}
+
+@mixin text ($size: 20, $color: var(--black-1), $weight: 400, $height: 130%) {
+    font-family: 'Tilda Sans', sans-serif;
+    --text-size: var(--size-text-#{$size});
+    font-weight: $weight;
+    line-height: $height;
+    color: $color;
+    font-size: var(--text-size);
+}
+
+@mixin center($gap: 0px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $gap
+}
+
+@mixin center-y($gap: 0px) {
+    display: flex;
+    align-items: center;
+    gap: $gap
+}
+
+@mixin center-x($gap: 0px) {
+    display: flex;
+    justify-content: center;
+    gap: $gap
+}
+
+@mixin middle() {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@mixin btn-default() {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+

@@ -1,0 +1,32 @@
+:root {
+    --red: 228, 33, 31;
+    --red-1: rgb(var(--red));
+    --red-2: #CC1F17;
+    --red-3: #f5e9e9;
+
+    --blue: 20, 100, 192;
+    --blue-1: #89D7FB;
+    --blue-2: rgba(15, 82, 159, 1);
+    --blue-3: rgb(137,215,251, 0.3);
+
+    --black: 3, 24, 43;
+    --black-1: rgb(3, 24, 43);
+
+    --green-1: #17AAAB;
+
+    --white: 255, 255, 255;
+    --white-1: rgb(var(--white));
+}
+
+.kokand {
+    --primary: var(--red);
+    --primary-1: var(--red-1);
+    --primary-2: var(--red-2);
+}
+.iris,
+.sbj {
+    --primary: var(--blue);
+    --primary-1: var(--blue-1);
+    --primary-2: var(--blue-2);
+    --primary-3: var(--blue-3);
+}

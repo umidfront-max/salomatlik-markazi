@@ -1,0 +1,20 @@
+stages:
+  - deploy
+
+deploy_traefik:
+  stage: deploy
+  only:
+    - main
+  tags:
+    - med_runner
+  script:
+    - docker compose -f docker-compose.yml up --build --force-recreate -d
+
+deploy_admin:
+  stage: deploy
+  only:
+    - admin
+  tags:
+    - med_runner
+  script:
+    - docker compose -f docker-compose.admin.yml up --build --force-recreate -d

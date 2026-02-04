@@ -1,0 +1,75 @@
+@use "@/assets/scss/config/mixins" as *;
+:root {
+    --space-16: 16px;
+    --space-20: 20px;
+    --space-24: 24px;
+    --space-32: 32px;
+    --space-40: 40px;
+    --space-48: 48px;
+    --space-60: 60px;
+    --space-80: 80px;
+    --space-100: 100px;
+    @include devices(xxl) {
+        --space-20: 18px;
+        --space-24: 22px;
+        --space-32: 30px;
+        --space-40: 36px;
+        --space-48: 44px;
+        --space-60: 54px;
+        --space-80: 72px;
+        --space-100: 88px;
+    }
+    @include devices(xl) {
+        --space-20: 16px;
+        --space-24: 20px;
+        --space-32: 28px;
+        --space-40: 32px;
+        --space-48: 40px;
+        --space-60: 48px;
+        --space-80: 64px;
+        --space-100: 80px;
+    }
+    @include devices(lg) {
+        --space-24: 18px;
+        --space-32: 26px;
+        --space-40: 30px;
+        --space-48: 38px;
+        --space-60: 40px;
+        --space-80: 56px;
+        --space-100: 72px;
+    }
+    @include devices(md) {
+        --space-24: 16px;
+        --space-32: 24px;
+        --space-40: 28px;
+        --space-48: 32px;
+        --space-60: 36px;
+        --space-80: 48px;
+        --space-100: 64px;
+    }
+    @include devices(sm) {
+        --space-32: 20px;
+        --space-40: 24px;
+        --space-48: 28px;
+        --space-60: 32px;
+        --space-80: 44px;
+        --space-100: 56px;
+    }
+    @include devices(sm) {
+        --space-32: 18px;
+        --space-40: 22px;
+        --space-48: 26px;
+        --space-60: 28px;
+        --space-80: 38px;
+        --space-100: 52px;
+    }
+    @include devices(xs) {
+        --space-16: 12px;
+        --space-32: 16px;
+        --space-40: 20px;
+        --space-48: 24px;
+        --space-60: 24px;
+        --space-80: 32px;
+        --space-100: 48px;
+    }
+}

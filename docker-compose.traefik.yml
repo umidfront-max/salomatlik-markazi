@@ -1,0 +1,27 @@
+networks:
+  traefik-network:
+    external: true
+
+services:
+  traefik:
+    image: traefik:v2.11
+    command:
+      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
+      - "--providers.docker.exposedByDefault=false"
+      - "--accesslog=false"
+      - "--api.insecure=true"
+      - "--entryPoints.web.address=:80"
+      - "--providers.docker=true"
+      - "--global.checkNewVersion=true"
+      - "--global.sendAnonymousUsage=false"
+      
+      # <<< Таймауты 30 минут >>>
+      - "--entrypoints.web.transport.respondingTimeouts.readTimeout=30m"
+      - "--entrypoints.web.transport.respondingTimeouts.idleTimeout=30m"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - traefik-network
+    ports:
+      - "80:80"
+    restart: unless-stopped

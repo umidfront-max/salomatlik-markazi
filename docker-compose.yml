@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  farhod_med_frontend:
+    container_name: farhod_med_frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3031:3000"   # OUTSIDE:INSIDE → your Nitro server listens on 3000 inside
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+    restart: unless-stopped
