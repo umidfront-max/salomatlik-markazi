@@ -167,6 +167,11 @@ $accent: #33c1ed;
 			background 0.25s ease,
 			border-color 0.25s ease,
 			transform 0.25s ease;
+		@include devices(md) {
+			right: 85px;
+			bottom: 14px;
+			max-width: 210px;
+		}
 	}
 
 	/* ✅ TEXT max 2 qator */
@@ -181,6 +186,9 @@ $accent: #33c1ed;
 		-webkit-line-clamp: 2; /* ⭐ 2 qator */
 		overflow: hidden;
 		transition: color 0.25s ease;
+		@include devices(md) {
+			font-size: 16px;
+		}
 	}
 
 	/* ✅ IMG hover bo'lganda: title bg = accent, text = white */
