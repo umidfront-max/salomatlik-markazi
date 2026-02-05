@@ -1,83 +1,89 @@
 @use "@/assets/scss/config/mixins" as *;
+
 .section {
-  &-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: var(--space-20);
-  }
+   &-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-20);
 
-  &-title {
-    @include text(40, var(--black-1), 700, 130%);
-    margin-bottom: var(--space-20);
+      @include devices(sm) {
+         flex-direction: column;
+         align-items: start;
+         gap: 10px;
+      }
+   }
 
-    &__center {
-      text-align: center;
-      margin-right: auto;
-      margin-left: auto;
-    }
+   &-title {
+      @include text(40, var(--black-1), 700, 130%);
+      margin-bottom: var(--space-20);
 
-    .section-header & {
-      margin-bottom: 0;
-    }
+      &__center {
+         text-align: center;
+         margin-right: auto;
+         margin-left: auto;
+      }
 
-    @include devices(xs) {
-      line-height: 1.1;
-    }
-  }
+      .section-header & {
+         margin-bottom: 0;
+      }
 
-  &-link {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    @include text(20, var(--black-1), 500, normal);
-    white-space: nowrap;
-    &:hover {
-    }
+      @include devices(xs) {
+         line-height: 1.1;
+      }
+   }
 
-    &__icon {
-      --icon-size: var(--size-icon-24);
-      --icon-color: rgba(var(--primary), 0.8);
-    }
-  }
+   &-link {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      @include text(20, var(--black-1), 500, normal);
+      white-space: nowrap;
 
-  &--container {
-    max-width: calc(var(--width-container) + var(--space-16) * 2);
-    padding: 0 var(--space-16);
-    margin: 0 auto;
-  }
+      &:hover {}
 
-  &-navigation {
-  }
+      &__icon {
+         --icon-size: var(--size-icon-24);
+         --icon-color: rgba(var(--primary), 0.8);
+      }
+   }
 
-  &-content {
-    p,
-    li,
-    span {
-      @include text(20, #03182b, 400, 150%);
-    }
-    strong,
-    b {
-      font-size: var(--size-text-20);
-    }
+   &--container {
+      max-width: calc(var(--width-container) + var(--space-16) * 2);
+      padding: 0 var(--space-16);
+      margin: 0 auto;
+   }
 
-    & > *:not(:last-child) {
-      // margin-bottom: 16px;
-    }
+   &-navigation {}
 
-    img {
-      width: 100%;
-      height: auto;
-    }
-  }
+   &-content {
 
-  &--image {
-  }
+      p,
+      li,
+      span {
+         @include text(20, #03182b, 400, 150%);
+      }
 
-  &--swiper {
-    margin-bottom: var(--space-20);
-  }
+      strong,
+      b {
+         font-size: var(--size-text-20);
+      }
 
-  &--images {
-  }
+      &>*:not(:last-child) {
+         // margin-bottom: 16px;
+      }
+
+      img {
+         width: 100%;
+         height: auto;
+      }
+   }
+
+   &--image {}
+
+   &--swiper {
+      margin-bottom: var(--space-20);
+   }
+
+   &--images {}
 }
