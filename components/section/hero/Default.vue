@@ -761,7 +761,7 @@ function onNavClick() {
 		font-size: 44px;
 	}
 }
-@media (max-width: 640px) {
+@media (max-width: 1340px) {
 	.main-slider-two__counter {
 		display: none;
 	}
@@ -784,6 +784,28 @@ function onNavClick() {
 		width: 100%;
 		min-width: 0;
 		justify-content: space-between;
+	}
+}
+@media (max-width: 740px) {
+	.main-slider-two__title {
+		font-size: 40px;
+      font-weight: 700;
+	}
+	.main-slider-two__content {
+		min-height: 650px;
+	}
+	.main-slider-two__button-group {
+		flex-direction: column;
+	}
+	.main-slider-two__info__inner {
+		display: none;
+	}
+	.main-slider-two__nav {
+		bottom: 0px;
+		top: auto;
+		flex-direction: row;
+		right: auto;
+		left: max(12px, calc(50% - 56px));
 	}
 }
 </style>

@@ -130,7 +130,7 @@ const swiperOptions = computed(() => ({
 .container {
 	position: relative;
 	z-index: 2;
-	padding: 40px 0px;
+	padding: 40px 20px;
 	max-width: 1320px !important;
 	width: 100%;
 	margin: 0px auto;
@@ -141,6 +141,9 @@ const swiperOptions = computed(() => ({
 	overflow: hidden;
 	// ko‘k fon + blur shapes
 	background-color: #2c51a3;
+	@include devices(sm) {
+		padding: 10px 0;
+	}
 
 	&__bg {
 		position: absolute;
@@ -166,12 +169,21 @@ const swiperOptions = computed(() => ({
 		gap: 20px;
 		border-bottom: 1px solid rgb(217, 225, 235, 0.4);
 		padding: 20px 0;
+		@media (max-width: 1200px) {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 10px;
+		}
 	}
 
 	&__navs {
 		display: flex;
 		gap: 14px;
 		padding-bottom: 10px;
+		@media (max-width: 1200px) {
+			width: 100%;
+			justify-content: flex-end;
+		}
 	}
 
 	.nav-btn {
@@ -237,12 +249,18 @@ const swiperOptions = computed(() => ({
 			@include devices(md) {
 				font-size: 34px;
 			}
+			@include devices(sm) {
+				font-size: 30px;
+			}
 		}
 	}
 	&__container {
 		padding: 20px 0px;
 		max-width: 1320px !important;
 		width: 100%;
+		@include devices(sm) {
+			padding: 5px 0px;
+		}
 		// margin: 0px auto;
 	}
 

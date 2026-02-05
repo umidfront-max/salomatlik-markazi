@@ -107,6 +107,14 @@ onBeforeUnmount(() => {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	gap: 30px; /* xohlasang */
+	@media (max-width: 740px) {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 10px; /* xohlasang */
+	}
+   @media (max-width: 520px) {
+		grid-template-columns: repeat(1, 1fr);
+		gap: 10px; /* xohlasang */
+	}
 }
 .features-one {
 	--base: #33c1ed;

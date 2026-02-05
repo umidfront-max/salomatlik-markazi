@@ -106,7 +106,7 @@ toSetStore(useSocial, social);
 
 <style lang="scss">
 .wrapper-page {
-  padding-top: 160px; // Header height compensation (80px top + 80px bottom sections)
+//   padding-top: 160px; // Header height compensation (80px top + 80px bottom sections)
 }
 
 .wrapper-home {
