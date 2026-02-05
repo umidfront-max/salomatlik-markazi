@@ -6,7 +6,7 @@ const localePath = useLocalePath();
 <template>
 	<section class="services-bg">
 		<div class="services container">
-			<ARow :gutter="[24, 24]">
+			<ARow :gutter="[20, 20]">
 				<ACol
 					v-for="service in list"
 					:key="service.id"
@@ -31,6 +31,8 @@ const localePath = useLocalePath();
 </template>
 
 <style lang="scss" scoped>
+@use "@/assets/scss/config/mixins" as *;
+
 .services-bg {
 	position: relative;
 	padding: 64px;
@@ -38,6 +40,11 @@ const localePath = useLocalePath();
 	margin-bottom: -100px;
 	padding-bottom: 140px;
 	background: #d6f2fd;
+
+	@include devices(md) {
+		padding-left: 2px;
+		padding-right: 2px;
+	}
 }
 .services-bg::before {
 	width: 420px;
