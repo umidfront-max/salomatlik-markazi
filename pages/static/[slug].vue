@@ -11,7 +11,7 @@ const { data: news } = await useAsyncData(
   () =>
     $api("news", {
       params: {
-        per_page: 8,
+        limit: 8,
         banner_id: detail.value.id,
       },
     })
@@ -36,7 +36,7 @@ const { data: news } = await useAsyncData(
     </ClientOnly>
     <div class="section-content" v-html="detail.content" v-if="detail.content"></div>
   </section>
-  <SectionNews v-if="detail.category === 'banner'" :is-page="true" :list="news?.result ?? []" />
+  <SectionNews v-if="detail.category === 'banner'" :is-page="true" :list="news?.data ?? []" />
 </template>
 <style lang="scss" scoped>
 @use "@/assets/scss/config/mixins" as *;

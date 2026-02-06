@@ -4,7 +4,7 @@ const { $api } = useNuxtApp();
 const { data } = await useAsyncData("video_home", () =>
   $api("video", {
     params: {
-      per_page: 8,
+      limit: 8,
     },
   })
 );
@@ -55,7 +55,7 @@ const swiperOptions = {
     </div>
     <ClientOnly>
       <Swiper v-bind="swiperOptions">
-        <SwiperSlide v-for="(item, index) in data.result ?? []" :key="index">
+        <SwiperSlide v-for="(item, index) in data?.data ?? []" :key="index">
           <SectionVideoDefault
             :data="item"
             data-aos="fade-up"
@@ -67,7 +67,7 @@ const swiperOptions = {
       </Swiper>
       <template #fallback>
         <ARow :gutter="[16, 16]">
-          <ACol v-for="(item, index) in data.result ?? []" :lg="6" :md="8" :sm="12" :xs="24">
+          <ACol v-for="(item, index) in data?.data ?? []" :lg="6" :md="8" :sm="12" :xs="24">
             <SectionVideoDefault :data="item" :key="index" />
           </ACol>
         </ARow>

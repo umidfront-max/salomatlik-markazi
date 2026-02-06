@@ -11,7 +11,7 @@ const { data: stats } = await useAsyncData(
     $api(`statistics`, {
       params: {
         category: route.params.slug,
-        per_page: 4,
+        limit: 4,
       },
     })
 );
@@ -21,7 +21,7 @@ const { data: news } = await useAsyncData(
   () =>
     $api("news", {
       params: {
-        per_page: 8,
+        limit: 8,
         service_id: detail.value.id,
       },
     })
@@ -31,7 +31,7 @@ const { data: diseases } = await useAsyncData(
   () =>
     $api("posts", {
       params: {
-        per_page: 8,
+        limit: 8,
         category: "diseases",
         service_id: detail.value.id,
       },
@@ -60,9 +60,9 @@ useCustomHead(detail.value);
           </template>
         </ClientOnly>
       </ACol>
-      <ACol :md="6" :xs="24" v-if="stats?.result?.length">
+      <ACol :md="6" :xs="24" v-if="stats?.data?.length">
         <div class="section-statistics">
-          <div class="section-statistics__item" v-for="item in stats.result ?? []">
+          <div class="section-statistics__item" v-for="item in stats.data ?? []">
             <span class="section-statistics__value">{{
               item.count + item.value
               }}</span>
@@ -73,10 +73,10 @@ useCustomHead(detail.value);
     </ARow>
     <div class="section-content" v-html="detail.content"></div>
   </section>
-  <SectionNews v-if="diseases?.result?.length" :is-page="true" :list="diseases?.result ?? []" :is-diseases="true"
+  <SectionNews v-if="diseases?.data?.length" :is-page="true" :list="diseases?.data ?? []" :is-diseases="true"
     class="pb-80" />
   <SectionDoctor :is-page="true" :serviec-id="detail.id" class="pb-80" />
-  <SectionNews v-if="news?.result?.length" :is-page="true" :list="news?.result ?? []" class="pb-80" />
+  <SectionNews v-if="news?.data?.length" :is-page="true" :list="news?.data ?? []" class="pb-80" />
 </template>
 
 <style lang="scss" scoped>

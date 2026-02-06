@@ -33,7 +33,7 @@ const { data: gallery } = await useAsyncData("gallery_gallery", () =>
   $api("gallery", {
     params: {
       category: "gallery",
-      per_page: 20,
+      limit: 20,
     },
   })
 );
@@ -46,7 +46,7 @@ const { data: gallery } = await useAsyncData("gallery_gallery", () =>
     </div>
     <ClientOnly>
       <Swiper v-bind="swiperOptions">
-        <SwiperSlide class="section-slide" v-for="item in gallery.result ?? []">
+        <SwiperSlide class="section-slide" v-for="item in gallery?.data ?? []">
           <a class="section-image" :href="item.image" data-fancybox>
             <img :src="item.image" :alt="item.title" />
           </a>
@@ -54,7 +54,7 @@ const { data: gallery } = await useAsyncData("gallery_gallery", () =>
       </Swiper>
       <template #fallback>
         <ARow :gutter="[16, 16]">
-          <ACol :xl="8" :md="12" :xs="24" v-for="item in gallery.result ?? []">
+          <ACol :xl="8" :md="12" :xs="24" v-for="item in gallery?.data ?? []">
             <div class="section-image">
               <img :src="item.image" :alt="item.title" />
             </div>

@@ -4,7 +4,7 @@ const { $api } = useNuxtApp();
 const { data } = await useAsyncData("equipment_home", () =>
   $api("equipment", {
     params: {
-      per_page: 8,
+      limit: 8,
     },
   })
 );
@@ -50,7 +50,7 @@ const swiperOptions = {
     </div>
     <ClientOnly>
       <Swiper v-bind="swiperOptions">
-        <SwiperSlide v-for="(item, index) in data.result">
+        <SwiperSlide v-for="(item, index) in data?.data">
           <Card
             @click="$router.push(localePath(`/equipment/${item.slug}`))"
             :data="item"
@@ -64,7 +64,7 @@ const swiperOptions = {
       </Swiper>
       <template #fallback>
         <ARow :gutter="[16, 16]">
-          <ACol :xl="6" :lg="6" :md="8" :sm="12" :xs="24" v-for="(item, index) in data.result" :key="index">
+          <ACol :xl="6" :lg="6" :md="8" :sm="12" :xs="24" v-for="(item, index) in data?.data" :key="index">
             <Card
               @click="$router.push(localePath(`/equipment/${item.slug}`))"
               :data="item"

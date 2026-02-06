@@ -11,7 +11,7 @@ interface RequestConfig {
 }
 
 interface ApiResponse {
-  result: Array<{
+  data: Array<{
     slug: string;
     created_at?: Date;
     updated_at?: Date;
@@ -75,49 +75,49 @@ export default defineSitemapEventHandler(async (event) => {
       {
         name: "doctor",
         api: "doctors",
-        params: { per_page: 10000 },
+        params: { limit: 10000 },
         priority: 0.9,
         changefreq: "weekly",
       },
       {
         name: "equipment",
         api: "equipment",
-        params: { per_page: 10000 },
+        params: { limit: 10000 },
         priority: 0.8,
         changefreq: "weekly",
       },
       {
         name: "news",
         api: "news",
-        params: { per_page: 10000 },
+        params: { limit: 10000 },
         priority: 0.7,
         changefreq: "daily",
       },
       {
         name: "program",
         api: "posts",
-        params: { per_page: 10000, category: "program" },
+        params: { limit: 10000, category: "program" },
         priority: 0.8,
         changefreq: "weekly",
       },
       {
         name: "static",
         api: "posts",
-        params: { per_page: 10000, category: "diseases" },
+        params: { limit: 10000, category: "diseases" },
         priority: 0.8,
         changefreq: "monthly",
       },
       {
         name: "static",
         api: "posts",
-        params: { per_page: 10000, category: "banner" },
+        params: { limit: 10000, category: "banner" },
         priority: 0.6,
         changefreq: "monthly",
       },
       {
         name: "service",
         api: "services",
-        params: { per_page: 10000 },
+        params: { limit: 10000 },
         priority: 0.7,
         changefreq: "weekly",
       },
@@ -133,7 +133,7 @@ export default defineSitemapEventHandler(async (event) => {
         const apiUrl = `${config.public.apiURL}${requestConfig.api}?${queryString}`;
         const response = (await $fetch(apiUrl)) as ApiResponse;
 
-        if (!response?.result || !Array.isArray(response.result)) {
+        if (!response?.data || !Array.isArray(response.data)) {
           console.warn(
             `API'dan ma'lumot olinmadi: ${requestConfig.api}`,
             response
@@ -144,7 +144,7 @@ export default defineSitemapEventHandler(async (event) => {
         // Har bir item uchun faqat joriy locale bo'yicha URL yaratish
         const urlsForLocale: any[] = [];
 
-        response.result.forEach((item) => {
+        response.data.forEach((item) => {
           const routePath = requestConfig.route || requestConfig.name;
           const path = `/${routePath}/${item.slug}`;
 

@@ -1,4 +1,4 @@
-components/form/apply.vue
+
 <script setup>
 import { watch } from "vue";
 import { generateRules } from "@/utilities/mixins";

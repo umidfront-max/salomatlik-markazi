@@ -32,7 +32,7 @@ const { data: certificate } = await useAsyncData("gallery_certificate", () =>
   $api("gallery", {
     params: {
       category: "certificate",
-      per_page: 20,
+      limit: 20,
     },
   })
 );
@@ -47,7 +47,7 @@ const { data: certificate } = await useAsyncData("gallery_certificate", () =>
     </div>
     <ClientOnly>
       <Swiper v-bind="swiperOptions">
-        <SwiperSlide v-for="item in certificate.result ?? []">
+        <SwiperSlide v-for="item in certificate.data ?? []">
           <a class="section-image" data-fancybox :href="item.image">
             <img :src="item.image" :alt="item.title || 'no-title'" />
           </a>
@@ -59,7 +59,7 @@ const { data: certificate } = await useAsyncData("gallery_certificate", () =>
             :xl="8"
             :md="12"
             :xs="24"
-            v-for="item in certificate.result ?? []"
+            v-for="item in certificate.data ?? []"
           >
             <div class="section-image">
               <img :src="item.image" :alt="item.title" />

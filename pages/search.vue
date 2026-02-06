@@ -8,7 +8,7 @@ const { data } = await useAsyncData(`diseases`, () =>
     params: {
       search: route.query.word,
       letter: route.query.letter,
-      per_page: 16,
+      limit: 16,
       category: "diseases"
     },
   })
@@ -32,11 +32,11 @@ watch(
       {{ $t('search') }}: <span>{{ $route.query.word }}</span>
     </h3>
     <ARow :gutter="[{ xxl: 24, xl: 20, xs: 12, sm: 16 }, 32]">
-      <ACol :lg="6" :sm="12" :xs="12" v-for="item in data.result ?? []" :key="item.id">
+      <ACol :lg="6" :sm="12" :xs="12" v-for="item in data?.data ?? []" :key="item.id">
         <NuxtLink :to="localePath(`/static/${item.slug}`)" class="section-link">{{ item.title }}</NuxtLink>
       </ACol>
     </ARow>
-    <Pagination module="diseases" :pagination="data.pagination" />
+    <Pagination module="diseases" :pagination="data" />
   </section>
 </template>
 <style lang="scss" scoped>

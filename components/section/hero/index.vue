@@ -1,20 +1,20 @@
 <script setup>
 const { $api } = useNuxtApp();
 
-const { data } = await useAsyncData("banner", () =>
-	$api("posts", {
+const { data } = await useAsyncData("banners", () =>
+	$api("banners", {
 		params: {
-			category: "banner",
-			per_page: 12,
+			category: "banners",
+			limit: 12,
 		},
 	}),
 );
 
 // Temporary: Multiply the list for testing
 const multipliedData = computed(() => {
-	if (!data.value?.result || data.value.result.length === 0) return [];
+	if (!data.value?.data || data.value?.data.length === 0) return [];
 
-	const items = data.value.result;
+	const items = data.value.data;
 	// Repeat items 4 times
 	return [...items, ...items, ...items, ...items];
 });
@@ -44,6 +44,7 @@ const swiperOptions = {
 
 <template>
 	<section class="section">
+		asdasdasd
 		<ClientOnly>
 			<Swiper v-bind="swiperOptions" @slideChange="onSlideChange">
 				<SwiperSlide
@@ -58,8 +59,13 @@ const swiperOptions = {
 				</SwiperSlide>
 			</Swiper>
 			<SectionHeroBannerBottom />
+
 			<template #fallback>
-				<SectionHeroDefault v-for="item in data?.result" :item="item" />
+				<SectionHeroDefault
+					v-for="(item, ind) in data?.data"
+					:key="ind"
+					:item="item"
+				/>
 			</template>
 		</ClientOnly>
 	</section>

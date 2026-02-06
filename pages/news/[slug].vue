@@ -10,7 +10,7 @@ const { data: news } = await useAsyncData(
   () =>
     $api("news", {
       params: {
-        per_page: 8,
+        limit: 8,
       },
     })
 );
@@ -19,7 +19,7 @@ const { data: diseases } = await useAsyncData(
   () =>
     $api("posts", {
       params: {
-        per_page: 8,
+        limit: 8,
         category: "diseases",
         news_id: detail.value.id,
       },
@@ -60,13 +60,13 @@ useCustomHead(detail.value || {});
   </section>
   <SectionNews
     class="section-news"
-    :list="diseases?.result ?? []"
+    :list="diseases?.data ?? []"
     :is-diseases="true"
   />
   <SectionNews
     :has-header="true"
     class="section-news"
-    :list="(news?.result ?? []).filter((item) => item.id !== detail.id)"
+    :list="(news?.data ?? []).filter((item) => item.id !== detail.id)"
   />
 </template>
 
