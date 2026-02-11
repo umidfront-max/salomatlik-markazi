@@ -8,11 +8,13 @@ const { data: setting } = await useAsyncData("settings", () =>
 
 const localePath = useLocalePath();
 const router = useRouter();
+
 const applyRef = ref();
 const navbarRef = ref();
-const searchQuery = ref("");
 
-const emits = defineEmits(["on-click-apply", "on-click-navbar"]);
+const searchQuery = ref("");
+const searchOpen = ref(false);
+const searchInputRef = ref(null);
 
 const handleSearch = () => {
 	if (searchQuery.value.trim()) {
@@ -21,116 +23,223 @@ const handleSearch = () => {
 				`/search?word=${encodeURIComponent(searchQuery.value.trim())}`,
 			),
 		);
+		searchOpen.value = false;
 	}
 };
+
+const toggleSearch = async () => {
+	searchOpen.value = !searchOpen.value;
+	if (searchOpen.value) {
+		await nextTick();
+		searchInputRef.value?.focus?.();
+	}
+};
+
+const normalizeLink = (value, type) => {
+	if (!value) return "#";
+	const v = String(value).trim();
+
+	// allaqachon url bo‘lsa
+	if (/^https?:\/\//i.test(v)) return v;
+
+	// telegram uchun @username bo‘lsa
+	if (type === "telegram") {
+		const username = v.replace(/^@/, "");
+		// t.me link
+		if (/^t\.me\//i.test(username)) return `https://${username}`;
+		return `https://t.me/${username}`;
+	}
+
+	// qolganlari uchun domain yozib qo‘yilgan bo‘lsa
+	// masalan: instagram.com/xxx
+	if (/^[a-z0-9.-]+\.[a-z]{2,}/i.test(v)) return `https://${v}`;
+
+	return v; // fallback
+};
 </script>
+
 <template>
-	<section class="section">
-		<div class="section-top">
-			<div class="container section-top__wrapper">
-				<div class="section-top__col">
-					<button class="section-navbar" @click="navbarRef?.toOpen()">
-						<Icon name="burger" />
-					</button>
-				</div>
-				<div class="section-top__col">
-					<div class="section-social">
+	<header class="h">
+		<div class="container h__row">
+			<!-- LEFT: burger + logo -->
+			<div class="h__left">
+				<NuxtLink :to="localePath('/')" class="h__brand">
+					<img class="h__logo" src="/logo.jpg" alt="Logo" />
+					<span class="h__brandText"
+						>Salomatlik <br />
+						maskani</span
+					>
+				</NuxtLink>
+				<div class="hContact">
+					<a
+						class="hPhone"
+						:href="`tel:${(setting?.phone || '').replace(/\s/g, '')}`"
+					>
+						<i class="ri-phone-line"></i>
+						<span class="hPhone__text">{{ setting?.phone }}</span>
+					</a>
+					<div class="hSocial" v-if="setting">
 						<a
-							class="section-social__icon"
+							v-if="setting?.telegram"
+							class="hSocial__item"
+							:href="normalizeLink(setting.telegram, 'telegram')"
 							target="_blank"
-							:href="item.site_url"
-							v-for="(item, ind) in social"
-							:key="ind"
+							rel="noopener"
+							aria-label="Telegram"
+							title="Telegram"
 						>
-							<Icon :name="item.icon" />
+							<i class="ri-telegram-line"></i>
+						</a>
+
+						<a
+							v-if="setting?.instagram"
+							class="hSocial__item"
+							:href="normalizeLink(setting.instagram, 'instagram')"
+							target="_blank"
+							rel="noopener"
+							aria-label="Instagram"
+							title="Instagram"
+						>
+							<i class="ri-instagram-line"></i>
+						</a>
+
+						<a
+							v-if="setting?.facebook"
+							class="hSocial__item"
+							:href="normalizeLink(setting.facebook, 'facebook')"
+							target="_blank"
+							rel="noopener"
+							aria-label="Facebook"
+							title="Facebook"
+						>
+							<i class="ri-facebook-fill"></i>
+						</a>
+
+						<a
+							v-if="setting?.youtube"
+							class="hSocial__item hSocial__item--yt"
+							:href="normalizeLink(setting.youtube, 'youtube')"
+							target="_blank"
+							rel="noopener"
+							aria-label="YouTube"
+							title="YouTube"
+						>
+							<i class="ri-youtube-fill"></i>
 						</a>
 					</div>
 				</div>
-				<div class="section-top__col section-top__right">
-					<div class="section-search">
-						<input
-							class="section-search__input"
-							type="text"
-							:placeholder="$t('search')"
-							v-model="searchQuery"
-							@keyup.enter="handleSearch"
-						/>
-						<Icon
-							class="section-search__icon"
-							name="search"
-							@click="handleSearch"
-						/>
-					</div>
-					<Btn
-						class="section-btn-mobile"
-						variant="primary"
-						:data-text="$t('booking')"
-						@click="applyRef?.toOpen()"
-					>
-						{{ $t("booking") }}
-					</Btn>
-					<SectionHeaderLang>
-						<template #="{ locale, locales }">
-							<button class="section-lang">
-								<img
-									class="section-lang__flag"
-									:src="`/flag/${locale}.png`"
-									:alt="locale"
-								/>
-								<span class="section-lang__text">
-									{{
-										locales.find((l) => l.code === locale)?.name ||
-										locale
-									}}
-								</span>
-								<Icon class="section-lang__icon" name="angle-bottom" />
-							</button>
-						</template>
-					</SectionHeaderLang>
-				</div>
 			</div>
-		</div>
-		<div class="section-bottom">
-			<div class="container section-bottom__container">
-				<NuxtLink :to="localePath('/')" class="section-logo">
-					<div class="logos">
-						<img src="/logo.jpg" alt="test" />
-						<p>Salomatlik markazi</p>
+
+			<!-- CENTER: nav OR search (like image #2) -->
+			<div class="h__center">
+				<Transition name="h-fade" mode="out-in">
+					<!-- SEARCH BAR (open) -->
+					<div v-if="searchOpen" class="hSearch" key="search">
+						<div class="hSearch__field">
+							<input
+								ref="searchInputRef"
+								v-model="searchQuery"
+								class="hSearch__input"
+								type="text"
+								:placeholder="$t('search')"
+								@keyup.enter="handleSearch"
+							/>
+							<button
+								class="hSearch__btn"
+								@click="handleSearch"
+								aria-label="Search"
+							>
+								<i class="ri-search-line"></i>
+							</button>
+						</div>
 					</div>
-				</NuxtLink>
-				<ul class="section-menu">
-					<li
-						class="section-menu__item"
-						v-for="(value, key) in setting"
-						:key="value"
-					>
-						<NuxtLink class="section-menu__link" :to="localePath(key)">
-							{{ value }}
-						</NuxtLink>
-					</li>
-				</ul>
+
+					<!-- MENU (closed) -->
+					<nav v-else class="hNav" key="nav">
+						<ul class="hNav__list">
+							<!-- <li
+								class="hNav__item"
+								v-for="(value, key) in setting"
+								:key="key"
+							>
+								<NuxtLink class="hNav__link" :to="localePath(key)">
+									{{ value }}
+								</NuxtLink>
+							</li>	 -->
+							<li class="hNav__item">
+								<NuxtLink class="hNav__link" :to="localePath('/news')">
+									{{ setting.news }}
+								</NuxtLink>
+							</li>
+							<li class="hNav__item">
+								<NuxtLink
+									class="hNav__link"
+									:to="localePath('/doctor')"
+								>
+									{{ setting.doctor }}
+								</NuxtLink>
+							</li>
+							<li class="hNav__item">
+								<NuxtLink
+									class="hNav__link"
+									:to="localePath('/service')"
+								>
+									{{ setting.service }}
+								</NuxtLink>
+							</li>
+						</ul>
+					</nav>
+				</Transition>
+			</div>
+
+			<!-- RIGHT: phone + booking + search icon + lang -->
+			<div class="h__right">
 				<Btn
-					class="section-btn"
+					class="h__cta"
 					variant="primary"
 					:data-text="$t('booking')"
 					@click="applyRef?.toOpen()"
 				>
 					{{ $t("booking") }}
 				</Btn>
-				<a class="section-info">
-					<div class="section-info__icon">
-						<Icon name="phone-fill" />
-					</div>
-					<div class="section-info__right">
-						<span class="section-info__label">{{
-							$t("emergencyCalls")
-						}}</span>
-						<span class="section-info__value">{{ setting?.phone }}</span>
-					</div>
-				</a>
+
+				<button
+					class="h__iconBtn h__iconBtn--accent"
+					@click="toggleSearch"
+					:aria-label="searchOpen ? 'Close search' : 'Open search'"
+				>
+					<i :class="searchOpen ? 'ri-close-line' : 'ri-search-line'"></i>
+				</button>
+
+				<SectionHeaderLang>
+					<template #="{ locale, locales }">
+						<button class="hLang" aria-label="Language">
+							<img
+								class="hLang__flag"
+								:src="`/flag/${locale}.png`"
+								:alt="locale"
+							/>
+							<span class="hLang__text">
+								{{
+									locales.find((l) => l.code === locale)?.code ||
+									locale
+								}}
+							</span>
+							<i class="ri-arrow-down-s-line hLang__chev"></i>
+						</button>
+					</template>
+				</SectionHeaderLang>
+				<button
+					class="h__iconBtn"
+					@click="navbarRef?.toOpen()"
+					aria-label="Menu"
+				>
+					<i class="ri-menu-line"></i>
+				</button>
 			</div>
 		</div>
-	</section>
+	</header>
+
 	<SectionHeaderApply ref="applyRef" />
 	<SectionHeaderNavbar ref="navbarRef" />
 </template>
@@ -138,380 +247,344 @@ const handleSearch = () => {
 <style lang="scss" scoped>
 @use "@/assets/scss/config/mixins" as *;
 
-.section {
+.h {
 	position: sticky;
-	left: 0;
-	right: 0;
-	top: 0px;
-	z-index: 2;
-	.logos {
-		display: flex;
-		gap: 5px;
-		align-items: center;
-		p {
-			font-size: 18px;
-		}
-	}
-	&-logo {
-		flex: 0 0 auto;
-		height: 60px;
+	top: 0;
+	z-index: 50;
+	background: #fff;
+	border-bottom: 1px solid #ededed;
+	.hContact {
+		// display: flex;
+		// align-items: center;
 
-		@include devices(xl) {
-			margin-right: auto;
-		}
-
-		@include devices(xs) {
-			max-width: 280px;
-		}
-
-		img {
-			height: 56px;
-		}
-	}
-
-	&-top {
-		background-color: white;
-		position: relative;
-		z-index: 999;
-
-		&__wrapper {
-			display: flex;
-		}
-
-		&__right {
-			display: flex;
-		}
-	}
-
-	&-label {
-		display: flex;
-		align-items: center;
 		gap: 12px;
-		font-size: 16px;
-		line-height: 1.6;
 
-		.icon {
-			--icon-size: 20px;
-			--icon-color: var(--red-1);
+		@include devices(md) {
+			gap: 10px;
 		}
 	}
 
-	&-top {
-		&__wrapper {
-			height: var(--height-header-part);
-			display: flex;
-			align-items: center;
-		}
-
-		&__col {
-			&:nth-child(1),
-			&:nth-child(3) {
-				flex: 1;
-			}
-
-			&:nth-child(2) {
-			}
-		}
-	}
-
-	&-social {
+	.hSocial {
 		display: flex;
 		align-items: center;
-		gap: 12px;
+		gap: 8px;
+		// padding-right: 12px;
+		// margin-right: 12px;
+		// border-right: 1px solid #e7eaf0;
+
+		@include devices(md) {
+			padding-right: 10px;
+			margin-right: 10px;
+		}
 
 		@include devices(sm) {
-			display: none;
-		}
-
-		@include devices(lg) {
-			margin-right: 24px;
-		}
-
-		&__icon {
-			position: relative;
-			background-color: var(--red-3);
-			--icon-color: var(--red-1);
-			width: 44px;
-			height: 44px;
-			font-size: 16px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			border: 1px solid var(--border-color-one);
-			border-radius: 100px;
-			transition: all 0.2s ease-in-out;
-
-			&:hover {
-				background-color: var(--red-1);
-				--icon-color: var(--white-1);
-			}
-		}
-	}
-
-	&-search {
-		min-height: 44px;
-		height: 44px;
-		display: flex;
-		align-items: center;
-		border: 1px solid #d3d3d3;
-		max-width: 250px;
-		width: 100%;
-		margin-left: auto;
-		padding: 0 16px;
-		gap: 8px;
-		border-radius: 12px;
-
-		@include devices(xs) {
-			display: none;
-		}
-
-		&__input {
-			border: none;
-			outline: none;
-			background-color: transparent;
-			flex: 1;
-		}
-
-		&__icon {
-			--icon-color: var(--red-1);
-			cursor: pointer;
-			transition: transform 0.2s ease-in-out;
-
-			&:hover {
-				transform: scale(1.1);
-			}
-		}
-	}
-
-	&-bottom {
-		padding: 8px;
-		position: relative;
-		z-index: 991;
-		border-bottom: 1px solid #ededed;
-		border-top: 1px solid #ededed;
-
-		.wrapper-home &,
-		.wrapper-detail & {
-			border-bottom: transparent;
-			border-top: transparent;
-		}
-
-		&__container {
-			background-color: white;
-			border-radius: 8px;
-			height: var(--height-header-part);
-			display: flex;
-			align-items: center;
-		}
-	}
-
-	&-menu {
-		display: flex;
-		align-items: center;
-		gap: var(--space-40);
-		margin: 0 auto;
-
-		@include devices(xl) {
-			display: none;
+			display: none; // xohlasang olib tashla
 		}
 
 		&__item {
-		}
+			width: 32px;
+			height: 32px;
+			border-radius: 14px;
+			border: 1px solid #d8dde6;
+			background: #fff;
+			display: grid;
+			place-items: center;
+			text-decoration: none;
+			color: var(--blue-4);
+			transition: 0.2s ease;
+			box-shadow: 0 10px 22px rgba(15, 23, 42, 0.04);
 
-		&__link {
-			display: block;
-			font-size: 16px;
-			font-weight: 500;
-			color: var(--black-1);
-			text-align: left;
-			position: relative;
-			text-transform: capitalize;
-			padding: 25px 0px;
-			transition: all 0.2s ease-in-out;
+			i {
+				font-size: 20px;
+				line-height: 1;
+				opacity: 0.9;
+			}
 
 			&:hover {
-				color: var(--red-1);
+				box-shadow: 0 14px 30px rgba(15, 23, 42, 0.1);
+				border-color: rgba(220, 38, 38, 0.35);
+				color: white;
+				background: var(--blue-4);
+			}
+
+			&:active {
+				transform: translateY(0px);
+			}
+
+			&--yt:hover {
+				border-color: rgba(220, 38, 38, 0.45);
 			}
 		}
 	}
 
-	&-info {
+	&__row {
+		height: 88px; // 1-rasmga yaqin
 		display: flex;
 		align-items: center;
-		gap: 8px;
-
-		@include devices(sm) {
-			display: none;
-		}
-
-		&__icon {
-			position: relative;
-			display: inline-block;
-			width: 46px;
-			height: 46px;
-			text-align: center;
-			color: var(--white-color);
-			background-color: var(--red-1);
-			font-size: 16px;
-			border-radius: 100%;
-			display: -webkit-flex;
-			display: -moz-flex;
-			display: flex;
-			-webkit-justify-content: center;
-			-moz-justify-content: center;
-			justify-content: center;
-			-webkit-align-items: center;
-			align-items: center;
-			--icon-color: var(--white-1);
-			z-index: 1;
-
-			&::before,
-			&::after {
-				content: "";
-				position: absolute;
-				top: 0;
-				left: 0;
-				right: 0;
-				bottom: 0;
-				border-radius: 100%;
-				border: 3px solid var(--red-1);
-				z-index: -1;
-				animation: ripple 2.5s ease-out infinite;
-			}
-
-			&::after {
-				animation-delay: 1.25s;
-			}
-		}
-
-		&__right {
-			display: flex;
-			flex-direction: column;
-			align-items: flex-start;
-		}
-
-		&__label {
-			display: block;
-			font-size: 14px;
-			color: rgba(var(--black), 0.8);
-			display: block;
-		}
-
-		&__value {
-			font-size: 20px;
-			color: var(--black-1);
-		}
+		gap: 18px;
 	}
 
-	&-btn {
-		margin-right: 24px;
-
-		@include devices(sm) {
-			margin-right: 0;
-		}
-
-		@include devices(xs) {
-			display: none;
-		}
-
-		&-mobile {
-			display: none;
-
-			@include devices(xs) {
-				display: flex;
-				margin-left: auto;
-				white-space: nowrap;
-			}
-		}
-	}
-
-	&-lang {
-		min-height: 44px;
-		height: 44px;
+	&__left {
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		gap: 8px;
-		border: 1px solid #d3d3d3;
-		background-color: white;
-		padding: 0 16px;
-		margin-left: 12px;
+		gap: 44px;
+		flex: 0 0 auto;
+	}
+
+	&__brand {
+		display: flex;
+		align-items: center;
+		gap: 2px;
+		text-decoration: none;
+	}
+
+	&__logo {
+		width: 82px;
+		height: 82px;
 		border-radius: 12px;
-		font-size: 14px;
-		font-weight: 500;
-		color: var(--black-1);
-		cursor: pointer;
-		transition: all 0.2s ease-in-out;
+		object-fit: cover;
+	}
 
-		@include devices(xs) {
+	&__brandText {
+		font-size: 20px;
+		font-weight: 700;
+		line-height: 1.3;
+		text-transform: uppercase;
+		color: #0f172a;
+		white-space: nowrap;
+		color: rgba(20, 63, 150, 0.92);
+		@include devices(sm) {
 			display: none;
 		}
+	}
 
-		&:hover {
-			border-color: var(--red-1);
-			color: var(--red-1);
-			background-color: var(--red-3);
+	&__center {
+		flex: 1;
+		min-width: 0;
+	}
+
+	&__right {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		flex: 0 0 auto;
+	}
+
+	&__cta {
+		@include devices(sm) {
+			display: none;
 		}
+	}
 
-		&__flag {
-			min-width: 24px;
-			width: 24px;
-			height: auto;
-			border-radius: 4px;
-		}
+	&__iconBtn {
+		width: 46px;
+		height: 46px;
+		border-radius: 14px;
+		border: 1px solid var(--blue-4);
+		background: #fff;
+		display: grid;
+		place-items: center;
+		cursor: pointer;
+		transition: 0.2s ease;
+		color: var(--blue-4);
 
-		&__text {
+		i {
+			font-size: 22px;
 			line-height: 1;
-			white-space: nowrap;
-		}
-
-		&__icon {
-			--icon-size: 16px;
-			--icon-color: currentColor;
-			transition: transform 0.2s ease-in-out;
-		}
-	}
-
-	&-navbar {
-		min-height: 44px;
-		height: 44px;
-		min-width: 44px;
-		width: 44px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border: 1px solid #d3d3d3;
-		background-color: white;
-		border-radius: 12px;
-		cursor: pointer;
-		transition: all 0.2s ease-in-out;
-
-		.icon {
-			--icon-size: 22px;
-			--icon-color: rgba(var(--black), 0.7);
-			transition: color 0.2s ease-in-out;
 		}
 
 		&:hover {
-			border-color: var(--red-1);
-			background-color: var(--red-3);
+			border-color: #c7ceda;
+			box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+		}
 
-			.icon {
-				--icon-color: var(--red-1);
+		&--accent {
+			border-color: var(--blue-4);
+			color: var(--blue-4);
+
+			&:hover {
+				border-color: var(--blue-4);
 			}
 		}
 	}
 }
 
-@keyframes ripple {
-	0% {
-		transform: scale(1);
-		opacity: 0.7;
+.hNav {
+	width: 100%;
+
+	&__list {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 24px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		@include devices(xl) {
+			display: none;
+		}
 	}
 
-	100% {
-		transform: scale(1.4);
-		opacity: 0;
+	&__link {
+		font-size: 16px;
+		font-weight: 600;
+		color: #0f172a;
+		text-decoration: none;
+		padding: 10px 0;
+		position: relative;
+		transition: 0.2s ease;
+
+		&:hover {
+			color: rgba(20, 63, 150, 0.92);
+		}
+
+		&::after {
+			content: "";
+			position: absolute;
+			left: 0;
+			bottom: 4px;
+			width: 100%;
+			height: 2px;
+			background: rgba(20, 63, 150, 0.92);
+			transform: scaleX(0);
+			transform-origin: left;
+			transition: 0.2s ease;
+		}
+
+		&:hover::after {
+			transform: scaleX(1);
+		}
 	}
+}
+
+/* 2-rasm: search ochilganda o‘rtada uzun input */
+.hSearch {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+
+	&__field {
+		width: min(720px, 100%);
+		height: 52px;
+		border-radius: 999px;
+		border: 1px solid var(--blue-4);
+		background: #fff;
+		display: flex;
+		align-items: center;
+		padding: 0 10px 0 18px;
+		gap: 10px;
+		box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+	}
+
+	&__input {
+		flex: 1;
+		border: none;
+		outline: none;
+		background: transparent;
+		font-size: 16px;
+		color: #0f172a;
+		min-width: 0;
+	}
+
+	&__btn {
+		width: 42px;
+		height: 42px;
+		border-radius: 999px;
+		border: 1px solid #dfe3e7;
+		background: #f4f6f8;
+		display: grid;
+		place-items: center;
+		cursor: pointer;
+		transition: 0.2s ease;
+		color: var(--blue-4);
+
+		i {
+			font-size: 20px;
+		}
+
+		&:hover {
+			background: #c6d4e1;
+			transform: translateY(-1px);
+		}
+	}
+}
+
+.hPhone {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	text-decoration: none;
+	color: rgba(20, 63, 150, 0.92);
+	font-weight: 700;
+
+	i {
+		font-size: 20px;
+		color: rgba(20, 63, 150, 0.92);
+		opacity: 0.9;
+	}
+
+	&__text {
+		white-space: nowrap;
+		font-size: 16px;
+		@include devices(md) {
+			display: none;
+		}
+	}
+}
+
+.hLang {
+	height: 46px;
+	border-radius: 14px;
+	border: 1px solid var(--blue-4);
+	background: #fff;
+	padding: 0 12px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	cursor: pointer;
+	transition: 0.2s ease;
+
+	&:hover {
+		box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+	}
+
+	&__flag {
+		width: 22px;
+		height: 16px;
+		border-radius: 4px;
+		object-fit: cover;
+	}
+
+	&__text {
+		font-size: 14px;
+		font-weight: 600;
+		color: #0f172a;
+		white-space: nowrap;
+		text-transform: uppercase;
+
+		@include devices(sm) {
+			display: none;
+		}
+	}
+
+	&__chev {
+		font-size: 18px;
+		color: var(--blue-4);;
+		opacity: 0.7;
+	}
+}
+
+/* transition (nav <-> search) */
+.h-fade-enter-active,
+.h-fade-leave-active {
+	transition:
+		opacity 0.18s ease,
+		transform 0.18s ease;
+}
+.h-fade-enter-from,
+.h-fade-leave-to {
+	opacity: 0;
+	transform: translateY(6px);
 }
 </style>

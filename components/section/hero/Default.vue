@@ -55,7 +55,7 @@ const current = computed(() => String(activeIndex.value + 1).padStart(2, "0"));
 const totalStr = computed(() => String(total.value).padStart(2, "0"));
 
 const modules = [Autoplay, EffectFade, Navigation];
-const AUTOPLAY_DELAY = 6000;
+const AUTOPLAY_DELAY = 600000;
 
 const options = computed(() => ({
 	loop: true,
@@ -345,6 +345,7 @@ function onNavClick() {
 <style scoped>
 .container {
 	max-width: 1320px !important;
+   
 	width: 100%;
 	margin: 0 auto;
 	padding: 0 12px;
@@ -364,8 +365,8 @@ function onNavClick() {
 
 .main-slider-two__wrapper {
 	position: relative;
-	min-height: 520px;
-	height: 520px;
+	min-height: 590px;
+	height: 590px;
 	border-radius: 26px;
 	overflow: hidden;
 }
