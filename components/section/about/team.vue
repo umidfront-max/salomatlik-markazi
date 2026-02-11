@@ -3,7 +3,7 @@ const localePath = useLocalePath();
 const { $api } = useNuxtApp();
 
 const { data: doctor } = await useAsyncData("doctor_team", () =>
-  $api("doctors", { params: { per_page: 500, is_visible_home: true } })
+  $api("doctors", { params: { limit: 500, is_visible_home: true } })
 );
 
 const swiperOptions = {
@@ -39,7 +39,7 @@ const gutter = { xs: 16, xl: 20, xxl: 24 };
 <template>
   <section
     class="container section--xs-swiper-auto section pt-100"
-    v-if="doctor?.result?.length"
+    v-if="doctor?.data?.length"
   >
     <div
       class="section-header"
@@ -58,7 +58,7 @@ const gutter = { xs: 16, xl: 20, xxl: 24 };
     </div>
     <ClientOnly>
       <Swiper v-bind="swiperOptions">
-        <SwiperSlide v-for="(item, index) in doctor.result" :key="index">
+        <SwiperSlide v-for="(item, index) in doctor?.data" :key="index">
           <CardTeam
             :data="item"
             data-aos="flip-left"
@@ -76,7 +76,7 @@ const gutter = { xs: 16, xl: 20, xxl: 24 };
             :md="12"
             :sm="12"
             :xs="24"
-            v-for="(item, index) in doctor.result"
+            v-for="(item, index) in doctor.data"
             :key="index"
           >
             <CardTeam :data="item" />

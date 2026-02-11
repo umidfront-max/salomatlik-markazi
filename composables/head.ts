@@ -3,7 +3,7 @@ export const useCustomHead = (detail: any) => {
     const route = useRoute();
     const config = useRuntimeConfig()
     useHead({
-        title: detail.title,
+        title: detail?.title,
         meta: [
             {
                 property: "og:type",
@@ -11,19 +11,19 @@ export const useCustomHead = (detail: any) => {
             },
             {
                 property: "og:title",
-                content: detail.title,
+                content: detail?.title,
             },
             {
                 property: "og:description",
-                content: detail.short_content || detail.sub_title || detail.content?.replace(/<[^>]*>?/gm, "") || detail.title,
+                content: detail?.short_content || detail?.sub_title || detail.content?.replace(/<[^>]*>?/gm, "") || detail.title,
             },
             {
                 property: "og:image",
-                content: detail.image,
+                content: detail?.image,
             },
             {
                 property: "og:image:secure_url",
-                content: detail.image,
+                content: detail?.image,
             },
             {
                 property: "og:url",

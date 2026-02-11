@@ -3,7 +3,7 @@ const { $api } = useNuxtApp();
 const { data: about } = await useAsyncData("menu_about", () =>
   $api(`menu/o-nas`, {
     params: {
-      per_page: undefined,
+      limit: undefined,
     },
   })
 );

@@ -6,7 +6,7 @@ export default defineNuxtPlugin((nuxtApp: any) => {
         onRequest({ options }) {
             options.headers = { 'Accept-Language': locale };
             options.params = {
-                per_page: 500,
+                limit: 500,
                 ...options.params,
             }
         },

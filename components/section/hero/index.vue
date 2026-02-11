@@ -1,83 +1,36 @@
 <script setup>
-const { $api } = useNuxtApp();
+const { $api } = useNuxtApp()
+const { locale } = useI18n()
 
-const { data } = await useAsyncData("banner", () =>
-	$api("posts", {
-		params: {
-			category: "banner",
-			per_page: 12,
-		},
-	}),
-);
+const lang = computed(() => locale.value || 'uz')
 
-// Temporary: Multiply the list for testing
+const { data } = await useAsyncData('banners', () =>
+  $api('banners', { params: { category: 'banners', limit: 12 } })
+)
+
+const banners = computed(() => {
+  const list = data.value?.data || []
+  return list
+    .filter((x) => x?.isActive && x?.position === 'HERO_MAIN')
+    .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
+})
+
 const multipliedData = computed(() => {
-	if (!data.value?.result || data.value.result.length === 0) return [];
-
-	const items = data.value.result;
-	// Repeat items 4 times
-	return [...items, ...items, ...items, ...items];
-});
-
-const activeSlideIndex = ref(0);
-
-const onSlideChange = (swiper) => {
-	activeSlideIndex.value = swiper.activeIndex;
-};
-
-// Swiper options object
-const swiperOptions = {
-	slidesPerView: 1,
-	spaceBetween: 24,
-	autoplay: {
-		delay: 6000, // Longer delay to enjoy the animation
-		disableOnInteraction: false,
-	},
-	speed: 1200, // Slower, smoother transition
-	effect: "fade", // Added fade effect
-	fadeEffect: {
-		crossFade: true,
-	},
-	modules: [SwiperAutoplay, SwiperEffectFade],
-};
+  const items = banners.value
+  if (!items.length) return []
+  return [...items] // siz xohlasangiz ko'paytirib qo'yasiz
+})
 </script>
 
 <template>
-	<section class="section">
-		<ClientOnly>
-			<Swiper v-bind="swiperOptions" @slideChange="onSlideChange">
-				<SwiperSlide
-					v-for="(item, index) in multipliedData"
-					:key="`${item.id}-${index}`"
-				>
-					<SectionHeroDefault
-						:item="item"
-						:index="index"
-						:active-index="activeSlideIndex"
-					/>
-				</SwiperSlide>
-			</Swiper>
-			<SectionHeroBannerBottom />
-			<template #fallback>
-				<SectionHeroDefault v-for="item in data?.result" :item="item" />
-			</template>
-		</ClientOnly>
-	</section>
-</template>
+  <section class="section">
+    <ClientOnly>
+      <SectionHeroDefault :items="multipliedData" :lang="lang" />
 
-<style lang="scss" scoped>
-@use "@/assets/scss/config/mixins" as *;
-.section {
-	position: relative;
-	&::after {
-		content: "";
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 100%;
-		background: rgba(238, 240, 242, 0.65);
-		z-index: -1;
-	}
-}
-</style>
+      <template #fallback>
+        <!-- ✅ fallback ham xuddi shuni olsin -->
+        <SectionHeroDefault :items="banners" :lang="lang" />
+      </template>
+    </ClientOnly>
+  </section>
+</template>

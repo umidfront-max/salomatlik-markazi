@@ -5,7 +5,7 @@ const { data } = await useAsyncData("statistics_home", () =>
   $api("statistics", {
     params: {
       category: "home",
-      per_page: 4,
+      limit: 4,
     },
   })
 );
@@ -23,7 +23,7 @@ const { data } = await useAsyncData("statistics_home", () =>
           </p>
         </div>
         <div class="stats-grid">
-          <div class="stats-item" v-for="(item, index) in data.result ?? []" :key="index">
+          <div class="stats-item" v-for="(item, index) in data?.data ?? []" :key="index">
             <div class="stats-item__value">{{ item.value }}{{ item.count }}</div>
             <div class="stats-item__label">{{ item.title }}</div>
           </div>

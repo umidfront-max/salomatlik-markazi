@@ -43,7 +43,7 @@ function toHandleClick(event) {
 
   // Primary variant (red button with animation from header)
   &--primary {
-    background-color: var(--red-1);
+    background-color: var(--blue-4);
     height: 48px;
     padding: 0 20px;
     font-size: 16px;
@@ -72,7 +72,7 @@ function toHandleClick(event) {
     }
 
     &:hover {
-      background-color: var(--red-2);
+      background-color: var(--blue-4);
 
       &::before {
         transform: translateY(-100%);

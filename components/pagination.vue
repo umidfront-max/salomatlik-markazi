@@ -18,9 +18,9 @@ const $props = defineProps({
   },
 });
 
-const currentPage = ref($props.pagination?.page || 1);
+const currentPage = ref($props?.page || 1);
 const pages = computed(() => {
-  const totalPages = $props.pagination?.total_pages || 1;
+  const totalPages = $props?.total_pages || 1;
   return Array.from({ length: totalPages }, (_, i) => i + 1);
 });
 
@@ -35,7 +35,7 @@ const changePage = (page) => {
 };
 const disablePrev = computed(() => currentPage.value === 1);
 const disableNext = computed(
-  () => currentPage.value === $props.pagination?.total_pages
+  () => currentPage.value === $props?.total_pages
 );
 
 </script>

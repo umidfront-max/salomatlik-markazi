@@ -4,7 +4,7 @@ const { $api } = useNuxtApp();
 const { data } = await useAsyncData("news", () =>
   $api("news", {
     params: {
-      per_page: 5,
+      limit: 5,
       page: route.query.page,
     },
   })
@@ -12,8 +12,8 @@ const { data } = await useAsyncData("news", () =>
 </script>
 <template>
   <section class="section container">
-    <SectionNews :list="data.result || []" :has-header="false" />
-    <Pagination module="news" :pagination="data?.pagination ?? {}" />
+    <SectionNews :list="data.data || []" :has-header="false" />
+    <Pagination module="news" :pagination="data ?? {}" />
   </section>
 </template>
 <style lang="scss" scoped>

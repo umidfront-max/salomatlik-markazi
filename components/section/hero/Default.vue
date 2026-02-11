@@ -2,55 +2,60 @@
 import { ref, computed, nextTick, onMounted, onBeforeUnmount } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Autoplay, EffectFade, Navigation } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/navigation";
 
-type Slide = {
-	bg: string;
-	tag: string;
-	title: string;
-	text: string;
+type Banner = {
+	id: string;
+	title?: Record<string, string>;
+	description?: Record<string, string>;
+	image?: string | null;
+	imageMobile?: string | null;
+	buttonText?: Record<string, string>;
+	linkUrl?: string | null;
+	linkTarget?: string | null;
+	overlayOpacity?: string | number | null;
+	isActive?: boolean;
 };
 
-const slides: Slide[] = [
-	{
-		bg: "https://pixydrops.com/mediox-php/assets/images/backgrounds/main-slider-bg-2-2.jpg",
-		tag: "24/7 EMERGENCY SERVICE",
-		title: "Best Dental Care In Town 1",
-		text: "From annual physicals to lab work and vaccinations, and all steps in between, Vivo Clinic patients can get all",
-	},
-	{
-		bg: "https://pixydrops.com/mediox-php/assets/images/backgrounds/main-slider-bg-2-3.jpg",
-		tag: "24/7 EMERGENCY SERVICE",
-		title: "Best Neurology Care In Town 2",
-		text: "Mobile friendly I have zero cycles for this not the long pole in my tent cannibalize out of the loop, so closing",
-	},
-	{
-		bg: "https://pixydrops.com/mediox-php/assets/images/backgrounds/main-slider-bg-2-1.jpg",
-		tag: "24/7 EMERGENCY SERVICE",
-		title: "Best Cardiology Care In Town 3",
-		text: "Can you champion this loop back, nor curate, or we don't want to boil the ocean. Customer centric i called",
-	},
-];
+const props = defineProps<{
+	items: Banner[];
+	lang: "uz" | "ru" | "en" | string;
+}>();
+
+const items = computed(() => props.items || []);
+
+function pickLang(obj?: Record<string, string>, fallback = "") {
+	if (!obj) return fallback;
+	return obj[props.lang] || obj.uz || obj.ru || obj.en || fallback;
+}
+
+const slides = computed(() =>
+	items.value.map((b) => ({
+		id: b.id,
+		bg: (b.imageMobile || b.image || "") as string,
+		title: pickLang(b.title, ""),
+		html: pickLang(b.description, ""),
+		btn: pickLang(b.buttonText, ""),
+		href: b.linkUrl || "#",
+		target: b.linkTarget || "_black",
+		overlay: Number(b.overlayOpacity ?? 0.3),
+	})),
+);
 
 // nav refs
 const prevEl = ref<HTMLElement | null>(null);
 const nextEl = ref<HTMLElement | null>(null);
 
-// ✅ swiper instance (timer reset uchun)
+// swiper instance
 const swiperIns = ref<any>(null);
 
 const activeIndex = ref(0);
 
-const total = computed(() => slides.length);
+const total = computed(() => slides.value.length);
 const current = computed(() => String(activeIndex.value + 1).padStart(2, "0"));
 const totalStr = computed(() => String(total.value).padStart(2, "0"));
 
 const modules = [Autoplay, EffectFade, Navigation];
-
-// ✅ 6 sekund
-const AUTOPLAY_DELAY = 6000;
+const AUTOPLAY_DELAY = 600000;
 
 const options = computed(() => ({
 	loop: true,
@@ -64,29 +69,54 @@ const options = computed(() => ({
 		pauseOnMouseEnter: true,
 		waitForTransition: true,
 	},
+	// ✅ navigation ni configda berib qo'yamiz, keyin @swiper da elementlarni ulab init qilamiz
 	navigation: {
-		prevEl: prevEl.value,
-		nextEl: nextEl.value,
+		enabled: true,
+		prevEl: null,
+		nextEl: null,
 	},
 }));
 
-/** ✅ autoplay timer'ni har safar 0 dan boshlatish */
 function resetAutoplayTimer() {
 	const s = swiperIns.value;
 	if (!s?.autoplay) return;
-
-	// agar mouse hover bo‘lsa Swiper pause qiladi. Hoverda bo‘lmasa timer reset bo‘lsin.
 	if (s.autoplay?.paused) return;
-
 	try {
 		s.autoplay.stop();
 		s.autoplay.start();
-	} catch (e) {
-		// ignore
-	}
+	} catch (e) {}
 }
 
-/** overlay height auto */
+/**
+ * ✅ ENG MUHIM FIX:
+ * Swiper instance kelgandan keyin (clientda) navigation elementlarni ulaymiz.
+ * onBeforeInit kerak emas.
+ */
+async function onSwiper(s: any) {
+	swiperIns.value = s;
+
+	await nextTick();
+
+	// DOM elementlar hali yo‘q bo‘lsa chiqib ketamiz
+	if (!prevEl.value || !nextEl.value) return;
+
+	// swiper params borligini tekshiramiz
+	if (!s?.params) return;
+
+	// navigation yo‘q bo‘lsa yaratib qo'yamiz
+	s.params.navigation = s.params.navigation || {};
+	s.params.navigation.prevEl = prevEl.value;
+	s.params.navigation.nextEl = nextEl.value;
+
+	// navigation modulini qayta init/update
+	try {
+		s.navigation?.destroy?.(); // eski init bo‘lsa tozalab
+		s.navigation?.init?.();
+		s.navigation?.update?.();
+	} catch (e) {}
+}
+
+// overlay height auto
 const titleEls = ref<HTMLElement[]>([]);
 const overlayH = ref(120);
 let ro: ResizeObserver | null = null;
@@ -119,7 +149,11 @@ onBeforeUnmount(() => {
 });
 
 function onSlideChange(s: any) {
-	activeIndex.value = s.realIndex;
+	// loop bo‘lsa realIndex eng to‘g‘risi
+	activeIndex.value = Number.isFinite(s?.realIndex)
+		? s.realIndex
+		: s?.activeIndex || 0;
+
 	nextTick(() => {
 		ro?.disconnect();
 		const el = titleEls.value[activeIndex.value];
@@ -128,15 +162,11 @@ function onSlideChange(s: any) {
 	});
 }
 
-// ✅ slide almashish tugaganda timer reset (har doim keyingi 6s bo‘lsin)
 function onSlideChangeEnd() {
 	resetAutoplayTimer();
 }
 
-// ✅ prev/next bosilganda ham timer reset (qolgan vaqt bilan ketmasin)
 function onNavClick() {
-	// click -> slide transition -> end event ham bor,
-	// lekin ba’zi holatda tez bosilganda kafolat uchun bu ham qo‘shamiz
 	nextTick(() => resetAutoplayTimer());
 }
 </script>
@@ -149,26 +179,29 @@ function onNavClick() {
 					class="main-slider-two__swiper"
 					:modules="modules"
 					v-bind="options"
-					@swiper="(s: any) => (swiperIns = s)"
-					:onBeforeInit="
-						(swiper: any) => {
-							swiper.params.navigation.prevEl = prevEl.value;
-							swiper.params.navigation.nextEl = nextEl.value;
-						}
-					"
+					@swiper="onSwiper"
 					@slideChange="onSlideChange"
+					@realIndexChange="onSlideChange"
 					@slideChangeTransitionEnd="onSlideChangeEnd"
 				>
-					<SwiperSlide v-for="(s, i) in slides" :key="i">
+					<SwiperSlide v-for="(s, i) in slides" :key="s.id || i">
 						<div class="main-slider-two__wrapper">
 							<div
 								class="main-slider-two__bg"
 								:style="`background-image:url(${s.bg})`"
 							/>
-							<div class="main-slider-two__shade" aria-hidden="true" />
+
+							<div
+								class="main-slider-two__shade"
+								aria-hidden="true"
+								:style="{ opacity: s.overlay }"
+							/>
 
 							<div class="main-slider-two__content">
-								<p class="main-slider-two__sub-title">{{ s.tag }}</p>
+								<!-- ✅ STATIK 24/7 -->
+								<p class="main-slider-two__sub-title">
+									{{ $t("hero.title_top") }}
+								</p>
 
 								<div class="title-wrap">
 									<h2
@@ -186,39 +219,47 @@ function onNavClick() {
 									</div>
 								</div>
 
-								<p class="main-slider-two__text">{{ s.text }}</p>
+								<div class="main-slider-two__text" v-html="s.html" />
 
 								<div class="main-slider-two__button-group">
+									<!-- ✅ DYNAMIC button -->
 									<div class="main-slider-two__button-1">
-										<a href="/service" class="mediox-btn">
-											<span class="mediox-btn__label"
-												>View All Service</span
-											>
-											<span class="mediox-btn__icon"
-												><i class="ri-arrow-right-up-line"></i
-											></span>
+										<a
+											class="mediox-btn"
+											:href="s.href"
+											:target="s.target"
+											rel="noopener"
+										>
+											<span class="mediox-btn__label">{{
+												s.btn
+											}}</span>
+											<span class="mediox-btn__icon">
+												<i class="ri-arrow-right-up-line"></i>
+											</span>
 										</a>
 									</div>
 
+									<!-- ✅ STATIK Contact -->
 									<div class="main-slider-two__button-2">
 										<a href="/contact" class="mediox-btn is-outline">
 											<span class="mediox-btn__label"
 												>Contact Us</span
 											>
-											<span class="mediox-btn__icon"
-												><i class="ri-arrow-right-up-line"></i
-											></span>
+											<span class="mediox-btn__icon">
+												<i class="ri-arrow-right-up-line"></i>
+											</span>
 										</a>
 									</div>
 								</div>
 							</div>
 
+							<!-- ✅ STATIK pastdagi ko'k blok -->
 							<div class="main-slider-two__info">
 								<div class="main-slider-two__info__inner">
 									<div class="main-slider-two__call">
-										<span class="main-slider-two__call__icon"
-											><i class="ri-phone-fill"></i
-										></span>
+										<span class="main-slider-two__call__icon">
+											<i class="ri-phone-fill"></i>
+										</span>
 										<div class="main-slider-two__call__content">
 											<p class="main-slider-two__call__title">
 												call emergency
@@ -239,32 +280,40 @@ function onNavClick() {
 											<a
 												href="https://facebook.com"
 												aria-label="Facebook"
-												><i class="ri-facebook-fill"></i
-											></a>
-											<a href="https://twitter.com" aria-label="X"
-												><i class="ri-twitter-x-fill"></i
-											></a>
+											>
+												<i class="ri-facebook-fill"></i>
+											</a>
+											<a href="https://twitter.com" aria-label="X">
+												<i class="ri-twitter-x-fill"></i>
+											</a>
 											<a
 												href="https://instagram.com"
 												aria-label="Instagram"
-												><i class="ri-instagram-line"></i
-											></a>
+											>
+												<i class="ri-instagram-line"></i>
+											</a>
 											<a
 												href="https://youtube.com"
 												aria-label="YouTube"
-												><i class="ri-youtube-fill"></i
-											></a>
+											>
+												<i class="ri-youtube-fill"></i>
+											</a>
 										</div>
 									</div>
 								</div>
 							</div>
+							<!-- /info -->
 						</div>
 					</SwiperSlide>
 				</Swiper>
 			</div>
 		</div>
 
-		<div class="main-slider-two__counter" aria-hidden="true">
+		<div
+			class="main-slider-two__counter"
+			:key="activeIndex"
+			aria-live="polite"
+		>
 			<span class="main-slider-two__counter__current">{{ current }}</span>
 			<span class="main-slider-two__counter__sep">/</span>
 			<span class="main-slider-two__counter__total">{{ totalStr }}</span>
@@ -296,6 +345,7 @@ function onNavClick() {
 <style scoped>
 .container {
 	max-width: 1320px !important;
+   
 	width: 100%;
 	margin: 0 auto;
 	padding: 0 12px;
@@ -308,12 +358,15 @@ function onNavClick() {
 	--gutter: max(14px, calc((100vw - var(--container)) / 2));
 	--overlayH: 120px;
 	position: relative;
-	margin-top: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+   background: #f8faff;
 }
 
 .main-slider-two__wrapper {
 	position: relative;
-	min-height: 520px;
+	min-height: 590px;
+	height: 590px;
 	border-radius: 26px;
 	overflow: hidden;
 }
@@ -789,7 +842,7 @@ function onNavClick() {
 @media (max-width: 740px) {
 	.main-slider-two__title {
 		font-size: 40px;
-      font-weight: 700;
+		font-weight: 700;
 	}
 	.main-slider-two__content {
 		min-height: 650px;

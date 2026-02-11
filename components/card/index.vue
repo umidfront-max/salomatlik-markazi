@@ -1,5 +1,6 @@
 <script setup>
 const localePath = useLocalePath();
+const { locale } = useI18n();
 defineProps({
 	data: {
 		type: Object,
@@ -22,7 +23,7 @@ defineProps({
 			<!-- rotated ribbon title -->
 			<div class="card-box__title">
 				<p class="card-info__title">
-					{{ data.title }}
+					{{ data.fullName?.[locale] }}
 				</p>
 			</div>
 		</div>
@@ -30,7 +31,7 @@ defineProps({
 		<div class="card-info">
 			<template v-if="type === 'doctor'">
 				<span class="card-info__subtitle">
-					{{ data.sub_title }}
+					{{ data.specialization?.[locale]  }}
 				</span>
 
 				<ul class="card-tag">
@@ -40,7 +41,12 @@ defineProps({
 					</li>
 					<li class="card-tag__item">
 						<span> {{ $t("patient") }}: </span>
-						<b>{{ data.count_articles }}</b>
+						<b>{{
+							(data.experiences ?? []).reduce(
+								(acc, cur) => acc + Number(cur.patientsCount ?? 0),
+								0,
+							)
+						}}</b>
 					</li>
 					<li class="card-tag__item">
 						<span> {{ $t("reviews") }}: </span>
@@ -48,7 +54,10 @@ defineProps({
 					</li>
 					<li class="card-tag__item">
 						<span> {{ $t("doctor.practicesPerformed") }}: </span>
-						<b>{{ data.count_receipts }}</b>
+						<b>{{ 	(data.experiences ?? []).reduce(
+								(acc, cur) => acc + Number(cur.operationsCount ?? 0),
+								0,
+							) }}</b>
 					</li>
 				</ul>
 
@@ -72,7 +81,7 @@ defineProps({
 						@click.stop="
 							$router.push(
 								localePath({
-									path: '/doctor/' + data.slug,
+									path: '/doctor/' + data.id,
 								}),
 							)
 						"

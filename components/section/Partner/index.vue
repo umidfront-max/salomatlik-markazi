@@ -4,7 +4,7 @@ const { data } = await useAsyncData("partners", () =>
   $api("posts", {
     params: {
       category: "partners",
-      per_page: 12,
+      limit: 12,
     },
   })
 );
@@ -50,14 +50,14 @@ const gutter = { xxl: 24, xl: 20, xs: 16 };
       </div>
       <ClientOnly>
         <Swiper v-bind="swiperOptions">
-          <SwiperSlide v-for="(item, index) in data?.result ?? []" class="section-item" :key="index">
+          <SwiperSlide v-for="(item, index) in data?.data ?? []" class="section-item" :key="index">
             <SectionPartnerDefault :item="item" data-aos="fade-up" data-aos-duration="300" data-aos-offset="300"
               :data-aos-delay="index * 150" />
           </SwiperSlide>
         </Swiper>
         <template #fallback>
           <ARow :gutter="[gutter, gutter]" :max-cols="10">
-            <ACol :xl="4" :lg="6" :md="8" :sm="12" :xs="12" v-for="(item, index) in data?.result ?? []" :key="index">
+            <ACol :xl="4" :lg="6" :md="8" :sm="12" :xs="12" v-for="(item, index) in data?.data ?? []" :key="index">
               <SectionPartnerDefault :item="item" />
             </ACol>
           </ARow>

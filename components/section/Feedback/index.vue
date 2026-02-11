@@ -3,7 +3,7 @@ const { $api } = useNuxtApp();
 const { data } = await useAsyncData("reviews", () =>
   $api("reviews", {
     params: {
-      per_page: 6,
+      limit: 6,
       is_visible_home: true,
     },
   })
@@ -49,14 +49,14 @@ const swiperOptions = {
       </div>
       <ClientOnly>
         <Swiper v-bind="swiperOptions">
-          <SwiperSlide v-for="(item, index) in data.result ?? []" :key="index">
+          <SwiperSlide v-for="(item, index) in data?.data ?? []" :key="index">
             <SectionFeedbackDefault :data="item" data-aos="fade-up" data-aos-duration="300" data-aos-offset="300"
               :data-aos-delay="index * 150" />
           </SwiperSlide>
         </Swiper>
         <template #fallback>
           <ARow :gutter="[16, 16]">
-            <ACol :xl="8" :md="12" :xs="24" v-for="(item, index) in data.result ?? []" :key="index">
+            <ACol :xl="8" :md="12" :xs="24" v-for="(item, index) in data?.data ?? []" :key="index">
               <SectionFeedbackDefault :data="item" />
             </ACol>
           </ARow>

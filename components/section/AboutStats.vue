@@ -4,7 +4,7 @@ const { data: statsData } = await useAsyncData("statistics_about", () =>
   $api("statistics", {
     params: {
       category: "about",
-      per_page: 4,
+      limit: 4,
     },
   })
 );
@@ -13,7 +13,7 @@ const gutter = { xxl: 24, xl: 20, xs: 16 };
 <template>
   <section class="section container">
     <ARow :gutter="[gutter, gutter]">
-      <ACol :xl="6" :xs="12" v-for="item in statsData.result">
+      <ACol :xl="6" :xs="12" v-for="item in statsData?.data">
         <div class="section-stats">
           <span class="section-stats__value">
             {{ item.count }}{{ item.value }}

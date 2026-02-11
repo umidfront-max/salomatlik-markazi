@@ -5,7 +5,7 @@ const { $api } = useNuxtApp();
 const { data } = useAsyncData("equipment", () =>
   $api("equipment", {
     params: {
-      per_page: 8,
+      limit: 8,
       page: route.query.page,
     },
   })
@@ -21,7 +21,7 @@ const { data } = useAsyncData("equipment", () =>
         :sm="12"
         :xs="24"
         :key="index"
-        v-for="(item, index) in data?.result ?? []"
+        v-for="(item, index) in data?.data ?? []"
       >
         <Card
           @click="$router.push(localePath(`/equipment/${item.slug}`))"

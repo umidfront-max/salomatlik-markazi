@@ -34,7 +34,7 @@ const handleError = () => {
       <ATabPane
         :key="index"
         :tab="item.title"
-        v-for="(item, index) in data?.result ?? []"
+        v-for="(item, index) in data?.data ?? []"
       >
         <h2 class="section-title">
           {{ item.sub_title }}

@@ -5,7 +5,7 @@ const { $api } = useNuxtApp();
 const { data } = useAsyncData("video", () =>
   $api("video", {
     params: {
-      per_page: 4,
+      limit: 4,
       page: route.query.page,
     },
   })
@@ -19,7 +19,7 @@ const gutter = { xxl: 24, xl: 20, xs: 12, sm: 16 };
         :xl="6"
         :lg="8"
         :xs="12"
-        v-for="(item, index) in data?.result ?? []"
+        v-for="(item, index) in data?.data ?? []"
         :key="index"
       >
         <LazyCardVideo

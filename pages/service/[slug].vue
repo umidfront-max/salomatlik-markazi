@@ -1,136 +1,151 @@
 <script setup>
+const { locale } = useI18n();
 const route = useRoute();
 const { $api } = useNuxtApp();
-const { data: detail } = await useAsyncData(
-  `services_${route.params.slug}`,
-  () => $api(`services/${route.params.slug}`)
-);
-const { data: stats } = await useAsyncData(
-  `statistics_${route.params.slug}`,
-  () =>
-    $api(`statistics`, {
-      params: {
-        category: route.params.slug,
-        per_page: 4,
-      },
-    })
-);
 
-const { data: news } = await useAsyncData(
-  `news_by_service_${detail.value.id}`,
-  () =>
-    $api("news", {
-      params: {
-        per_page: 8,
-        service_id: detail.value.id,
-      },
-    })
+const { data: service } = await useAsyncData(
+	`service_${route.params.slug}`,
+	() => $api(`/medical-services/${route.params.slug}`),
 );
-const { data: diseases } = await useAsyncData(
-  `diseases_by_service_${detail.value.id}`,
-  () =>
-    $api("posts", {
-      params: {
-        per_page: 8,
-        category: "diseases",
-        service_id: detail.value.id,
-      },
-    })
-);
-const gutter = { xxl: 24, xl: 20, xs: 12, sm: 16 };
-
-useCustomHead(detail.value);
 </script>
+
 <template>
-  <section class="section pb-100 pt-80 container">
-    <h1 class="section-title">
-      {{ detail.title }}
-    </h1>
-    <div class="section-content" style="margin-top: 0; margin-bottom: var(--space-32)">
-      <p>{{ detail.short_content }}</p>
-    </div>
-    <ARow :gutter="[gutter, gutter]" justify="center">
-      <ACol :md="18" :xs="24">
-        <ClientOnly>
-          <Slider :list="detail.media_list ?? []" :title="detail.title" />
-          <template #fallback>
-            <div class="image" v-for="item in detail.media_list ?? []" style="aspect-ratio: 1.38">
-              <img :src="item.link" :alt="detail.title" />
-            </div>
-          </template>
-        </ClientOnly>
-      </ACol>
-      <ACol :md="6" :xs="24" v-if="stats?.result?.length">
-        <div class="section-statistics">
-          <div class="section-statistics__item" v-for="item in stats.result ?? []">
-            <span class="section-statistics__value">{{
-              item.count + item.value
-              }}</span>
-            <small class="section-statistics__label">{{ item.title }}</small>
-          </div>
-        </div>
-      </ACol>
-    </ARow>
-    <div class="section-content" v-html="detail.content"></div>
-  </section>
-  <SectionNews v-if="diseases?.result?.length" :is-page="true" :list="diseases?.result ?? []" :is-diseases="true"
-    class="pb-80" />
-  <SectionDoctor :is-page="true" :serviec-id="detail.id" class="pb-80" />
-  <SectionNews v-if="news?.result?.length" :is-page="true" :list="news?.result ?? []" class="pb-80" />
+	<section class="service container">
+		<div class="service__grid">
+			<!-- LEFT: IMAGE -->
+			<div class="service__image">
+				<img :src="service?.image" :alt="service?.name?.[locale]" />
+			</div>
+
+			<!-- RIGHT: INFO -->
+			<div class="service__info">
+				<span class="service__department">
+					{{ service?.department?.title?.[locale] }}
+				</span>
+
+				<h1 class="service__title">
+					{{ service?.name?.[locale] }}
+				</h1>
+
+				<div class="service__meta">
+					<div class="meta-item">⏱ {{ service?.durationMinutes }} min</div>
+					<div class="meta-item">
+						🏥 {{ service?.department?.title?.[locale] }}
+					</div>
+				</div>
+
+				<div
+					class="service__desc"
+					v-html="service?.description?.[locale]"
+				/>
+
+				<!-- PRICE CARD -->
+				<div class="price-card">
+					<div class="price-card__left">
+						<div v-if="service?.hasDiscount" class="old-price">
+							{{ service?.price }}$
+						</div>
+						<div class="current-price">
+							{{ service?.discountedPrice }} so'm
+						</div>
+					</div>
+
+					<button class="btn-primary">Qabulga yozilish</button>
+				</div>
+			</div>
+		</div>
+	</section>
 </template>
+<style scoped lang="scss">
+.service {
+	padding: 60px 0;
 
-<style lang="scss" scoped>
-@use "@/assets/scss/config/mixins" as *;
+	&__grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 48px;
 
-.section {
-  --width-container: 1520px;
+		@media (max-width: 992px) {
+			grid-template-columns: 1fr;
+		}
+	}
 
-  ::v-deep(.slider) {
-    margin-bottom: 0;
-  }
+	&__image img {
+		width: 100%;
+		border-radius: 20px;
+		object-fit: cover;
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+	}
 
-  &-content {
-    margin-top: var(--space-32);
+	&__department {
+		display: inline-block;
+		background: #e8f2ff;
+		color: #1d4ed8;
+		padding: 6px 14px;
+		border-radius: 999px;
+		font-weight: 600;
+		font-size: 14px;
+		margin-bottom: 16px;
+	}
 
-    p {
-      font-size: 22px;
-      font-weight: 500;
+	&__title {
+		font-size: 40px;
+		font-weight: 700;
+		margin-bottom: 16px;
+		color: #0f172a;
+	}
 
-      @include devices(sm) {
-        font-size: 20px;
-      }
+	&__meta {
+		display: flex;
+		gap: 20px;
+		margin-bottom: 24px;
+		color: #64748b;
+		font-weight: 500;
+	}
 
-      @include devices(xs) {
-        font-size: 18px;
-      }
-    }
-  }
+	&__desc {
+		font-size: 18px;
+		line-height: 1.7;
+		color: #334155;
+		margin-bottom: 32px;
+	}
+}
 
-  &-statistics {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    row-gap: var(--space-24);
+.price-card {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: #f8fafc;
+	padding: 20px 24px;
+	border-radius: 16px;
+	border: 1px solid #e2e8f0;
 
-    &__item {
-      flex: 1;
-      border: 1px solid #d3e0ea;
-      background: #f4f8fa;
-      padding: 8px var(--space-24);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
+	.old-price {
+		text-decoration: line-through;
+		color: #94a3b8;
+		font-size: 16px;
+	}
 
-    &__value {
-      @include text(40, #03182b, 700, 130%);
-      margin-bottom: 4px;
-    }
+	.current-price {
+		font-size: 28px;
+		font-weight: 700;
+		color: #0f172a;
+	}
+}
 
-    &__label {
-      @include text(20, #03182b, 400, 140%);
-      opacity: 0.6;
-    }
-  }
+.btn-primary {
+	background: #2563eb;
+	color: white;
+	border: none;
+	padding: 14px 26px;
+	border-radius: 12px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: 0.2s;
+
+	&:hover {
+		background: #1d4ed8;
+		transform: translateY(-2px);
+	}
 }
 </style>
