@@ -39,18 +39,24 @@ const toSetStore = (store, data, key = "list") => {
 const { data: setting } = await useAsyncData("settings", () =>
 	$api("settings"),
 );
-toSetStore(useSetting, setting, "data");
 
-useSeoMeta({
-	title: setting.value?.data?.site_name || "-",
-	ogTitle: setting.value?.data?.site_name || "-",
-	description: setting.value?.data?.site_description || "-",
-	ogDescription: setting.value?.data?.site_description || "-",
-});
+toSetStore(useSetting, setting);
+
+// useSeoMeta({
+// 	title: setting.value?.data?.site_name || "-",
+// 	ogTitle: setting.value?.data?.site_name || "-",
+// 	description: setting.value?.data?.site_description || "-",
+// 	ogDescription: setting.value?.data?.site_description || "-",
+// });
 // #endregion setting
 // #region service
-const { data: service } = await useAsyncData("service", () => $api("services"));
+const { data: service } = await useAsyncData("service", () =>
+	$api("medical-services"),
+);
 toSetStore(useService, service);
+
+const { data: checkUp } = await useAsyncData("checkUp", () => $api("checkup"));
+toSetStore(useCheckup, checkUp);
 // #endregion service
 
 // #region program

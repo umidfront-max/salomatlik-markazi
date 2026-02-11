@@ -1,463 +1,517 @@
 <script setup>
 const { list: social } = useSocial();
 const { list: menu } = useMenu();
-const { data: setting } = useSetting()
+
+const { data: setting } = await useAsyncData("settings", () =>
+	$api("settings"),
+);
+
 const localePath = useLocalePath();
 const router = useRouter();
 const applyRef = ref();
 const navbarRef = ref();
-const searchQuery = ref('');
+const searchQuery = ref("");
 
 const emits = defineEmits(["on-click-apply", "on-click-navbar"]);
 
 const handleSearch = () => {
-  if (searchQuery.value.trim()) {
-    router.push(localePath(`/search?word=${encodeURIComponent(searchQuery.value.trim())}`));
-  }
+	if (searchQuery.value.trim()) {
+		router.push(
+			localePath(
+				`/search?word=${encodeURIComponent(searchQuery.value.trim())}`,
+			),
+		);
+	}
 };
 </script>
 <template>
-  <section class="section">
-    <div class="section-top">
-      <div class="container section-top__wrapper">
-        <div class="section-top__col">
-          <button class="section-navbar" @click="navbarRef?.toOpen()">
-            <Icon name="burger" />
-          </button>
-        </div>
-        <div class="section-top__col">
-          <div class="section-social">
-            <a class="section-social__icon" target="_blank" :href="item.site_url" v-for="item in social">
-              <Icon :name="item.icon" />
-            </a>
-          </div>
-        </div>
-        <div class="section-top__col section-top__right">
-          <div class="section-search">
-            <input class="section-search__input" type="text" :placeholder="$t('search')" v-model="searchQuery"
-              @keyup.enter="handleSearch" />
-            <Icon class="section-search__icon" name="search" @click="handleSearch" />
-          </div>
-          <Btn class="section-btn-mobile" variant="primary" :data-text="$t('booking')" @click="applyRef?.toOpen()">
-            {{ $t("booking") }}
-          </Btn>
-          <SectionHeaderLang>
-            <template #="{ locale, locales }">
-              <button class="section-lang">
-                <img class="section-lang__flag" :src="`/flag/${locale}.png`" :alt="locale" />
-                <span class="section-lang__text">
-                  {{locales.find(l => l.code === locale)?.name || locale}}
-                </span>
-                <Icon class="section-lang__icon" name="angle-bottom" />
-              </button>
-            </template>
-          </SectionHeaderLang>
-        </div>
-      </div>
-    </div>
-    <div class="section-bottom">
-      <div class="container section-bottom__container">
-        <NuxtLink :to="localePath('/')" class="section-logo">
-          <img src="/logo.png" alt="test" />
-        </NuxtLink>
-        <ul class="section-menu">
-          <li class="section-menu__item" v-for="item in menu.filter((el) => el.show_header)">
-            <NuxtLink class="section-menu__link" :to="localePath(item.page ? item.page : `/static/${item.slug}`)">
-              {{ item.title }}
-            </NuxtLink>
-          </li>
-        </ul>
-        <Btn class="section-btn" variant="primary" :data-text="$t('booking')" @click="applyRef?.toOpen()">
-          {{ $t("booking") }}
-        </Btn>
-        <a class="section-info">
-          <div class="section-info__icon">
-            <Icon name="phone-fill" />
-          </div>
-          <div class="section-info__right">
-            <span class="section-info__label">{{ $t("emergencyCalls") }}</span>
-            <span class="section-info__value">{{ setting.phone }}</span>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-  <SectionHeaderApply ref="applyRef" />
-  <SectionHeaderNavbar ref="navbarRef" />
+	<section class="section">
+		<div class="section-top">
+			<div class="container section-top__wrapper">
+				<div class="section-top__col">
+					<button class="section-navbar" @click="navbarRef?.toOpen()">
+						<Icon name="burger" />
+					</button>
+				</div>
+				<div class="section-top__col">
+					<div class="section-social">
+						<a
+							class="section-social__icon"
+							target="_blank"
+							:href="item.site_url"
+							v-for="(item, ind) in social"
+							:key="ind"
+						>
+							<Icon :name="item.icon" />
+						</a>
+					</div>
+				</div>
+				<div class="section-top__col section-top__right">
+					<div class="section-search">
+						<input
+							class="section-search__input"
+							type="text"
+							:placeholder="$t('search')"
+							v-model="searchQuery"
+							@keyup.enter="handleSearch"
+						/>
+						<Icon
+							class="section-search__icon"
+							name="search"
+							@click="handleSearch"
+						/>
+					</div>
+					<Btn
+						class="section-btn-mobile"
+						variant="primary"
+						:data-text="$t('booking')"
+						@click="applyRef?.toOpen()"
+					>
+						{{ $t("booking") }}
+					</Btn>
+					<SectionHeaderLang>
+						<template #="{ locale, locales }">
+							<button class="section-lang">
+								<img
+									class="section-lang__flag"
+									:src="`/flag/${locale}.png`"
+									:alt="locale"
+								/>
+								<span class="section-lang__text">
+									{{
+										locales.find((l) => l.code === locale)?.name ||
+										locale
+									}}
+								</span>
+								<Icon class="section-lang__icon" name="angle-bottom" />
+							</button>
+						</template>
+					</SectionHeaderLang>
+				</div>
+			</div>
+		</div>
+		<div class="section-bottom">
+			<div class="container section-bottom__container">
+				<NuxtLink :to="localePath('/')" class="section-logo">
+					<div class="logos">
+						<img src="/logo.jpg" alt="test" />
+						<p>Salomatlik markazi</p>
+					</div>
+				</NuxtLink>
+				<ul class="section-menu">
+					<li
+						class="section-menu__item"
+						v-for="(value, key) in setting"
+						:key="value"
+					>
+						<NuxtLink class="section-menu__link" :to="localePath(key)">
+							{{ value }}
+						</NuxtLink>
+					</li>
+				</ul>
+				<Btn
+					class="section-btn"
+					variant="primary"
+					:data-text="$t('booking')"
+					@click="applyRef?.toOpen()"
+				>
+					{{ $t("booking") }}
+				</Btn>
+				<a class="section-info">
+					<div class="section-info__icon">
+						<Icon name="phone-fill" />
+					</div>
+					<div class="section-info__right">
+						<span class="section-info__label">{{
+							$t("emergencyCalls")
+						}}</span>
+						<span class="section-info__value">{{ setting?.phone }}</span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</section>
+	<SectionHeaderApply ref="applyRef" />
+	<SectionHeaderNavbar ref="navbarRef" />
 </template>
+
 <style lang="scss" scoped>
 @use "@/assets/scss/config/mixins" as *;
 
 .section {
-  position: sticky;
-  left: 0;
-  right: 0;
-  top: 0px;
-  z-index: 2;
+	position: sticky;
+	left: 0;
+	right: 0;
+	top: 0px;
+	z-index: 2;
+	.logos {
+		display: flex;
+		gap: 5px;
+		align-items: center;
+		p {
+			font-size: 18px;
+		}
+	}
+	&-logo {
+		flex: 0 0 auto;
+		height: 60px;
 
-  &-logo {
-    flex: 0 0 auto;
-    width: 100%;
-    max-width: 200px;
+		@include devices(xl) {
+			margin-right: auto;
+		}
 
-    @include devices(xl) {
-      margin-right: auto;
-    }
+		@include devices(xs) {
+			max-width: 280px;
+		}
 
-    @include devices(xs) {
-      max-width: 280px;
-    }
+		img {
+			height: 56px;
+		}
+	}
 
+	&-top {
+		background-color: white;
+		position: relative;
+		z-index: 999;
 
+		&__wrapper {
+			display: flex;
+		}
 
-    img {
-      width: 100%;
-      height: auto;
-    }
-  }
+		&__right {
+			display: flex;
+		}
+	}
 
-  &-top {
-    background-color: white;
-    position: relative;
-    z-index: 999;
+	&-label {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		font-size: 16px;
+		line-height: 1.6;
 
-    &__wrapper {
-      display: flex;
-    }
+		.icon {
+			--icon-size: 20px;
+			--icon-color: var(--red-1);
+		}
+	}
 
-    &__right {
-      display: flex;
-    }
-  }
+	&-top {
+		&__wrapper {
+			height: var(--height-header-part);
+			display: flex;
+			align-items: center;
+		}
 
-  &-label {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 16px;
-    line-height: 1.6;
+		&__col {
+			&:nth-child(1),
+			&:nth-child(3) {
+				flex: 1;
+			}
 
-    .icon {
-      --icon-size: 20px;
-      --icon-color: var(--red-1);
-    }
-  }
+			&:nth-child(2) {
+			}
+		}
+	}
 
-  &-top {
-    &__wrapper {
-      height: var(--height-header-part);
-      display: flex;
-      align-items: center;
-    }
+	&-social {
+		display: flex;
+		align-items: center;
+		gap: 12px;
 
-    &__col {
+		@include devices(sm) {
+			display: none;
+		}
 
-      &:nth-child(1),
-      &:nth-child(3) {
-        flex: 1;
-      }
+		@include devices(lg) {
+			margin-right: 24px;
+		}
 
-      &:nth-child(2) {}
-    }
-  }
+		&__icon {
+			position: relative;
+			background-color: var(--red-3);
+			--icon-color: var(--red-1);
+			width: 44px;
+			height: 44px;
+			font-size: 16px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border: 1px solid var(--border-color-one);
+			border-radius: 100px;
+			transition: all 0.2s ease-in-out;
 
-  &-social {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+			&:hover {
+				background-color: var(--red-1);
+				--icon-color: var(--white-1);
+			}
+		}
+	}
 
-    @include devices(sm) {
-      display: none;
-    }
+	&-search {
+		min-height: 44px;
+		height: 44px;
+		display: flex;
+		align-items: center;
+		border: 1px solid #d3d3d3;
+		max-width: 250px;
+		width: 100%;
+		margin-left: auto;
+		padding: 0 16px;
+		gap: 8px;
+		border-radius: 12px;
 
-    @include devices(lg) {
-      margin-right: 24px;
-    }
+		@include devices(xs) {
+			display: none;
+		}
 
-    &__icon {
-      position: relative;
-      background-color: var(--red-3);
-      --icon-color: var(--red-1);
-      width: 44px;
-      height: 44px;
-      font-size: 16px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 1px solid var(--border-color-one);
-      border-radius: 100px;
-      transition: all 0.2s ease-in-out;
+		&__input {
+			border: none;
+			outline: none;
+			background-color: transparent;
+			flex: 1;
+		}
 
-      &:hover {
-        background-color: var(--red-1);
-        --icon-color: var(--white-1);
-      }
-    }
-  }
+		&__icon {
+			--icon-color: var(--red-1);
+			cursor: pointer;
+			transition: transform 0.2s ease-in-out;
 
-  &-search {
-    min-height: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    border: 1px solid #d3d3d3;
-    max-width: 250px;
-    width: 100%;
-    margin-left: auto;
-    padding: 0 16px;
-    gap: 8px;
-    border-radius: 12px;
+			&:hover {
+				transform: scale(1.1);
+			}
+		}
+	}
 
-    @include devices(xs) {
-      display: none;
-    }
+	&-bottom {
+		padding: 8px;
+		position: relative;
+		z-index: 991;
+		border-bottom: 1px solid #ededed;
+		border-top: 1px solid #ededed;
 
-    &__input {
-      border: none;
-      outline: none;
-      background-color: transparent;
-      flex: 1;
-    }
+		.wrapper-home &,
+		.wrapper-detail & {
+			border-bottom: transparent;
+			border-top: transparent;
+		}
 
-    &__icon {
-      --icon-color: var(--red-1);
-      cursor: pointer;
-      transition: transform 0.2s ease-in-out;
+		&__container {
+			background-color: white;
+			border-radius: 8px;
+			height: var(--height-header-part);
+			display: flex;
+			align-items: center;
+		}
+	}
 
-      &:hover {
-        transform: scale(1.1);
-      }
-    }
-  }
+	&-menu {
+		display: flex;
+		align-items: center;
+		gap: var(--space-40);
+		margin: 0 auto;
 
-  &-bottom {
-    padding: 8px;
-    position: relative;
-    z-index: 991;
-    border-bottom: 1px solid #ededed;
-    border-top: 1px solid #ededed;
+		@include devices(xl) {
+			display: none;
+		}
 
-    .wrapper-home &,
-    .wrapper-detail & {
-      border-bottom: transparent;
-      border-top: transparent;
-    }
+		&__item {
+		}
 
-    &__container {
-      background-color: white;
-      border-radius: 8px;
-      height: var(--height-header-part);
-      display: flex;
-      align-items: center;
-    }
-  }
+		&__link {
+			display: block;
+			font-size: 16px;
+			font-weight: 500;
+			color: var(--black-1);
+			text-align: left;
+			position: relative;
+			text-transform: capitalize;
+			padding: 25px 0px;
+			transition: all 0.2s ease-in-out;
 
-  &-menu {
-    display: flex;
-    align-items: center;
-    gap: var(--space-40);
-    margin: 0 auto;
+			&:hover {
+				color: var(--red-1);
+			}
+		}
+	}
 
-    @include devices(xl) {
-      display: none;
-    }
+	&-info {
+		display: flex;
+		align-items: center;
+		gap: 8px;
 
-    &__item {}
+		@include devices(sm) {
+			display: none;
+		}
 
-    &__link {
-      display: block;
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--black-1);
-      text-align: left;
-      position: relative;
-      text-transform: capitalize;
-      padding: 25px 0px;
-      transition: all 0.2s ease-in-out;
+		&__icon {
+			position: relative;
+			display: inline-block;
+			width: 46px;
+			height: 46px;
+			text-align: center;
+			color: var(--white-color);
+			background-color: var(--red-1);
+			font-size: 16px;
+			border-radius: 100%;
+			display: -webkit-flex;
+			display: -moz-flex;
+			display: flex;
+			-webkit-justify-content: center;
+			-moz-justify-content: center;
+			justify-content: center;
+			-webkit-align-items: center;
+			align-items: center;
+			--icon-color: var(--white-1);
+			z-index: 1;
 
-      &:hover {
-        color: var(--red-1);
-      }
-    }
-  }
+			&::before,
+			&::after {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				border-radius: 100%;
+				border: 3px solid var(--red-1);
+				z-index: -1;
+				animation: ripple 2.5s ease-out infinite;
+			}
 
-  &-info {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+			&::after {
+				animation-delay: 1.25s;
+			}
+		}
 
-    @include devices(sm) {
-      display: none;
-    }
+		&__right {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+		}
 
-    &__icon {
-      position: relative;
-      display: inline-block;
-      width: 46px;
-      height: 46px;
-      text-align: center;
-      color: var(--white-color);
-      background-color: var(--red-1);
-      font-size: 16px;
-      border-radius: 100%;
-      display: -webkit-flex;
-      display: -moz-flex;
-      display: flex;
-      -webkit-justify-content: center;
-      -moz-justify-content: center;
-      justify-content: center;
-      -webkit-align-items: center;
-      align-items: center;
-      --icon-color: var(--white-1);
-      z-index: 1;
+		&__label {
+			display: block;
+			font-size: 14px;
+			color: rgba(var(--black), 0.8);
+			display: block;
+		}
 
-      &::before,
-      &::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border-radius: 100%;
-        border: 3px solid var(--red-1);
-        z-index: -1;
-        animation: ripple 2.5s ease-out infinite;
-      }
+		&__value {
+			font-size: 20px;
+			color: var(--black-1);
+		}
+	}
 
-      &::after {
-        animation-delay: 1.25s;
-      }
-    }
+	&-btn {
+		margin-right: 24px;
 
-    &__right {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
+		@include devices(sm) {
+			margin-right: 0;
+		}
 
-    &__label {
-      display: block;
-      font-size: 14px;
-      color: rgba(var(--black), 0.8);
-      display: block;
-    }
+		@include devices(xs) {
+			display: none;
+		}
 
-    &__value {
-      font-size: 20px;
-      color: var(--black-1);
-    }
-  }
+		&-mobile {
+			display: none;
 
-  &-btn {
-    margin-right: 24px;
+			@include devices(xs) {
+				display: flex;
+				margin-left: auto;
+				white-space: nowrap;
+			}
+		}
+	}
 
-    @include devices(sm) {
-      margin-right: 0;
-    }
+	&-lang {
+		min-height: 44px;
+		height: 44px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		border: 1px solid #d3d3d3;
+		background-color: white;
+		padding: 0 16px;
+		margin-left: 12px;
+		border-radius: 12px;
+		font-size: 14px;
+		font-weight: 500;
+		color: var(--black-1);
+		cursor: pointer;
+		transition: all 0.2s ease-in-out;
 
-    @include devices(xs) {
-      display: none;
-    }
+		@include devices(xs) {
+			display: none;
+		}
 
-    &-mobile {
-      display: none;
+		&:hover {
+			border-color: var(--red-1);
+			color: var(--red-1);
+			background-color: var(--red-3);
+		}
 
-      @include devices(xs) {
-        display: flex;
-        margin-left: auto;
-        white-space: nowrap;
-      }
-    }
-  }
+		&__flag {
+			min-width: 24px;
+			width: 24px;
+			height: auto;
+			border-radius: 4px;
+		}
 
-  &-lang {
-    min-height: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    border: 1px solid #d3d3d3;
-    background-color: white;
-    padding: 0 16px;
-    margin-left: 12px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--black-1);
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
+		&__text {
+			line-height: 1;
+			white-space: nowrap;
+		}
 
-    @include devices(xs) {
-      display: none;
-    }
+		&__icon {
+			--icon-size: 16px;
+			--icon-color: currentColor;
+			transition: transform 0.2s ease-in-out;
+		}
+	}
 
-    &:hover {
-      border-color: var(--red-1);
-      color: var(--red-1);
-      background-color: var(--red-3);
-    }
+	&-navbar {
+		min-height: 44px;
+		height: 44px;
+		min-width: 44px;
+		width: 44px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 1px solid #d3d3d3;
+		background-color: white;
+		border-radius: 12px;
+		cursor: pointer;
+		transition: all 0.2s ease-in-out;
 
-    &__flag {
-      min-width: 24px;
-      width: 24px;
-      height: auto;
-      border-radius: 4px;
-    }
+		.icon {
+			--icon-size: 22px;
+			--icon-color: rgba(var(--black), 0.7);
+			transition: color 0.2s ease-in-out;
+		}
 
-    &__text {
-      line-height: 1;
-      white-space: nowrap;
-    }
+		&:hover {
+			border-color: var(--red-1);
+			background-color: var(--red-3);
 
-    &__icon {
-      --icon-size: 16px;
-      --icon-color: currentColor;
-      transition: transform 0.2s ease-in-out;
-    }
-  }
-
-  &-navbar {
-    min-height: 44px;
-    height: 44px;
-    min-width: 44px;
-    width: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #d3d3d3;
-    background-color: white;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-
-    .icon {
-      --icon-size: 22px;
-      --icon-color: rgba(var(--black), 0.7);
-      transition: color 0.2s ease-in-out;
-    }
-
-    &:hover {
-      border-color: var(--red-1);
-      background-color: var(--red-3);
-
-      .icon {
-        --icon-color: var(--red-1);
-      }
-    }
-  }
+			.icon {
+				--icon-color: var(--red-1);
+			}
+		}
+	}
 }
 
 @keyframes ripple {
-  0% {
-    transform: scale(1);
-    opacity: 0.7;
-  }
+	0% {
+		transform: scale(1);
+		opacity: 0.7;
+	}
 
-  100% {
-    transform: scale(1.4);
-    opacity: 0;
-  }
+	100% {
+		transform: scale(1.4);
+		opacity: 0;
+	}
 }
 </style>

@@ -1,28 +1,28 @@
 <script setup>
-const { list } = useService();
+const { list } = useCheckup();
 const localePath = useLocalePath();
 </script>
 
 <template>
-	<section class="services-bg">
-		<div class="services container">
-			<h3 class="services_title">{{ $t("service.title2") }}</h3>
+	<section class="checkups-bg">
+		<div class="checkups container">
+			<h3 class="checkups_title">{{ $t("Bizning Tekshiruvlar") }}</h3>
 			<ARow :gutter="[20, 20]">
 				<ACol
-					v-for="service in list"
-					:key="service.id"
+					v-for="checkup in list"
+					:key="checkup.id"
 					:xs="24"
 					:sm="12"
 					:md="12"
 					:lg="6"
 				>
 					<NuxtLink
-						:to="localePath(`/service/${service.slug || service.id}`)"
-						class="service-link"
+						:to="localePath(`/checkup/${checkup.slug || checkup.id}`)"
+						class="checkup-link"
 					>
-						<CardServiceItem
-							:data="service"
-							:to="localePath(`/service/${service.slug || service.id}`)"
+						<CardServiceCheckUp
+							:data="checkup"
+							:to="localePath(`/checkup/${checkup.slug || checkup.id}`)"
 						/>
 					</NuxtLink>
 				</ACol>
@@ -34,7 +34,7 @@ const localePath = useLocalePath();
 <style lang="scss" scoped>
 @use "@/assets/scss/config/mixins" as *;
 
-.services-bg {
+.checkups-bg {
 	position: relative;
 	padding: 64px;
 	margin-top: -80px;
@@ -47,7 +47,7 @@ const localePath = useLocalePath();
 		padding-right: 2px;
 	}
 }
-.services-bg::before {
+.checkups-bg::before {
 	width: 420px;
 	height: 420px;
 	background: rgba(51, 193, 237, 0.45);
@@ -55,14 +55,14 @@ const localePath = useLocalePath();
 	left: -160px;
 }
 
-.services-bg::after {
+.checkups-bg::after {
 	width: 520px;
 	height: 520px;
 	background: rgba(51, 193, 237, 0.35);
 	bottom: -200px;
 	right: -200px;
 }
-.services_title {
+.checkups_title {
 	margin: 0;
 	font-size: 50px;
 	line-height: 1.12;
@@ -76,7 +76,7 @@ const localePath = useLocalePath();
 		font-size: 30px;
 	}
 }
-.service-link {
+.checkup-link {
 	display: block;
 	height: 100%;
 	transition:

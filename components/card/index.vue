@@ -31,7 +31,7 @@ defineProps({
 		<div class="card-info">
 			<template v-if="type === 'doctor'">
 				<span class="card-info__subtitle">
-					{{ data.specialization }}
+					{{ data.specialization?.[locale]  }}
 				</span>
 
 				<ul class="card-tag">
@@ -81,7 +81,7 @@ defineProps({
 						@click.stop="
 							$router.push(
 								localePath({
-									path: '/doctor/' + data.slug,
+									path: '/doctor/' + data.id,
 								}),
 							)
 						"

@@ -2,7 +2,7 @@
 	<div class="service-card-two">
 		<div class="service-card-two__content">
 			<div class="img_con">
-				<img :src="image" :alt="title" class="service-card-two__image" />
+				<img :src="data.image" :alt="data.name?.[locale]" class="service-card-two__image" />
 			</div>
 
 			<!-- ✅ CodePen-style corner -->
@@ -13,16 +13,17 @@
 			</div>
 
 			<h3 class="service-card-two__title">
-				<a href="#" tabindex="-1">{{ title }}</a>
+				<a href="#" tabindex="-1">{{ data.name?.[locale] }}</a>
 			</h3>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
+const { locale } = useI18n();
+
 defineProps<{
-	title: string;
-	image: string;
+	data: any;
 }>();
 </script>
 
@@ -51,7 +52,7 @@ defineProps<{
 /* image */
 .service-card-two__image {
 	width: 100%;
-	height: 100%;
+	height: 280px;
 	border-radius: 20px;
 	object-fit: cover;
 	display: block;

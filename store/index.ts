@@ -15,6 +15,7 @@ export const toSetupStore = (key: string) => defineStore(key, (): any => {
 
 export const useSetting = toSetupStore('settings');
 export const useService = toSetupStore('services');
+export const useCheckup = toSetupStore('checkup');
 export const useProgram = toSetupStore('program');
 export const useDoctor = toSetupStore('doctors');
 export const useMenu = toSetupStore('menu');

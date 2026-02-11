@@ -25,7 +25,7 @@ defineProps({
 			</h1>
 
 			<p v-if="data.sub_title" class="doctor-detail__role">
-				{{ data.specialization }}
+				{{ data.specialization?.[locale] }}
 			</p>
 
 			<ul class="doctor-detail__chips">

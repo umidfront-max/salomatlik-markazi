@@ -1,4 +1,5 @@
 <script setup>
+const { locale } = useI18n();
 const props = defineProps({
 	list: {
 		type: Array,
@@ -44,26 +45,30 @@ const localePath = useLocalePath();
 					:key="index"
 					:class="{ active: index === 1 }"
 					:to="
-						localePath(`/${isDiseases ? 'static' : 'news'}/${item.slug}`)
+						localePath(`/${isDiseases ? 'static' : 'news'}/${item.id}`)
 					"
 				>
 					<div class="card-image" v-show="index === 0">
 						<div class="card-image__inner">
-							<img :src="item.image" :alt="item.title" />
+							<img :src="item.image" :alt="item.title?.[locale]" />
 						</div>
 					</div>
 					<div class="card-info">
-						<h3 class="card-info__title">
-							{{ item.title }}
-						</h3>
-						<p v-html="item.description" class="card-info__subtitle"></p>
+						<h3
+							v-html="item.title?.[locale]"
+							class="card-info__title"
+						></h3>
+						<p
+							v-html="item.description?.[locale]"
+							class="card-info__subtitle"
+						></p>
 						<div class="card-info__bottom">
 							<span class="card-info__date" v-if="item.createdAt">
 								<Icon name="calendar" />
-								{{ item.createdAt?.substring(0,10) }}
+								{{ item.createdAt?.substring(0, 10) }}
 							</span>
 							<Btn :size="48" color="red-1" :data-text="$t('more')">
-								{{ $t("more") }}asd
+								{{ $t("more") }}
 							</Btn>
 						</div>
 					</div>

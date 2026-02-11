@@ -24,10 +24,11 @@ const { data: diseases } = await useAsyncData("diseases_home", () =>
       <SectionHero />
       <!-- <YandexMap /> -->
       <SectionHomeService class="pt-80" />
+      <SectionHomeCheckUp class="pt-80" />
       <SectionVideo class="pt-100" />
       <SectionStats class="pt-100 pb-100" />
       <SectionAlphabet class="pb-100" />
-      <SectionProgram class="pb-100" />
+      <!-- <SectionProgram class="pb-100" /> -->
       <SectionDoctor class="pb-100" />
       <SectionNews :list="news?.data ?? []" />
       <SectionEquipment class="pb-100" />

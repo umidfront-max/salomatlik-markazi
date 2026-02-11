@@ -1,5 +1,6 @@
 <script setup>
 const route = useRoute();
+const { locale } = useI18n()
 const { $api } = useNuxtApp();
 const { data: doctors } = await useAsyncData(
 	`doctor_${route.params.slug}`,
@@ -51,19 +52,22 @@ const swiperOptions = {
 		<h3 class="section-subtitle">{{ $t("doctor.about") }}</h3>
 		<div
 			class="section-content"
-			v-html="doctors.description"
-			v-if="doctors.description"
+			v-html="doctors.description?.[locale]"
+			v-if="doctors.description?.[locale]"
 		></div>
 		<h3 class="section-subtitle">{{ $t("doctor.education") }}</h3>
 		<div class="section-education">
 			<div
 				class="section-education__item"
-				v-for="item in doctors?.educations ?? []"
+				v-for="(item, ind) in doctors?.educations ?? []"
+				:key="ind"
 			>
 				<i class="section-education__circle"></i>
-				<span class="section-education__year">{{ item.degree }}</span>
-				<span class="section-education__title">{{ item.institution }}</span>
-				<p class="section-education__title">{{ item.title }}</p>
+				<span class="section-education__year">{{ item.degree?.[locale]}}</span>
+				<span class="section-education__title">{{
+					item.institution?.[locale]
+				}}</span>
+				<p class="section-education__title">{{ item.title?.[locale] }}</p>
 			</div>
 		</div>
 	</section>

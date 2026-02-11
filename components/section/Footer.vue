@@ -1,10 +1,12 @@
 <script setup>
 const localePath = useLocalePath();
-const { data: setting } = useSetting();
+// const { data: setting } = useSetting();
 const { list: menu } = useMenu();
 const { list: social } = useSocial();
 const { list: service } = useService();
-
+const { data: setting } = await useAsyncData("settings", () =>
+	$api("settings"),
+);
 // demo news (o'zing API/composable bilan almashtir)
 const news = [
 	{
@@ -29,7 +31,6 @@ const news = [
 <template>
 	<footer class="footer">
 		<div class="footer__bg" />
-
 		<div class="container footer__container">
 			<!-- TOP -->
 			<div class="footer__top">
@@ -73,15 +74,9 @@ const news = [
 							<h4 class="footer__title">Our Services</h4>
 
 							<ul class="footer__list">
-								<li
-									v-for="item in service.slice(0, 7)"
-									:key="item.id ?? item.slug"
-								>
-									<NuxtLink
-										class="footer__link"
-										:to="localePath(`/service/${item.slug}`)"
-									>
-										{{ item.title }}
+								<li v-for="(value, key) in setting" :key="value">
+									<NuxtLink class="footer__link" :to="localePath(key)">
+										{{ value }}
 									</NuxtLink>
 								</li>
 							</ul>
