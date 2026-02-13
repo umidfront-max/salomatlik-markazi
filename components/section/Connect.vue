@@ -1,5 +1,7 @@
 <script setup>
+const { list: setting } = useSetting();
 const { t } = useI18n();
+const { locale } = useI18n();
 const applyRef = ref({});
 </script>
 
@@ -42,7 +44,7 @@ const applyRef = ref({});
                             {{ $t("telegram.text") }}
                         </p>
                     </div>
-                    <a href="https://t.me/farhodmadad" target="_blank" class="connect-link">
+                    <a :href="setting?.telegram?.[locale]" target="_blank" class="connect-link">
                         <Btn color="white-1" text-color="blue-1" :size="52" class="connect-btn"
                             :data-text="$t('telegram.btn')">
                             {{ $t("telegram.btn") }}

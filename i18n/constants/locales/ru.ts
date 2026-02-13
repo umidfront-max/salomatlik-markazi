@@ -7,6 +7,7 @@ export default {
    searchSite: "Поиск по сайту",
    more: "Подробнее",
    viewAll: "Смотреть все",
+   contact: "Контакты",
    booking: "Запись",
    reviews: "Отзывы",
    articles: "Статьи",

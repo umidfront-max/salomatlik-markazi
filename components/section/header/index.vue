@@ -1,10 +1,11 @@
 <script setup>
 const { list: social } = useSocial();
 const { list: menu } = useMenu();
-
+const { locale } = useI18n();
 const { data: setting } = await useAsyncData("settings", () =>
 	$api("settings"),
 );
+console.log(setting);
 
 const localePath = useLocalePath();
 const router = useRouter();
@@ -73,16 +74,23 @@ const normalizeLink = (value, type) => {
 				<div class="hContact">
 					<a
 						class="hPhone"
-						:href="`tel:${(setting?.phone || '').replace(/\s/g, '')}`"
+						:href="`tel:${(setting?.data?.phone?.[locale] || '').replace(/\s/g, '')}`"
 					>
 						<i class="ri-phone-line"></i>
-						<span class="hPhone__text">{{ setting?.phone }}</span>
+						<span class="hPhone__text">{{
+							setting?.data?.phone?.[locale]
+						}}</span>
 					</a>
 					<div class="hSocial" v-if="setting">
 						<a
-							v-if="setting?.telegram"
+							v-if="setting?.data?.telegram?.[locale]"
 							class="hSocial__item"
-							:href="normalizeLink(setting.telegram, 'telegram')"
+							:href="
+								normalizeLink(
+									setting?.data?.telegram?.[locale],
+									'telegram',
+								)
+							"
 							target="_blank"
 							rel="noopener"
 							aria-label="Telegram"
@@ -92,9 +100,14 @@ const normalizeLink = (value, type) => {
 						</a>
 
 						<a
-							v-if="setting?.instagram"
+							v-if="setting?.data?.instagram?.[locale]"
 							class="hSocial__item"
-							:href="normalizeLink(setting.instagram, 'instagram')"
+							:href="
+								normalizeLink(
+									setting?.data?.instagram?.[locale],
+									'instagram',
+								)
+							"
 							target="_blank"
 							rel="noopener"
 							aria-label="Instagram"
@@ -104,9 +117,14 @@ const normalizeLink = (value, type) => {
 						</a>
 
 						<a
-							v-if="setting?.facebook"
+							v-if="setting?.data?.facebook?.[locale]"
 							class="hSocial__item"
-							:href="normalizeLink(setting.facebook, 'facebook')"
+							:href="
+								normalizeLink(
+									setting?.data?.facebook?.[locale],
+									'facebook',
+								)
+							"
 							target="_blank"
 							rel="noopener"
 							aria-label="Facebook"
@@ -116,9 +134,14 @@ const normalizeLink = (value, type) => {
 						</a>
 
 						<a
-							v-if="setting?.youtube"
+							v-if="setting?.data?.youtube?.[locale]"
 							class="hSocial__item hSocial__item--yt"
-							:href="normalizeLink(setting.youtube, 'youtube')"
+							:href="
+								normalizeLink(
+									setting?.data?.youtube?.[locale],
+									'youtube',
+								)
+							"
 							target="_blank"
 							rel="noopener"
 							aria-label="YouTube"
@@ -168,7 +191,7 @@ const normalizeLink = (value, type) => {
 							</li>	 -->
 							<li class="hNav__item">
 								<NuxtLink class="hNav__link" :to="localePath('/news')">
-									{{ setting.news }}
+									{{ setting?.data?.news?.[locale] }}
 								</NuxtLink>
 							</li>
 							<li class="hNav__item">
@@ -176,7 +199,7 @@ const normalizeLink = (value, type) => {
 									class="hNav__link"
 									:to="localePath('/doctor')"
 								>
-									{{ setting.doctor }}
+									{{ setting?.data?.doctor?.[locale] }}
 								</NuxtLink>
 							</li>
 							<li class="hNav__item">
@@ -184,7 +207,15 @@ const normalizeLink = (value, type) => {
 									class="hNav__link"
 									:to="localePath('/service')"
 								>
-									{{ setting.service }}
+									{{ setting?.data?.service?.[locale] }}
+								</NuxtLink>
+							</li>
+							<li class="hNav__item">
+								<NuxtLink
+									class="hNav__link"
+									:to="localePath('/contact')"
+								>
+									{{ setting?.data?.contact?.[locale] }}
 								</NuxtLink>
 							</li>
 						</ul>
@@ -416,7 +447,7 @@ const normalizeLink = (value, type) => {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: 24px;
+		gap: 20px;
 		margin: 0;
 		padding: 0;
 		list-style: none;
@@ -428,7 +459,7 @@ const normalizeLink = (value, type) => {
 
 	&__link {
 		font-size: 16px;
-		font-weight: 600;
+		font-weight: 500;
 		color: #0f172a;
 		text-decoration: none;
 		padding: 10px 0;
@@ -449,7 +480,7 @@ const normalizeLink = (value, type) => {
 			background: rgba(20, 63, 150, 0.92);
 			transform: scaleX(0);
 			transform-origin: left;
-			transition: 0.2s ease;
+			transition: 0.4s ease;
 		}
 
 		&:hover::after {
@@ -570,7 +601,7 @@ const normalizeLink = (value, type) => {
 
 	&__chev {
 		font-size: 18px;
-		color: var(--blue-4);;
+		color: var(--blue-4);
 		opacity: 0.7;
 	}
 }

@@ -36,11 +36,6 @@ const toSetStore = (store, data, key = "list") => {
 };
 
 // #region setting
-const { data: setting } = await useAsyncData("settings", () =>
-	$api("settings"),
-);
-
-toSetStore(useSetting, setting);
 
 // useSeoMeta({
 // 	title: setting.value?.data?.site_name || "-",
@@ -78,9 +73,21 @@ toSetStore(useDoctor, doctor);
 // #endregion doctors
 
 // #region menu
-const { data: menu } = await useAsyncData("menu", () => $api("menu"));
+const { data: menu } = await useAsyncData("setting_menu", () =>
+	$api("settings"),
+);
 toSetStore(useMenu, menu);
 // #endregion menu
+
+const { data: setting } = await useAsyncData("settings", () =>
+	$api("settings"),
+);
+toSetStore(useSetting, setting);
+
+const { data: department } = await useAsyncData("departments", () =>
+	$api("departments"),
+);
+toSetStore(useDepartment, department);
 
 // #region social
 const { data: social } = await useAsyncData("social", () => $api("social"));
