@@ -15,7 +15,7 @@ export default {
    more: "Batafsil",
 
    viewAll: "Hammasini ko'rish",
-
+   contact: "Kontakt",
    booking: "Qabulga yozilish",
 
    reviews: "Sharhlar",

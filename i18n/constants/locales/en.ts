@@ -10,6 +10,7 @@ export default {
    booking: "Make appointment",
    reviews: "Reviews",
    articles: "Articles",
+   contact: "Contact",
    manufacturer: "Manufacturer",
    formApplication: "Application Form",
    stats: {

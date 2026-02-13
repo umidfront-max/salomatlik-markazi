@@ -1,13 +1,13 @@
 <script setup>
 const localePath = useLocalePath();
-// const { data: setting } = useSetting();
-const { list: menu } = useMenu();
+const { locale } = useI18n();
+const applyRef = ref();
+
+const { list: setting } = useSetting();
+const { list: deparment } = useDepartment();
 const { list: social } = useSocial();
 const { list: service } = useService();
-const { data: setting } = await useAsyncData("settings", () =>
-	$api("settings"),
-);
-// demo news (o'zing API/composable bilan almashtir)
+
 const news = [
 	{
 		id: 1,
@@ -39,15 +39,15 @@ const news = [
 					<ACol :xs="24" :md="12" :xl="8">
 						<NuxtLink :to="localePath('/')" class="footer__brand">
 							<!-- <img class="footer__logo" src="/logo-white.png" alt="logo" /> -->
-							<span class="footer__name">Salomatlik-Maskani</span>
+							<span class="footer__name">Salomatlik Maskani</span>
 						</NuxtLink>
 
 						<p class="footer__desc">
-							{{ $t("footer.aboutText") }}
+							{{ setting?.footerText?.[locale] }}
 						</p>
 
 						<NuxtLink :to="localePath('/contact')" class="footer__cta">
-							<span>GET CONSULTANT</span>
+							<span>{{ $t("contact") }}</span>
 							<span class="footer__ctaIcon">
 								<i class="ri-arrow-right-up-line"></i>
 							</span>
@@ -74,11 +74,43 @@ const news = [
 							<h4 class="footer__title">Our Services</h4>
 
 							<ul class="footer__list">
-								<li v-for="(value, key) in setting" :key="value">
+								<li class="footer__item">
+									<NuxtLink
+										class="footer__link"
+										:to="localePath('/news')"
+									>
+										{{ setting?.news?.[locale] }}
+									</NuxtLink>
+								</li>
+								<li class="footer__item">
+									<NuxtLink
+										class="footer__link"
+										:to="localePath('/doctor')"
+									>
+										{{ setting?.doctor?.[locale] }}
+									</NuxtLink>
+								</li>
+								<li class="footer__item">
+									<NuxtLink
+										class="footer__link"
+										:to="localePath('/service')"
+									>
+										{{ setting?.service?.[locale] }}
+									</NuxtLink>
+								</li>
+                        	<li class="footer__item">
+									<NuxtLink
+										class="footer__link"
+										:to="localePath('/contact')"
+									>
+										{{ setting?.contact?.[locale] }}
+									</NuxtLink>
+								</li>
+								<!-- <li v-for="(value, key) in setting" :key="value">
 									<NuxtLink class="footer__link" :to="localePath(key)">
 										{{ value }}
 									</NuxtLink>
-								</li>
+								</li> -->
 							</ul>
 						</div>
 					</ACol>
@@ -87,25 +119,16 @@ const news = [
 					<ACol :xs="12" :md="6" :xl="5">
 						<div class="footer__col">
 							<h4 class="footer__title">Useful Links</h4>
-
 							<ul class="footer__list">
 								<li
-									v-for="item in menu
-										.filter((el) => el.show_header)
-										.slice(0, 7)"
+									v-for="item in deparment"
 									:key="item.id ?? item.slug"
 								>
 									<NuxtLink
 										class="footer__link"
-										:to="
-											localePath(
-												item.page
-													? item.page
-													: `/static/${item.slug}`,
-											)
-										"
+										:to="`/service/${item.id}`"
 									>
-										{{ item.title }}
+										{{ item?.title?.[locale] }}
 									</NuxtLink>
 								</li>
 							</ul>
@@ -157,12 +180,16 @@ const news = [
 					<div class="footer__stripIcon">
 						<Icon name="location" />
 					</div>
-					<div class="footer__stripText">
-						<span class="footer__stripLabel">Office Address</span>
+					<a
+						target="_black"
+						:href="setting.addressLink?.[locale]"
+						class="footer__stripText"
+					>
+						<span class="footer__stripLabel">{{ $t("address") }}</span>
 						<span class="footer__stripValue">
-							{{ setting?.address || "—" }}
+							{{ setting?.address?.[locale] || "—" }}
 						</span>
-					</div>
+					</a>
 				</div>
 
 				<div class="footer__stripDivider" />
@@ -172,12 +199,12 @@ const news = [
 						<Icon name="send-email" />
 					</div>
 					<div class="footer__stripText">
-						<span class="footer__stripLabel">Send Email</span>
+						<span class="footer__stripLabel">{{ $t("email") }}</span>
 						<a
 							class="footer__stripValue footer__stripValue--link"
-							:href="`mailto:${setting?.email}`"
+							:href="`mailto:${setting?.email?.[locale]}`"
 						>
-							{{ setting?.email || "—" }}
+							{{ setting?.email?.[locale] || "—" }}
 						</a>
 					</div>
 				</div>
@@ -189,12 +216,16 @@ const news = [
 						<Icon name="phone-fill" />
 					</div>
 					<div class="footer__stripText">
-						<span class="footer__stripLabel">Call Emergency</span>
+						<span class="footer__stripLabel">{{ $t("phone1") }}</span>
 						<a
 							class="footer__stripValue footer__stripValue--link"
-							:href="setting?.phone ? `tel:${setting.phone}` : '#'"
+							:href="
+								setting?.phone?.[locale]
+									? `tel:${setting.phone?.[locale]}`
+									: '#'
+							"
 						>
-							{{ setting?.phone || "—" }}
+							{{ setting?.phone?.[locale] || "—" }}
 						</a>
 					</div>
 				</div>
@@ -784,7 +815,7 @@ const news = [
 			position: relative;
 			display: inline-block;
 			color: #ffffff;
-			font-weight: 800;
+			font-weight: 600;
 			text-decoration: none;
 
 			&::after {
@@ -850,7 +881,7 @@ const news = [
 
 	&__stripValue {
 		font-size: 14.5px;
-		font-weight: 800;
+		font-weight: 600;
 		color: #ffffff;
 		text-decoration: none;
 
