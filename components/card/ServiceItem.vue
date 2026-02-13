@@ -1,5 +1,9 @@
 <template>
-	<NuxtLink :to="to" class="service-pill" :class="{ 'is-cta': variant === 'cta' }">
+	<NuxtLink
+		:to="to"
+		class="service-pill"
+		:class="{ 'is-cta': variant === 'cta' }"
+	>
 		<span class="service-pill__title">
 			{{ data?.name?.[locale] || data?.name?.ru || data?.name?.en || "" }}
 		</span>
@@ -23,6 +27,8 @@ const props = defineProps<{
 </script>
 
 <style scoped lang="scss">
+@use "@/assets/scss/config/mixins" as *;
+
 .service-pill {
 	--bg: #ffffff;
 	--text: #0a2241;
@@ -49,12 +55,18 @@ const props = defineProps<{
 		box-shadow 220ms ease,
 		background 220ms ease,
 		color 220ms ease;
-
+	@include devices(sm) {
+		padding: 10px;
+		border-radius: 16px;
+	}
 	&__title {
 		font-size: 16px;
 		font-weight: 600;
 		line-height: 1.15;
 		letter-spacing: 0.01em;
+		@include devices(sm) {
+			font-size: 14px;
+		}
 	}
 
 	&__arrow {
@@ -74,11 +86,18 @@ const props = defineProps<{
 			border-color 220ms ease,
 			transform 220ms ease;
 
+		@include devices(sm) {
+			width: 28px;
+			height: 28px;
+		}
 		i {
 			font-size: 18px;
 			line-height: 1;
 			color: var(--text);
 			transition: color 220ms ease;
+			@include devices(sm) {
+				font-size: 16px;
+			}
 		}
 	}
 
