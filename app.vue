@@ -70,8 +70,17 @@ const { data: doctor } = await useAsyncData("doctor", () =>
 	$api("doctors", { params: { limit: 500, is_visible_home: false } }),
 );
 toSetStore(useDoctor, doctor);
-// #endregion doctors
 
+const { data: gallery } = await useAsyncData("gallery", () =>
+	$api("gallery", { params: { limit: 500, is_visible_home: false } }),
+);
+toSetStore(useGallery, gallery);
+// #endregion doctors
+const { data: diseases } = await useAsyncData("diseases", () => $api("diseases"));
+toSetStore(useDiseases, diseases);
+
+const { data: news } = await useAsyncData("news", () => $api("news"));
+toSetStore(useNews, news);
 // #region menu
 const { data: menu } = await useAsyncData("setting_menu", () =>
 	$api("settings"),

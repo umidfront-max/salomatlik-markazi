@@ -5,7 +5,7 @@
 		:class="{ 'is-cta': variant === 'cta' }"
 	>
 		<span class="service-pill__title">
-			{{ data?.name?.[locale] || data?.name?.ru || data?.name?.en || "" }}
+			{{ data?.name?.[locale] ||  data?.title?.[locale]  || "" }}
 		</span>
 
 		<span class="service-pill__arrow" aria-hidden="true">

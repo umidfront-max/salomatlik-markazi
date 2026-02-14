@@ -36,6 +36,7 @@ export default {
       title: "Bizning xizmatlarimiz",
       badge: "Yangi",
       title2: "Biz sizga xizmat ko'rsatamiz",
+      title3: "Xizmat turlari",
       description: "Bizning klinikamiz mijozlarga eng sifatli xizmatlarni taqdim etadi. Quyidagi xizmatlarga eng yaxshi mutaxassislarimizni biriktirganmiz. Sizga 17 yildan beri eng sifatli tibbiyotni taqdim etib kelyotganimizdan mamnunmiz!"
    },
 

@@ -40,7 +40,7 @@ const swiperOptions = {
 		},
 		330: {
 			spaceBetween: 16,
-			slidesPerView: 1,
+			slidesPerView: 1.2,
 		},
 		0: {
 			spaceBetween: 16,

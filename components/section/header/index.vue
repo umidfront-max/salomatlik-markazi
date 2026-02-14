@@ -73,6 +73,7 @@ const normalizeLink = (value, type) => {
 				</NuxtLink>
 				<div class="hContact">
 					<a
+						v-if="setting?.data?.phone?.[locale]"
 						class="hPhone"
 						:href="`tel:${(setting?.data?.phone?.[locale] || '').replace(/\s/g, '')}`"
 					>
@@ -292,6 +293,7 @@ const normalizeLink = (value, type) => {
 
 		@include devices(md) {
 			gap: 10px;
+			display: none;
 		}
 	}
 
@@ -374,6 +376,10 @@ const normalizeLink = (value, type) => {
 		height: 82px;
 		border-radius: 12px;
 		object-fit: cover;
+		@include devices(sm) {
+			width: 72px;
+			height: 72px;
+		}
 	}
 
 	&__brandText {
@@ -385,7 +391,7 @@ const normalizeLink = (value, type) => {
 		white-space: nowrap;
 		color: rgba(20, 63, 150, 0.92);
 		@include devices(sm) {
-			display: none;
+			font-size: 18px;
 		}
 	}
 
@@ -402,7 +408,7 @@ const normalizeLink = (value, type) => {
 	}
 
 	&__cta {
-		@include devices(sm) {
+		@include devices(md) {
 			display: none;
 		}
 	}
@@ -435,6 +441,9 @@ const normalizeLink = (value, type) => {
 
 			&:hover {
 				border-color: var(--blue-4);
+			}
+			@include devices(md) {
+				display: none;
 			}
 		}
 	}
@@ -558,9 +567,9 @@ const normalizeLink = (value, type) => {
 	&__text {
 		white-space: nowrap;
 		font-size: 16px;
-		@include devices(md) {
-			display: none;
-		}
+		// @include devices(md) {
+		// 	display: none;
+		// }
 	}
 }
 
@@ -575,7 +584,9 @@ const normalizeLink = (value, type) => {
 	gap: 10px;
 	cursor: pointer;
 	transition: 0.2s ease;
-
+	@include devices(sm) {
+		display: none;
+	}
 	&:hover {
 		box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
 	}
@@ -593,10 +604,6 @@ const normalizeLink = (value, type) => {
 		color: #0f172a;
 		white-space: nowrap;
 		text-transform: uppercase;
-
-		@include devices(sm) {
-			display: none;
-		}
 	}
 
 	&__chev {

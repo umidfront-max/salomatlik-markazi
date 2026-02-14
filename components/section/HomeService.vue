@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const localePath = useLocalePath();
-const { list } = useService();
+// const { list } = useService();
+const { list } = useDepartment();
 </script>
 
 <template>
@@ -14,12 +15,12 @@ const { list } = useService();
 					v-for="service in list"
 					:key="service.id"
 					:data="service"
-					:to="localePath(`/service/${service.slug || service.id}`)"
+					:to="localePath(`/department/${service.slug || service.id}`)"
 				/>
 			</div>
 
 			<div class="services-two__bottom">
-				<NuxtLink :to="localePath('/service')" class="mediox-btn">
+				<NuxtLink :to="localePath('/department')" class="mediox-btn">
 					<span class="mediox-btn__label">{{ $t("viewAll") }}</span>
 					<span class="mediox-btn__icon" aria-hidden="true">
 						<i class="ri-arrow-right-up-line"></i>

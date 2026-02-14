@@ -1,26 +1,44 @@
+<!-- navbar.vue (SectionHeaderNavbar) FULL -->
 <script setup>
 const { list: menu } = useMenu();
 const { list: social } = useSocial();
 const { list: setting } = useSetting();
+
 const localePath = useLocalePath();
 const { locale } = useI18n();
 const route = useRoute();
+const router = useRouter();
+
 const open = ref(false);
+
 watch(
 	() => route.path,
 	() => {
 		toClose();
 	},
 );
+
 function toOpen() {
 	open.value = true;
+	document?.body?.classList?.add?.("no-scroll");
 }
 function toClose() {
 	open.value = false;
+	document?.body?.classList?.remove?.("no-scroll");
 }
 
 defineExpose({ toOpen, toClose });
+
+/* ✅ mobile search */
+const searchQuery = ref("");
+const handleSearch = () => {
+	const q = searchQuery.value.trim();
+	if (!q) return;
+	router.push(localePath(`/search?word=${encodeURIComponent(q)}`));
+	toClose();
+};
 </script>
+
 <template>
 	<div class="menu" :class="{ active: open }">
 		<div class="menu-top">
@@ -28,10 +46,11 @@ defineExpose({ toOpen, toClose });
 				<button class="menu-close" @click="toClose">
 					<Icon name="close" />
 				</button>
+
 				<div class="menu-top__right">
 					<SectionHeaderLang>
 						<template #="{ locale, locales }">
-							<button class="menu-lang">
+							<button class="menu-lang" aria-label="Language">
 								<img
 									class="menu-lang__flag"
 									:src="`/flag/${locale}.png`"
@@ -39,7 +58,7 @@ defineExpose({ toOpen, toClose });
 								/>
 								<span class="menu-lang__text">
 									{{
-										locales.find((l) => l.code === locale)?.name ||
+										locales.find((l) => l.code === locale)?.code ||
 										locale
 									}}
 								</span>
@@ -50,82 +69,131 @@ defineExpose({ toOpen, toClose });
 				</div>
 			</div>
 		</div>
+
 		<div class="menu-container container">
-			<ul class="menu-menu">
+			<!-- ✅ MOBILE EXTRA: Search + Booking + Phone -->
+			<div class="menu-mobile">
+				<div class="menu-search">
+					<input
+						v-model="searchQuery"
+						class="menu-search__input"
+						type="text"
+						:placeholder="$t('search')"
+						@keyup.enter="handleSearch"
+					/>
+					<button
+						class="menu-search__btn"
+						@click="handleSearch"
+						aria-label="Search"
+					>
+						<Icon name="search" />
+					</button>
+				</div>
+
+				<NuxtLink
+					class="menu-booking"
+					:to="localePath('/contact')"
+					@click="toClose"
+				>
+					{{ $t("booking") }}
+				</NuxtLink>
+
+				<a
+					v-if="setting?.phone?.[locale]"
+					class="menu-phone"
+					:href="`tel:${(setting?.phone?.[locale] || '').replace(/\s/g, '')}`"
+				>
+					{{ setting?.phone?.[locale] }}
+				</a>
+			</div>
+
+			<!-- <ul class="menu-menu">
 				<li class="menu-menu__item" v-for="item in menu" :key="item.id">
 					<NuxtLink
 						class="menu-menu__link"
 						:to="localePath(`/service/${item.id}`)"
-						>{{ item.title }}
+					>
+						{{ item.title }}
 					</NuxtLink>
 				</li>
-			</ul>
+			</ul> -->
+
 			<ul class="menu-menu">
-				<!-- <li
-								class="hNav__item"
-								v-for="(value, key) in setting"
-								:key="key"
-							>
-								<NuxtLink class="menu-menu__link" :to="localePath(key)">
-									{{ value }}
-								</NuxtLink>
-							</li>	 -->
 				<li class="menu-menu__item">
-					<NuxtLink class="menu-menu__link" :to="localePath('/news')">
+					<NuxtLink
+						class="menu-menu__link"
+						:to="localePath('/news')"
+						@click="toClose"
+					>
 						{{ setting?.news?.[locale] }}
 					</NuxtLink>
 				</li>
 				<li class="menu-menu__item">
-					<NuxtLink class="menu-menu__link" :to="localePath('/doctor')">
+					<NuxtLink
+						class="menu-menu__link"
+						:to="localePath('/doctor')"
+						@click="toClose"
+					>
 						{{ setting?.doctor?.[locale] }}
 					</NuxtLink>
 				</li>
 				<li class="menu-menu__item">
-					<NuxtLink class="menu-menu__link" :to="localePath('/service')">
+					<NuxtLink
+						class="menu-menu__link"
+						:to="localePath('/service')"
+						@click="toClose"
+					>
 						{{ setting?.service?.[locale] }}
 					</NuxtLink>
 				</li>
 				<li class="menu-menu__item">
-					<NuxtLink class="menu-menu__link" :to="localePath('/contact')">
+					<NuxtLink
+						class="menu-menu__link"
+						:to="localePath('/contact')"
+						@click="toClose"
+					>
 						{{ setting?.contact?.[locale] }}
 					</NuxtLink>
 				</li>
 			</ul>
 
+			<!-- ✅ Contact: desktopda 4 col, mobile’da 1 col ko‘rinadi -->
 			<ul class="menu-contact">
 				<li class="menu-contact__item">
-					<span class="menu-contact__label">
-						{{ $t("phone1") }}
-					</span>
-					<a class="menu-contact__value">
+					<span class="menu-contact__label">{{ $t("phone1") }}</span>
+					<a
+						class="menu-contact__value"
+						:href="`tel:${(setting?.phone?.[locale] || '').replace(/\s/g, '')}`"
+					>
 						{{ setting?.phone?.[locale] }}
 					</a>
 				</li>
+
 				<li class="menu-contact__item">
-					<span class="menu-contact__label">
-						{{ $t("phone2") }}
-					</span>
-					<a class="menu-contact__value">
+					<span class="menu-contact__label">{{ $t("phone2") }}</span>
+					<a
+						class="menu-contact__value"
+						:href="`tel:${(setting?.phone2?.[locale] || '').replace(/\s/g, '')}`"
+					>
 						{{ setting?.phone2?.[locale] }}
 					</a>
 				</li>
+
 				<li class="menu-contact__item">
-					<span class="menu-contact__label">
-						{{ $t("address") }}
-					</span>
+					<span class="menu-contact__label">{{ $t("address") }}</span>
 					<a class="menu-contact__value">
 						{{ setting?.address?.[locale] }}
 					</a>
 				</li>
+
 				<li class="menu-contact__item">
-					<span class="menu-contact__label">
-						{{ $t("workTime") }}
-					</span>
+					<span class="menu-contact__label">{{ $t("workTime") }}</span>
 					<a class="menu-contact__value">
 						{{ setting?.workTime?.[locale] }}
 					</a>
 				</li>
 			</ul>
+
 			<div class="menu-social">
 				<a
 					class="menu-social__icon"
@@ -138,6 +206,7 @@ defineExpose({ toOpen, toClose });
 				</a>
 			</div>
 		</div>
+
 		<div class="menu-lines">
 			<span></span>
 			<span></span>
@@ -146,8 +215,21 @@ defineExpose({ toOpen, toClose });
 		</div>
 	</div>
 </template>
+
 <style lang="scss" scoped>
 @use "@/assets/scss/config/mixins" as *;
+:global(.v-popper__popper) {
+	z-index: 10000020 !important;
+}
+:global(.header-lang__dropdown) {
+	z-index: 10000020 !important;
+	position: relative;
+}
+
+/* ✅ body scroll lock */
+:global(body.no-scroll) {
+	overflow: hidden;
+}
 
 .menu {
 	background: rgba(255, 255, 255, 0.8);
@@ -155,12 +237,11 @@ defineExpose({ toOpen, toClose });
 	position: fixed;
 	left: 0;
 	top: 0;
-	z-index: 999999;
+	z-index: 99;
+	overflow: visible;
 	width: 100%;
 	height: 100vh;
 	display: flex;
-	flex: 0 0 auto;
-	flex: 1;
 	flex-direction: column;
 	transform: translateY(-100%);
 	opacity: 0;
@@ -256,17 +337,23 @@ defineExpose({ toOpen, toClose });
 		position: relative;
 		z-index: 2;
 		margin-bottom: 40px;
+		overflow: visible;
+		@include devices(md) {
+			margin-bottom: 18px;
+		}
 
 		&__wrapper {
 			height: var(--height-header-part);
 			display: flex;
+			overflow: visible;
 			align-items: center;
 			justify-content: space-between;
 		}
 
 		&__right {
 			display: none;
-
+			position: relative;
+			z-index: 10000010;
 			@include devices(md) {
 				display: flex;
 				align-items: center;
@@ -377,6 +464,7 @@ defineExpose({ toOpen, toClose });
 		&__text {
 			line-height: 1;
 			white-space: nowrap;
+			text-transform: uppercase;
 		}
 
 		&__icon {
@@ -397,6 +485,7 @@ defineExpose({ toOpen, toClose });
 
 		@include devices(md) {
 			grid-template-columns: 1fr;
+			gap: 16px;
 		}
 
 		&__item {
@@ -410,6 +499,10 @@ defineExpose({ toOpen, toClose });
 		&__link {
 			@include text(40, var(--black-1), 400, normal);
 			transition: color 0.3s ease-in-out;
+
+			@include devices(md) {
+				font-size: 20px;
+			}
 
 			&:hover {
 				color: var(--red-1);
@@ -439,17 +532,18 @@ defineExpose({ toOpen, toClose });
 	}
 
 	&-contact {
-		display: flex;
-		align-items: center;
-		margin-top: auto;
-		position: relative;
-		z-index: 1;
 		display: grid;
 		gap: 24px;
 		grid-template-columns: repeat(4, 1fr);
+		margin-top: auto;
+		position: relative;
+		z-index: 1;
 
+		/* ✅ oldin md’da display:none edi — endi ko‘rinadi */
 		@include devices(md) {
-			display: none;
+			grid-template-columns: 1fr;
+			gap: 14px;
+			margin-top: 18px;
 		}
 
 		&__item {
@@ -469,6 +563,10 @@ defineExpose({ toOpen, toClose });
 			transition: color 0.3s ease-in-out;
 			cursor: pointer;
 
+			@include devices(md) {
+				font-size: 18px;
+			}
+
 			&:hover {
 				color: var(--red-1);
 			}
@@ -476,11 +574,92 @@ defineExpose({ toOpen, toClose });
 	}
 }
 
+/* ✅ MOBILE block */
+.menu-mobile {
+	display: none;
+
+	@include devices(md) {
+		display: grid;
+		gap: 14px;
+		margin-bottom: 22px;
+		position: relative;
+		z-index: 2;
+	}
+}
+
+.menu-search {
+	display: none;
+
+	@include devices(md) {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		border: 1px solid rgba(0, 0, 0, 0.15);
+		border-radius: 14px;
+		padding: 10px 12px;
+		background: rgba(255, 255, 255, 0.9);
+		backdrop-filter: blur(10px);
+	}
+
+	&__input {
+		flex: 1;
+		border: none;
+		outline: none;
+		background: transparent;
+		font-size: 16px;
+		min-width: 0;
+	}
+
+	&__btn {
+		width: 44px;
+		height: 44px;
+		border-radius: 12px;
+		border: 1px solid rgba(0, 0, 0, 0.12);
+		background: transparent;
+		display: grid;
+		place-items: center;
+		cursor: pointer;
+	}
+}
+
+.menu-booking {
+	display: none;
+
+	@include devices(md) {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 46px;
+		border-radius: 14px;
+		text-decoration: none;
+		color: var(--white-1);
+		background: linear-gradient(135deg, var(--red-1) 0%, #b71c1c 100%);
+		font-weight: 600;
+		box-shadow: 0 10px 22px rgba(220, 38, 38, 0.25);
+	}
+}
+
+.menu-phone {
+	display: none;
+
+	@include devices(md) {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 46px;
+		border-radius: 14px;
+		border: 1px solid rgba(0, 0, 0, 0.15);
+		text-decoration: none;
+		color: var(--primary-1);
+		font-weight: 700;
+		background: rgba(255, 255, 255, 0.85);
+	}
+}
+
 @keyframes rotate {
 	from {
 		transform: translateY(-50%) rotate(0deg);
 	}
-
 	to {
 		transform: translateY(-50%) rotate(360deg);
 	}
@@ -492,7 +671,6 @@ defineExpose({ toOpen, toClose });
 		transform: scale(1);
 		opacity: 0.3;
 	}
-
 	50% {
 		transform: scale(1.2);
 		opacity: 0.15;

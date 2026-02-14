@@ -19,6 +19,9 @@ export const useService = toSetupStore('services');
 export const useCheckup = toSetupStore('checkup');
 export const useProgram = toSetupStore('program');
 export const useDoctor = toSetupStore('doctors');
+export const useNews = toSetupStore('news');
+export const useDiseases = toSetupStore('diseases');
+export const useGallery = toSetupStore('gallery');
 export const useMenu = toSetupStore('menu');
 export const useSocial = toSetupStore('social');
 

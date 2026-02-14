@@ -1,65 +1,184 @@
 <script setup>
 const { locale } = useI18n();
+const { list: services } = useService();
+const { list: news } = useNews();
+const { list: diseases } = useDiseases();
+const { list: doctors } = useDoctor();
+const { list: galery } = useGallery();
+
 const route = useRoute();
 const { $api } = useNuxtApp();
+const localePath = useLocalePath();
 
-const { data: service } = await useAsyncData(
-	`service_${route.params.slug}`,
-	() => $api(`/medical-services/${route.params.slug}`),
+const { data: department } = await useAsyncData(
+	`department_${route.params.slug}`,
+	() => $api(`/department/${route.params.slug}`),
 );
 </script>
 
 <template>
-	<section class="service container">
-		<div class="service__grid">
-			<!-- LEFT: IMAGE -->
-			<div class="service__image">
-				<img :src="service?.image" :alt="service?.name?.[locale]" />
-			</div>
-
-			<!-- RIGHT: INFO -->
-			<div class="service__info">
-				<span class="service__department">
-					{{ service?.department?.title?.[locale] }}
-				</span>
-
-				<h1 class="service__title">
-					{{ service?.name?.[locale] }}
-				</h1>
-
-				<div class="service__meta">
-					<div class="meta-item">⏱ {{ service?.durationMinutes }} min</div>
-					<div class="meta-item">
-						🏥 {{ service?.department?.title?.[locale] }}
-					</div>
+	<section class="department">
+		<div class="container">
+			<div class="department__grid">
+				<!-- LEFT: IMAGE -->
+				<div class="department__image">
+					<img
+						:src="department?.image"
+						:alt="department?.name?.[locale]"
+					/>
 				</div>
 
-				<div
-					class="service__desc"
-					v-html="service?.description?.[locale]"
-				/>
+				<!-- RIGHT: INFO -->
+				<div class="department__info">
+					<span class="department__department">
+						{{ department?.department?.title?.[locale] }}
+					</span>
 
-				<!-- PRICE CARD -->
-				<div class="price-card">
-					<div class="price-card__left">
-						<div v-if="service?.hasDiscount" class="old-price">
-							{{ service?.price }}$
+					<h1 class="department__title">
+						{{ department?.name?.[locale] }}
+					</h1>
+
+					<div class="department__meta">
+						<div class="meta-item">
+							⏱ {{ department?.durationMinutes }} min
 						</div>
-						<div class="current-price">
-							{{ service?.discountedPrice }} so'm
+						<div class="meta-item">
+							🏥 {{ department?.department?.title?.[locale] }}
 						</div>
 					</div>
 
-					<button class="btn-primary">Qabulga yozilish</button>
+					<div
+						class="department__desc"
+						v-html="department?.description?.[locale]"
+					/>
+
+					<!-- PRICE CARD -->
+					<div class="price-card">
+						<div class="price-card__left">
+							<div v-if="department?.hasDiscount" class="old-price">
+								{{ department?.price }}$
+							</div>
+							<div class="current-price">
+								{{ department?.discountedPrice }} so'm
+							</div>
+						</div>
+
+						<button class="btn-primary">Qabulga yozilish</button>
+					</div>
 				</div>
 			</div>
+			<h3 class="services_title">{{ $t("service.title3") }}</h3>
+			<ARow class="service__item" :gutter="[20, 20]">
+				<ACol
+					v-for="service in services.filter(
+						(el) => el.department?.id == route.params.slug,
+					)"
+					:key="service.id"
+					:xs="24"
+					:sm="12"
+					:md="12"
+					:lg="6"
+				>
+					<NuxtLink
+						:to="localePath(`/service/${service.slug || service.id}`)"
+						class="service-link"
+					>
+						<CardServiceItem
+							:data="service"
+							:to="
+								localePath(`/department/${service.slug || service.id}`)
+							"
+						/>
+					</NuxtLink>
+				</ACol>
+			</ARow>
+			<h3 class="services_title">{{ $t("news.title") }}</h3>
+			<SectionNews
+				:list="news.filter((el) => el.department?.id == route.params.slug)"
+				:has-header="false"
+			/>
+			<h3 class="services_title">{{ $t("diseases") }}</h3>
+			<SectionNews
+				:list="
+					diseases.filter((el) => el.department?.id == route.params.slug)
+				"
+				:has-header="false"
+			/>
+			<h3 class="services_title">{{ $t("doctor.title") }}</h3>
+			<ARow :gutter="[{ xxl: 24, xl: 20, sm: 16, xs: 12 }, 32]">
+				<ACol
+					v-for="(item, index) in doctors.filter(
+						(el) => el.department?.id == route.params.slug,
+					)"
+					:key="index"
+					:xl="6"
+					:md="8"
+					:sm="12"
+					:xs="24"
+				>
+					<Card
+						@click="$router.push(localePath(`/doctor/${item.id}`))"
+						:data="item"
+						type="doctor"
+						data-aos="fade-up"
+						data-aos-duration="450"
+						:data-aos-delay="index * 50"
+					/>
+				</ACol>
+			</ARow>
+			<h3 class="services_title">{{ $t("video.title") }}</h3>
+
+			<ARow :gutter="[gutter, gutter]">
+				<ACol
+					:xl="6"
+					:lg="8"
+					:xs="12"
+					v-for="(item, index) in galery?.filter(
+						(el) => el.department?.id == route.params.slug,
+					) ?? []"
+					:key="index"
+				>
+					<SectionVideoDefault
+						:data="item"
+						data-aos="fade-up"
+						data-aos-duration="450"
+						:data-aos-delay="index * 50"
+					/>
+				</ACol>
+			</ARow>
 		</div>
 	</section>
 </template>
 <style scoped lang="scss">
-.service {
-	padding: 60px 0;
+@use "@/assets/scss/config/mixins" as *;
 
+.container {
+	max-width: 1400px;
+	width: 100%;
+	padding: 0px 24px;
+	margin: 0px auto;
+}
+.service__item {
+	margin-top: 40px;
+}
+.services_title {
+	margin-top: 40px;
+	margin-bottom: 40px;
+	font-size: 50px;
+	line-height: 1.12;
+	font-weight: 600;
+	color: #0a2241;
+
+	@include devices(md) {
+		font-size: 34px;
+	}
+	@include devices(sm) {
+		font-size: 30px;
+	}
+}
+.department {
+	padding: 60px 0;
+	background: #f8faff;
 	&__grid {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
