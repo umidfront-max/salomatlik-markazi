@@ -363,7 +363,6 @@ function onNavClick() {
 	padding-bottom: 20px;
 	background: #f8faff;
 }
-
 .main-slider-two__wrapper {
 	position: relative;
 	min-height: 610px;
@@ -375,7 +374,6 @@ function onNavClick() {
 		height: 640px;
 	}
 }
-
 /* bg */
 .main-slider-two__bg {
 	position: absolute;
