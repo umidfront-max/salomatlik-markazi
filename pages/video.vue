@@ -2,8 +2,8 @@
 defineComponent({ name: "video" });
 const route = useRoute();
 const { $api } = useNuxtApp();
-const { data } = useAsyncData("video", () =>
-  $api("video", {
+const { data } = useAsyncData("gallery", () =>
+  $api("gallery", {
     params: {
       limit: 4,
       page: route.query.page,
@@ -22,7 +22,7 @@ const gutter = { xxl: 24, xl: 20, xs: 12, sm: 16 };
         v-for="(item, index) in data?.data ?? []"
         :key="index"
       >
-        <LazyCardVideo
+        <SectionVideoDefault
           :data="item"
           data-aos="fade-up"
           data-aos-duration="450"

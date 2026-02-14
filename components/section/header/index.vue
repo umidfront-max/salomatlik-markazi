@@ -73,6 +73,7 @@ const normalizeLink = (value, type) => {
 				</NuxtLink>
 				<div class="hContact">
 					<a
+						v-if="setting?.data?.phone?.[locale]"
 						class="hPhone"
 						:href="`tel:${(setting?.data?.phone?.[locale] || '').replace(/\s/g, '')}`"
 					>
@@ -292,6 +293,7 @@ const normalizeLink = (value, type) => {
 
 		@include devices(md) {
 			gap: 10px;
+			display: none;
 		}
 	}
 
@@ -402,7 +404,7 @@ const normalizeLink = (value, type) => {
 	}
 
 	&__cta {
-		@include devices(sm) {
+		@include devices(md) {
 			display: none;
 		}
 	}
@@ -435,6 +437,9 @@ const normalizeLink = (value, type) => {
 
 			&:hover {
 				border-color: var(--blue-4);
+			}
+			@include devices(md) {
+				display: none;
 			}
 		}
 	}
@@ -558,9 +563,9 @@ const normalizeLink = (value, type) => {
 	&__text {
 		white-space: nowrap;
 		font-size: 16px;
-		@include devices(md) {
-			display: none;
-		}
+		// @include devices(md) {
+		// 	display: none;
+		// }
 	}
 }
 

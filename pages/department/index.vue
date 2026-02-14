@@ -1,5 +1,5 @@
 <script setup>
-const { list } = useService();
+const { list } = useDepartment();
 const localePath = useLocalePath();
 </script>
 
@@ -22,7 +22,7 @@ const localePath = useLocalePath();
 					>
 						<CardServiceItem
 							:data="service"
-							:to="localePath(`/service/${service.slug || service.id}`)"
+							:to="localePath(`/department/${service.slug || service.id}`)"
 						/>
 					</NuxtLink>
 				</ACol>

@@ -39,7 +39,7 @@ defineExpose({ toOpen, toClose });
 								/>
 								<span class="menu-lang__text">
 									{{
-										locales.find((l) => l.code === locale)?.name ||
+										locales.find((l) => l.code === locale)?.code ||
 										locale
 									}}
 								</span>
@@ -377,6 +377,7 @@ defineExpose({ toOpen, toClose });
 		&__text {
 			line-height: 1;
 			white-space: nowrap;
+			text-transform: uppercase;
 		}
 
 		&__icon {
