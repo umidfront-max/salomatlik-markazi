@@ -342,10 +342,11 @@ function onNavClick() {
 	</section>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@use "@/assets/scss/config/mixins" as *;
 .container {
 	max-width: 1320px !important;
-   
+
 	width: 100%;
 	margin: 0 auto;
 	padding: 0 12px;
@@ -360,15 +361,19 @@ function onNavClick() {
 	position: relative;
 	padding-top: 20px;
 	padding-bottom: 20px;
-   background: #f8faff;
+	background: #f8faff;
 }
 
 .main-slider-two__wrapper {
 	position: relative;
-	min-height: 590px;
-	height: 590px;
+	min-height: 610px;
+	height: 610px;
 	border-radius: 26px;
 	overflow: hidden;
+	@include devices(md) {
+		min-height: 640px;
+		height: 640px;
+	}
 }
 
 /* bg */
