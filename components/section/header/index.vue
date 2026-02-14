@@ -376,6 +376,10 @@ const normalizeLink = (value, type) => {
 		height: 82px;
 		border-radius: 12px;
 		object-fit: cover;
+		@include devices(sm) {
+			width: 72px;
+			height: 72px;
+		}
 	}
 
 	&__brandText {
@@ -387,7 +391,7 @@ const normalizeLink = (value, type) => {
 		white-space: nowrap;
 		color: rgba(20, 63, 150, 0.92);
 		@include devices(sm) {
-			display: none;
+			font-size: 18px;
 		}
 	}
 
@@ -580,7 +584,9 @@ const normalizeLink = (value, type) => {
 	gap: 10px;
 	cursor: pointer;
 	transition: 0.2s ease;
-
+	@include devices(sm) {
+		display: none;
+	}
 	&:hover {
 		box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
 	}
@@ -598,10 +604,6 @@ const normalizeLink = (value, type) => {
 		color: #0f172a;
 		white-space: nowrap;
 		text-transform: uppercase;
-
-		@include devices(sm) {
-			display: none;
-		}
 	}
 
 	&__chev {
