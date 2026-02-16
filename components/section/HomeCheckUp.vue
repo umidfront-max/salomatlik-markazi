@@ -67,11 +67,11 @@ async function onSwiper(swiper: any) {
 					<div class="sec-title">
 						<div class="sec-title__top">
 							<span class="sec-title__icon" aria-hidden="true" />
-							<h6 class="sec-title__tagline">
-								{{ $t("checkup.badge") }}
-							</h6>
+
+							<h3 class="sec-title__title">
+								{{ $t("program.title1") }}
+							</h3>
 						</div>
-						<h3 class="sec-title__title">{{ $t("Tekshiruvlar") }}</h3>
 					</div>
 
 					<div class="checkups-two__navs">

@@ -211,8 +211,9 @@ function bookingFn() {
 :global(.header-lang__dropdown),
 :global(.vs__dropdown-menu),
 :global(.vue-select-dropdown),
+:global(.ant-dropdown),
 :global(.v-select__dropdown) {
-	z-index: 14000 !important;
+	z-index: 999999 !important;
 }
 
 /* body lock */
