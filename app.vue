@@ -76,7 +76,9 @@ const { data: gallery } = await useAsyncData("gallery", () =>
 );
 toSetStore(useGallery, gallery);
 // #endregion doctors
-const { data: diseases } = await useAsyncData("diseases", () => $api("diseases"));
+const { data: diseases } = await useAsyncData("diseases", () =>
+	$api("diseases"),
+);
 toSetStore(useDiseases, diseases);
 
 const { data: news } = await useAsyncData("news", () => $api("news"));
@@ -114,6 +116,7 @@ toSetStore(useSocial, social);
 			},
 		]"
 	>
+		<Loader />
 		<SectionHeader />
 		<SectionBreadcrumbs v-if="isVisibleBreadcrumbs" />
 
@@ -121,7 +124,7 @@ toSetStore(useSocial, social);
 
 		<SectionConnect />
 		<SectionFooter />
-		<Loader />
+
 		<Widget />
 	</div>
 </template>

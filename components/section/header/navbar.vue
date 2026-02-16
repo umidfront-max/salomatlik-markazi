@@ -157,7 +157,7 @@ function bookingFn() {
 
 			<ul class="menu-contact">
 				<li class="menu-contact__item phones">
-					<div class="phone">
+					<div class="menu-contact__item address">
 						<span class="menu-contact__label">{{ $t("phone1") }}</span>
 						<a
 							class="menu-contact__value"
@@ -166,7 +166,7 @@ function bookingFn() {
 							{{ setting?.phone?.[locale] }}
 						</a>
 					</div>
-					<div class="phone">
+					<div class="menu-contact__item address">
 						<span class="menu-contact__label">{{ $t("phone2") }}</span>
 						<a
 							class="menu-contact__value"
@@ -191,19 +191,6 @@ function bookingFn() {
 					}}</a>
 				</li>
 			</ul>
-
-			<div class="menu-social" aria-hidden="true">
-				<a
-					v-for="item in social"
-					:key="item.id"
-					class="menu-social__icon"
-					:href="item.site_url"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<Icon :name="item.icon" />
-				</a>
-			</div>
 		</div>
 
 		<!-- decorative blurred background image -->
@@ -365,8 +352,9 @@ function bookingFn() {
 .menu-container {
 	display: flex;
 	flex-direction: column;
-	gap: 18px;
+	justify-content: space-between;
 	z-index: 3;
+   height: 100%;
 	position: relative;
 }
 
@@ -376,7 +364,7 @@ function bookingFn() {
 }
 .menu-search {
 	width: min(720px, 100%);
-	display: flex;
+	display: none;
 	align-items: center;
 	gap: 12px;
 	background: #fff;
@@ -394,6 +382,9 @@ function bookingFn() {
 		background-color 280ms ease,
 		border-color 280ms ease;
 	z-index: 3;
+	@include devices(sm) {
+		display: flex;
+	}
 }
 
 /* menu open brings it in */
@@ -458,6 +449,7 @@ function bookingFn() {
 .menu-booking {
 	width: 100% !important;
 	margin-top: 10px;
+	display: none;
 	padding: 10px 16px;
 	height: 56px;
 	border-radius: 24px;
@@ -471,6 +463,9 @@ function bookingFn() {
 	transition:
 		transform 520ms cubic-bezier(0.22, 0.9, 0.39, 1),
 		opacity 420ms ease;
+	@include devices(sm) {
+		display: flex;
+	}
 }
 
 /* when menu open, animate booking into place after input */
@@ -552,13 +547,21 @@ function bookingFn() {
 	align-items: start;
 }
 .menu-contact__label {
-	font-size: 14px;
+	font-size: 22px;
 	color: rgba(8, 18, 58, 0.7);
 	margin-bottom: 6px;
+	@include devices(sm) {
+		font-size: 14px;
+	}
 }
 .menu-contact__value {
+	font-size: 22px;
+
 	font-weight: 700;
 	color: rgba(8, 18, 58, 0.95);
+	@include devices(sm) {
+		font-size: 14px;
+	}
 }
 
 /* staggered reveal for contact items when menu active */
@@ -576,24 +579,6 @@ function bookingFn() {
 	transform: translateY(0);
 	opacity: 1;
 	transition-delay: 0.88s;
-}
-
-/* social icons */
-.menu-social {
-	display: flex;
-	gap: 12px;
-	margin-top: 12px;
-	z-index: 3;
-	transform: translateY(12px);
-	opacity: 0;
-	transition:
-		transform 420ms cubic-bezier(0.22, 0.9, 0.39, 1),
-		opacity 360ms ease;
-}
-.menu.active .menu-social {
-	transform: translateY(0);
-	opacity: 1;
-	transition-delay: 0.98s;
 }
 
 /* decorative lines behind content */
