@@ -36,27 +36,30 @@ const toggleSearch = async () => {
 	}
 };
 
-const normalizeLink = (value, type) => {
-	if (!value) return "#";
-	const v = String(value).trim();
+function openNavbar() {
+	// navbarRef is a template ref; access its .value in script
+	if (navbarRef.value?.toOpen) {
+		console.log(1);
 
-	// allaqachon url bo‘lsa
-	if (/^https?:\/\//i.test(v)) return v;
-
-	// telegram uchun @username bo‘lsa
-	if (type === "telegram") {
-		const username = v.replace(/^@/, "");
-		// t.me link
-		if (/^t\.me\//i.test(username)) return `https://${username}`;
-		return `https://t.me/${username}`;
+		navbarRef.value.toOpen();
+	} else {
+		// debug: log to console so you can see why it didn't open
+		console.warn(
+			"navbarRef not ready or toOpen() not exposed",
+			navbarRef.value,
+		);
 	}
-
-	// qolganlari uchun domain yozib qo‘yilgan bo‘lsa
-	// masalan: instagram.com/xxx
-	if (/^[a-z0-9.-]+\.[a-z]{2,}/i.test(v)) return `https://${v}`;
-
-	return v; // fallback
-};
+}
+function openApply() {
+	if (applyRef.value?.toOpen) {
+		applyRef.value.toOpen();
+	} else {
+		console.warn(
+			"applyRef not ready or toOpen() not exposed",
+			applyRef.value,
+		);
+	}
+}
 </script>
 
 <template>
@@ -71,87 +74,6 @@ const normalizeLink = (value, type) => {
 						maskani</span
 					>
 				</NuxtLink>
-				<div class="hContact">
-					<a
-						v-if="setting?.data?.phone?.[locale]"
-						class="hPhone"
-						:href="`tel:${(setting?.data?.phone?.[locale] || '').replace(/\s/g, '')}`"
-					>
-						<i class="ri-phone-line"></i>
-						<span class="hPhone__text">{{
-							setting?.data?.phone?.[locale]
-						}}</span>
-					</a>
-					<div class="hSocial" v-if="setting">
-						<a
-							v-if="setting?.data?.telegram?.[locale]"
-							class="hSocial__item"
-							:href="
-								normalizeLink(
-									setting?.data?.telegram?.[locale],
-									'telegram',
-								)
-							"
-							target="_blank"
-							rel="noopener"
-							aria-label="Telegram"
-							title="Telegram"
-						>
-							<i class="ri-telegram-line"></i>
-						</a>
-
-						<a
-							v-if="setting?.data?.instagram?.[locale]"
-							class="hSocial__item"
-							:href="
-								normalizeLink(
-									setting?.data?.instagram?.[locale],
-									'instagram',
-								)
-							"
-							target="_blank"
-							rel="noopener"
-							aria-label="Instagram"
-							title="Instagram"
-						>
-							<i class="ri-instagram-line"></i>
-						</a>
-
-						<a
-							v-if="setting?.data?.facebook?.[locale]"
-							class="hSocial__item"
-							:href="
-								normalizeLink(
-									setting?.data?.facebook?.[locale],
-									'facebook',
-								)
-							"
-							target="_blank"
-							rel="noopener"
-							aria-label="Facebook"
-							title="Facebook"
-						>
-							<i class="ri-facebook-fill"></i>
-						</a>
-
-						<a
-							v-if="setting?.data?.youtube?.[locale]"
-							class="hSocial__item hSocial__item--yt"
-							:href="
-								normalizeLink(
-									setting?.data?.youtube?.[locale],
-									'youtube',
-								)
-							"
-							target="_blank"
-							rel="noopener"
-							aria-label="YouTube"
-							title="YouTube"
-						>
-							<i class="ri-youtube-fill"></i>
-						</a>
-					</div>
-				</div>
 			</div>
 
 			<!-- CENTER: nav OR search (like image #2) -->
@@ -230,7 +152,7 @@ const normalizeLink = (value, type) => {
 					class="h__cta"
 					variant="primary"
 					:data-text="$t('booking')"
-					@click="applyRef?.toOpen()"
+					@click="openApply"
 				>
 					{{ $t("booking") }}
 				</Btn>
@@ -261,11 +183,7 @@ const normalizeLink = (value, type) => {
 						</button>
 					</template>
 				</SectionHeaderLang>
-				<button
-					class="h__iconBtn"
-					@click="navbarRef?.toOpen()"
-					aria-label="Menu"
-				>
+				<button class="h__iconBtn" @click="openNavbar" aria-label="Menu">
 					<i class="ri-menu-line"></i>
 				</button>
 			</div>
@@ -273,7 +191,7 @@ const normalizeLink = (value, type) => {
 	</header>
 
 	<SectionHeaderApply ref="applyRef" />
-	<SectionHeaderNavbar ref="navbarRef" />
+	<SectionHeaderNavbar @apply="openApply" ref="navbarRef" />
 </template>
 
 <style lang="scss" scoped>
@@ -285,18 +203,6 @@ const normalizeLink = (value, type) => {
 	z-index: 50;
 	background: #fff;
 	border-bottom: 1px solid #ededed;
-	.hContact {
-		// display: flex;
-		// align-items: center;
-
-		gap: 12px;
-
-		@include devices(md) {
-			gap: 10px;
-			display: none;
-		}
-	}
-
 	.hSocial {
 		display: flex;
 		align-items: center;

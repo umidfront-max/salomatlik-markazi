@@ -191,16 +191,25 @@ async function toSubmit() {
 			]"
 		>
 			<ACol :sm="12" :xs="24">
-				<AFormItem :label="$t('form.name')" name="fullName">
+				<AFormItem
+					class="mini-input"
+					:label="$t('form.name')"
+					name="fullName"
+				>
 					<AInput
 						:placeholder="$t('form.placeholder')"
 						v-model:value="form.fullName"
+						size="small"
 					/>
 				</AFormItem>
 			</ACol>
 
 			<ACol :sm="12" :xs="24">
-				<AFormItem :label="$t('form.phone')" name="phone">
+				<AFormItem
+					class="mini-input"
+					:label="$t('form.phone')"
+					name="phone"
+				>
 					<AInput
 						:placeholder="$t('form.placeholder')"
 						v-model:value="form.phone"
@@ -222,10 +231,11 @@ async function toSubmit() {
 			</ACol>
 
 			<ACol :sm="12" :xs="24">
-				<AFormItem :label="types[form.type - 1].label">
+				<AFormItem class="mini-input" :label="types[form.type - 1].label">
 					<ASelect
 						:showSearch="false"
 						:placeholder="$t('form.select')"
+						size="small"
 						:options="
 							options.map((o: any) => ({
 								value: String(o.id),
@@ -245,7 +255,11 @@ async function toSubmit() {
 			</ACol>
 
 			<ACol :sm="12" :xs="24">
-				<AFormItem :label="$t('form.date')" name="preferredVisitAt">
+				<AFormItem
+					class="mini-input"
+					:label="$t('form.date')"
+					name="preferredVisitAt"
+				>
 					<!-- ✅ ISO 8601 -->
 					<ADatePicker
 						placeholder="YYYY-MM-DD"
@@ -265,6 +279,7 @@ async function toSubmit() {
 					<ATextarea
 						:placeholder="$t('form.placeholder')"
 						v-model:value="form.message"
+                  rows="2"
 					/>
 				</AFormItem>
 			</ACol>
@@ -282,3 +297,10 @@ async function toSubmit() {
 		</ARow>
 	</AForm>
 </template>
+<style scoped>
+.mini-input :deep(.ant-input),
+.mini-input :deep(.ant-select-selector),
+.mini-input :deep(.ant-picker) {
+	height: 48px !important;
+}
+</style>

@@ -48,7 +48,7 @@ defineExpose({ toOpen });
 	<AModal
 		:title="$t('formApplication')"
 		:footer="null"
-		width="1440px"
+		width="1040px"
 		@ok="toClose"
 		@cancel="toClose"
 		v-model:visible="open"
