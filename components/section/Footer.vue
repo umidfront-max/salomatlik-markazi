@@ -36,7 +36,7 @@ const news = [
 			<div class="footer__top">
 				<ARow :gutter="[28, 28]" align="top">
 					<!-- Brand -->
-					<ACol :xs="24" :md="12" :xl="8">
+					<ACol :xs="24" :md="12" :xl="10">
 						<NuxtLink :to="localePath('/')" class="footer__brand">
 							<!-- <img class="footer__logo" src="/logo-white.png" alt="logo" /> -->
 							<span class="footer__name">Salomatlik Maskani</span>
@@ -69,7 +69,7 @@ const news = [
 					</ACol>
 
 					<!-- Services -->
-					<ACol :xs="12" :md="6" :xl="5">
+					<ACol :xs="12" :md="6" :xl="7">
 						<div class="footer__col">
 							<h4 class="footer__title">Our Services</h4>
 
@@ -116,7 +116,7 @@ const news = [
 					</ACol>
 
 					<!-- Useful Links -->
-					<ACol :xs="12" :md="6" :xl="5">
+					<ACol :xs="12" :md="6" :xl="7">
 						<div class="footer__col">
 							<h4 class="footer__title">Useful Links</h4>
 							<ul class="footer__list">
@@ -136,7 +136,7 @@ const news = [
 					</ACol>
 
 					<!-- Recent News -->
-					<ACol :xs="24" :md="12" :xl="6">
+					<!-- <ACol :xs="24" :md="12" :xl="6">
 						<div class="footer__col">
 							<h4 class="footer__title">Recent News</h4>
 
@@ -170,7 +170,7 @@ const news = [
 								</NuxtLink>
 							</div>
 						</div>
-					</ACol>
+					</ACol> -->
 				</ARow>
 			</div>
 

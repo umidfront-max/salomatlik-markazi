@@ -26,15 +26,19 @@ const swiperOptions = {
 			spaceBetween: 24,
 			slidesPerView: props.isPage ? 4 : 4,
 		},
-		1200: {
+		1100: {
 			spaceBetween: 20,
 			slidesPerView: props.isPage ? 3 : 4,
 		},
 		768: {
 			spaceBetween: 16,
-			slidesPerView: 2,
+			slidesPerView: 3.4,
 		},
 		576: {
+			spaceBetween: 16,
+			slidesPerView: 2.3,
+		},
+		456: {
 			spaceBetween: 16,
 			slidesPerView: 2,
 		},

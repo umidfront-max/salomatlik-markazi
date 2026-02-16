@@ -14,7 +14,7 @@ const localePath = useLocalePath();
 					:xs="24"
 					:sm="12"
 					:md="12"
-					:lg="6"
+					:lg="8"
 				>
 					<NuxtLink
 						:to="localePath(`/checkup/${checkup.slug || checkup.id}`)"

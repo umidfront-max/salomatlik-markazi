@@ -31,7 +31,7 @@ defineProps({
 		<div class="card-info">
 			<template v-if="type === 'doctor'">
 				<span class="card-info__subtitle">
-					{{ data.specialization?.[locale]  }}
+					{{ data.specialization?.[locale] }}
 				</span>
 
 				<ul class="card-tag">
@@ -54,10 +54,12 @@ defineProps({
 					</li>
 					<li class="card-tag__item">
 						<span> {{ $t("doctor.practicesPerformed") }}: </span>
-						<b>{{ 	(data.experiences ?? []).reduce(
+						<b>{{
+							(data.experiences ?? []).reduce(
 								(acc, cur) => acc + Number(cur.operationsCount ?? 0),
 								0,
-							) }}</b>
+							)
+						}}</b>
 					</li>
 				</ul>
 
@@ -239,7 +241,7 @@ $accent: #33c1ed;
 			justify-content: space-between;
 			transition: all 0.25s ease;
 
-			background-color: $accent;
+			background-color: var(--blue-4);
 			border-radius: 12px;
 			text-align: center;
 			padding: 0 12px !important;
@@ -257,7 +259,7 @@ $accent: #33c1ed;
 			}
 
 			&:hover {
-				background-color: darken($accent, 10%);
+				// background-color: darken((--blue-4), 10%);
 				transform: translateY(-2px);
 				box-shadow: 0 10px 26px rgba(51, 193, 237, 0.35);
 			}
@@ -269,19 +271,19 @@ $accent: #33c1ed;
 
 			&--secondary {
 				background-color: transparent;
-				color: $accent;
+				color: var(--blue-4);
 				flex: 1;
 				text-decoration: underline;
 				text-underline-offset: 4px;
 				padding: 0 !important;
 
-				@include text(18, $accent, 600, 150%);
+				@include text(18, --blue-4, 600, 150%);
 				text-align: center;
 				justify-content: center;
 
 				&:hover {
 					background-color: transparent;
-					color: darken($accent, 12%);
+					color: var(--blue-4);
 					transform: none;
 					box-shadow: none;
 				}

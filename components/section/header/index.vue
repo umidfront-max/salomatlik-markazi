@@ -128,7 +128,7 @@ function openApply() {
 							<li class="hNav__item">
 								<NuxtLink
 									class="hNav__link"
-									:to="localePath('/service')"
+									:to="localePath('/department')"
 								>
 									{{ setting?.data?.service?.[locale] }}
 								</NuxtLink>

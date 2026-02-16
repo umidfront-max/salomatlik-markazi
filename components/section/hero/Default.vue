@@ -2,6 +2,8 @@
 import { ref, computed, nextTick, onMounted, onBeforeUnmount } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Autoplay, EffectFade, Navigation } from "swiper/modules";
+const { list: setting } = useSetting();
+const { locale } = useI18n();
 
 type Banner = {
 	id: string;
@@ -262,38 +264,42 @@ function onNavClick() {
 										</span>
 										<div class="main-slider-two__call__content">
 											<p class="main-slider-two__call__title">
-												call emergency
+												{{ $t("phone1") }}
 											</p>
 											<h4 class="main-slider-two__call__number">
-												<a href="tel:+208-555-0112"
-													>+208-555-0112</a
-												>
+												<a href="tel:+208-555-0112">{{
+													setting.phone?.[locale]
+												}}</a>
 											</h4>
 										</div>
 									</div>
 
 									<div class="main-slider-two__social">
 										<h3 class="main-slider-two__social__title">
-											follow us
+											Ishtimoiy tarmoqlar
 										</h3>
 										<div class="main-slider-two__social__links">
 											<a
-												href="https://facebook.com"
+												:href="setting?.youtube?.[locale]"
+												aria-label="YouTube"
+											>
+												<i class="ri-telegram-fill"></i>
+											</a>
+											<a
+												:href="setting?.facebook?.[locale]"
 												aria-label="Facebook"
 											>
 												<i class="ri-facebook-fill"></i>
 											</a>
-											<a href="https://twitter.com" aria-label="X">
-												<i class="ri-twitter-x-fill"></i>
-											</a>
+
 											<a
-												href="https://instagram.com"
+												:href="setting?.instagram?.[locale]"
 												aria-label="Instagram"
 											>
-												<i class="ri-instagram-line"></i>
+												<i class="ri-instagram-fill"></i>
 											</a>
 											<a
-												href="https://youtube.com"
+												:href="setting?.youtube?.[locale]"
 												aria-label="YouTube"
 											>
 												<i class="ri-youtube-fill"></i>
@@ -428,7 +434,6 @@ function onNavClick() {
 /* TAG: top -> down 100px */
 .main-slider-two__sub-title {
 	margin: 0 0 12px;
-	letter-spacing: 0.16em;
 	text-transform: uppercase;
 	font-weight: 700;
 	font-size: 13px;
@@ -721,34 +726,95 @@ function onNavClick() {
 	gap: 12px;
 }
 .main-slider-two__call__icon {
+	position: relative;
 	width: 42px;
 	height: 42px;
-	border-radius: 999px;
+	border-radius: 50%;
 	display: grid;
 	place-items: center;
 	background: rgba(51, 193, 237, 0.2);
 	color: var(--base);
+	z-index: 1;
+	overflow: visible;
 }
+
+/* 1-to‘lqin */
+.main-slider-two__call__icon::before,
+.main-slider-two__call__icon::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	border: 2px solid var(--base);
+	animation: phoneRipple 2.4s linear infinite;
+	z-index: -1;
+}
+
+/* 2-to‘lqin kechikib chiqadi */
+.main-slider-two__call__icon::after {
+	animation-delay: 1.2s;
+}
+
+/* Animatsiya */
+@keyframes phoneRipple {
+	0% {
+		transform: scale(1);
+		opacity: 0.6;
+	}
+	70% {
+		transform: scale(1.3);
+		opacity: 0.3;
+	}
+	100% {
+		transform: scale(1.5);
+		opacity: 0;
+	}
+}
+
+.main-slider-two__call__icon i {
+   font-size: 20px;
+	animation: phoneShake 2s ease-in-out infinite;
+}
+
+@keyframes phoneShake {
+	0%,
+	100% {
+		transform: rotate(0);
+	}
+	20% {
+		transform: rotate(-15deg);
+	}
+	40% {
+		transform: rotate(15deg);
+	}
+	60% {
+		transform: rotate(-10deg);
+	}
+	80% {
+		transform: rotate(10deg);
+	}
+}
+
 .main-slider-two__call__title {
 	margin: 0;
 	font-size: 12px;
 	opacity: 0.9;
+	font-weight: 600;
 	text-transform: uppercase;
-	letter-spacing: 0.1em;
 }
 .main-slider-two__call__number {
 	margin: 2px 0 0;
-	font-size: 16px;
+	font-size: 15px;
 }
 .main-slider-two__call__number a {
 	color: #fff;
 	text-decoration: none;
 }
 .main-slider-two__social__title {
-	margin: 0 0 6px;
+	margin: 0 0 3px;
+	color: #fff;
 	font-size: 12px;
 	text-transform: uppercase;
-	letter-spacing: 0.1em;
 	opacity: 0.9;
 }
 .main-slider-two__social__links {
@@ -757,9 +823,14 @@ function onNavClick() {
 }
 .main-slider-two__social__links a {
 	color: #fff;
-	opacity: 0.9;
+	transition: all 0.3s;
+	opacity: 0.8;
 	text-decoration: none;
-	font-size: 16px;
+	font-size: 18px;
+	&:hover {
+		opacity: 1;
+		transform: scale(1.3);
+	}
 }
 
 /* counter + nav outside */
