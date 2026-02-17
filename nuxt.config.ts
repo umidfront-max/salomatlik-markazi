@@ -61,10 +61,10 @@ export default defineNuxtConfig({
             #al .ring{position:absolute;inset:0;border-radius:26px;border:1px solid rgba(147,197,253,.35);animation:ringP 2.4s ease-out .5s infinite;pointer-events:none}
             @keyframes ringP{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.6);opacity:0}}
             #al .ttl{display:flex;gap:12px;align-items:baseline}
-            #al .ttl span{font-family:'Gill Sans','Gill Sans MT',Optima,Candara,sans-serif;font-size:clamp(26px,5.5vw,42px);font-weight:300;letter-spacing:.09em;color:rgba(255,255,255,.93);text-transform:uppercase;animation:fU 620ms cubic-bezier(.18,.86,.25,1) .12s both}
-            #al .ttl .ac{font-weight:800;color:#93c5fd;letter-spacing:.14em;animation-delay:.22s}
+            #al .ttl span{font-size:clamp(26px,5.5vw,42px);font-weight:500;letter-spacing:.04em;color:rgba(255,255,255,.93);text-transform:uppercase;animation:fU 620ms cubic-bezier(.18,.86,.25,1) .12s both}
+            #al .ttl .ac{font-weight:500;color:#93c5fd;letter-spacing:.04em;animation-delay:.22s}
             @keyframes fU{from{transform:translateY(28px);opacity:0}to{transform:translateY(0);opacity:1}}
-            #al .tag{font-family:'Gill Sans','Gill Sans MT',Optima,Candara,sans-serif;font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.38);animation:fU 500ms ease .38s both}
+            #al .tag{font-size:12px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.8);animation:fU 500ms ease .38s both}
             #al .pb{width:140px;height:2px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;animation:fU 400ms ease .45s both}
             #al .pf{height:100%;border-radius:99px;background:linear-gradient(90deg,#3b82f6,#93c5fd,#3b82f6);background-size:200% 100%;box-shadow:0 0 12px rgba(96,165,250,.6);animation:pF 2.2s cubic-bezier(.4,0,.2,1) .4s both,pShim 1.6s linear .4s infinite}
             @keyframes pF{from{width:0}to{width:100%}}
@@ -77,7 +77,7 @@ export default defineNuxtConfig({
             #al .rtl{animation:sR var(--mq) linear infinite}
             @keyframes sL{from{transform:translateX(0)}to{transform:translateX(-50%)}}
             @keyframes sR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
-            #al .mi{display:inline-block;white-space:nowrap;padding:0 8px;flex-shrink:0;font-family:'Gill Sans','Gill Sans MT',Optima,Candara,sans-serif;font-size:11px;font-weight:600;letter-spacing:.17em;text-transform:uppercase;color:rgba(255,255,255,.48);user-select:none}
+            #al .mi{display:inline-block;white-space:nowrap;padding:0 8px;flex-shrink:0;font-size:11px;font-weight:600;letter-spacing:.17em;text-transform:uppercase;color:rgba(255,255,255,.48);user-select:none}
             #al .mr2 .mi{color:rgba(255,255,255,.28);font-weight:400;font-size:10px}
             #al .el,#al .er{position:absolute;bottom:0;height:76px;width:120px;z-index:4;pointer-events:none}
             #al .el{left:0;background:linear-gradient(to right,#0f1e5c 30%,transparent)}
@@ -125,7 +125,7 @@ export default defineNuxtConfig({
                         '<stop offset="100%" stop-color="#3b82f6"/>'+
                       '</linearGradient></defs>'+
                       '<rect width="58" height="58" rx="15" fill="url(#alg)" opacity=".95"/>'+
-                      '<text x="50%" y="54%" text-anchor="middle" fill="white" font-size="22" font-family="Gill Sans,Optima,Candara,sans-serif" font-weight="700" dominant-baseline="middle">SM</text>'+
+                      '<text x="50%" y="54%" text-anchor="middle" fill="white" font-size="22" font-weight="600" dominant-baseline="middle">SM</text>'+
                     '</svg>'+
                   '</div>'+
                 '</div>'+
