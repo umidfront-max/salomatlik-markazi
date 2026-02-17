@@ -1,22 +1,42 @@
 <script setup>
+const { locale } = useI18n();
 const { list: social } = useSocial();
 const { list: menu } = useMenu();
-const { locale } = useI18n();
 const { data: setting } = await useAsyncData("settings", () =>
 	$api("settings"),
 );
-console.log(setting);
 
 const localePath = useLocalePath();
 const router = useRouter();
 
 const applyRef = ref();
 const navbarRef = ref();
+const cartRef = ref(); // ← korzinka ref
 
 const searchQuery = ref("");
 const searchOpen = ref(false);
 const searchInputRef = ref(null);
 
+// ── Cart count (reactive, listens to cart-updated) ──────
+const cartCount = ref(0);
+
+function readCartCount() {
+	try {
+		const arr = JSON.parse(localStorage.getItem("clinic_cart") || "[]");
+		cartCount.value = arr.length;
+	} catch {
+		cartCount.value = 0;
+	}
+}
+
+onMounted(() => {
+	readCartCount();
+	window.addEventListener("cart-updated", (e) => {
+		cartCount.value = (e.detail || []).length;
+	});
+});
+
+// ── Search ───────────────────────────────────────────────
 const handleSearch = () => {
 	if (searchQuery.value.trim()) {
 		router.push(
@@ -36,50 +56,33 @@ const toggleSearch = async () => {
 	}
 };
 
+// ── Panels ───────────────────────────────────────────────
 function openNavbar() {
-	// navbarRef is a template ref; access its .value in script
-	if (navbarRef.value?.toOpen) {
-		console.log(1);
-
-		navbarRef.value.toOpen();
-	} else {
-		// debug: log to console so you can see why it didn't open
-		console.warn(
-			"navbarRef not ready or toOpen() not exposed",
-			navbarRef.value,
-		);
-	}
+	if (navbarRef.value?.toOpen) navbarRef.value.toOpen();
 }
 function openApply() {
-	if (applyRef.value?.toOpen) {
-		applyRef.value.toOpen();
-	} else {
-		console.warn(
-			"applyRef not ready or toOpen() not exposed",
-			applyRef.value,
-		);
-	}
+	if (applyRef.value?.toOpen) applyRef.value.toOpen();
+}
+function openCart() {
+	if (cartRef.value?.toOpen) cartRef.value.toOpen();
 }
 </script>
 
 <template>
 	<header class="h">
 		<div class="container h__row">
-			<!-- LEFT: burger + logo -->
+			<!-- LEFT: logo -->
 			<div class="h__left">
 				<NuxtLink :to="localePath('/')" class="h__brand">
 					<img class="h__logo" src="/logo.jpg" alt="Logo" />
-					<span class="h__brandText"
-						>Salomatlik <br />
-						maskani</span
-					>
+					<span class="h__brandText">Salomatlik <br />maskani</span>
 				</NuxtLink>
 			</div>
 
-			<!-- CENTER: nav OR search (like image #2) -->
+			<!-- CENTER: nav OR search -->
 			<div class="h__center">
 				<Transition name="h-fade" mode="out-in">
-					<!-- SEARCH BAR (open) -->
+					<!-- SEARCH BAR -->
 					<div v-if="searchOpen" class="hSearch" key="search">
 						<div class="hSearch__field">
 							<input
@@ -100,18 +103,9 @@ function openApply() {
 						</div>
 					</div>
 
-					<!-- MENU (closed) -->
+					<!-- MENU -->
 					<nav v-else class="hNav" key="nav">
 						<ul class="hNav__list">
-							<!-- <li
-								class="hNav__item"
-								v-for="(value, key) in setting"
-								:key="key"
-							>
-								<NuxtLink class="hNav__link" :to="localePath(key)">
-									{{ value }}
-								</NuxtLink>
-							</li>	 -->
 							<li class="hNav__item">
 								<NuxtLink class="hNav__link" :to="localePath('/news')">
 									{{ setting?.data?.news?.[locale] }}
@@ -146,8 +140,9 @@ function openApply() {
 				</Transition>
 			</div>
 
-			<!-- RIGHT: phone + booking + search icon + lang -->
+			<!-- RIGHT -->
 			<div class="h__right">
+				<!-- Booking CTA -->
 				<Btn
 					class="h__cta"
 					variant="primary"
@@ -157,6 +152,7 @@ function openApply() {
 					{{ $t("booking") }}
 				</Btn>
 
+				<!-- Search toggle -->
 				<button
 					class="h__iconBtn h__iconBtn--accent"
 					@click="toggleSearch"
@@ -165,6 +161,21 @@ function openApply() {
 					<i :class="searchOpen ? 'ri-close-line' : 'ri-search-line'"></i>
 				</button>
 
+				<!-- ★ Cart button ★ -->
+				<button
+					class="h__iconBtn h__cartBtn"
+					@click="openCart"
+					aria-label="Korzinka"
+				>
+					<i class="ri-shopping-cart-2-line"></i>
+					<Transition name="badge-pop">
+						<span v-if="cartCount > 0" class="h__cartBadge">
+							{{ cartCount > 99 ? "99+" : cartCount }}
+						</span>
+					</Transition>
+				</button>
+
+				<!-- Language -->
 				<SectionHeaderLang>
 					<template #="{ locale, locales }">
 						<button class="hLang" aria-label="Language">
@@ -183,6 +194,8 @@ function openApply() {
 						</button>
 					</template>
 				</SectionHeaderLang>
+
+				<!-- Burger -->
 				<button class="h__iconBtn" @click="openNavbar" aria-label="Menu">
 					<i class="ri-menu-line"></i>
 				</button>
@@ -192,10 +205,42 @@ function openApply() {
 
 	<SectionHeaderApply ref="applyRef" />
 	<SectionHeaderNavbar @apply="openApply" ref="navbarRef" />
+
+	<!-- ★ Cart drawer ★ -->
+	<SectionHeaderCart ref="cartRef" @booking="openApply" />
 </template>
 
 <style lang="scss" scoped>
 @use "@/assets/scss/config/mixins" as *;
+
+// ── Badge pop animation ────────────────────────────────────
+@keyframes badge-bounce {
+	0% {
+		transform: scale(0.6);
+		opacity: 0;
+	}
+	60% {
+		transform: scale(1.2);
+		opacity: 1;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+.badge-pop-enter-active {
+	animation: badge-bounce 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.badge-pop-leave-active {
+	transition:
+		opacity 0.18s,
+		transform 0.18s;
+}
+.badge-pop-leave-to {
+	opacity: 0;
+	transform: scale(0.5);
+}
 
 .h {
 	position: sticky;
@@ -203,61 +248,9 @@ function openApply() {
 	z-index: 50;
 	background: #fff;
 	border-bottom: 1px solid #ededed;
-	.hSocial {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		// padding-right: 12px;
-		// margin-right: 12px;
-		// border-right: 1px solid #e7eaf0;
-
-		@include devices(md) {
-			padding-right: 10px;
-			margin-right: 10px;
-		}
-
-		@include devices(sm) {
-			display: none; // xohlasang olib tashla
-		}
-
-		&__item {
-			width: 32px;
-			height: 32px;
-			border-radius: 14px;
-			border: 1px solid #d8dde6;
-			background: #fff;
-			display: grid;
-			place-items: center;
-			text-decoration: none;
-			color: var(--blue-4);
-			transition: 0.2s ease;
-			box-shadow: 0 10px 22px rgba(15, 23, 42, 0.04);
-
-			i {
-				font-size: 20px;
-				line-height: 1;
-				opacity: 0.9;
-			}
-
-			&:hover {
-				box-shadow: 0 14px 30px rgba(15, 23, 42, 0.1);
-				border-color: rgba(220, 38, 38, 0.35);
-				color: white;
-				background: var(--blue-4);
-			}
-
-			&:active {
-				transform: translateY(0px);
-			}
-
-			&--yt:hover {
-				border-color: rgba(220, 38, 38, 0.45);
-			}
-		}
-	}
 
 	&__row {
-		height: 88px; // 1-rasmga yaqin
+		height: 88px;
 		display: flex;
 		align-items: center;
 		gap: 18px;
@@ -293,9 +286,8 @@ function openApply() {
 		font-weight: 700;
 		line-height: 1.3;
 		text-transform: uppercase;
-		color: #0f172a;
-		white-space: nowrap;
 		color: rgba(20, 63, 150, 0.92);
+		white-space: nowrap;
 		@include devices(sm) {
 			font-size: 18px;
 		}
@@ -330,6 +322,7 @@ function openApply() {
 		cursor: pointer;
 		transition: 0.2s ease;
 		color: var(--blue-4);
+		position: relative;
 
 		i {
 			font-size: 22px;
@@ -348,13 +341,41 @@ function openApply() {
 			&:hover {
 				border-color: var(--blue-4);
 			}
+
 			@include devices(md) {
 				display: none;
 			}
 		}
 	}
+
+	// ★ Cart button specific ────────────────────────────────
+	&__cartBtn {
+		// always visible
+	}
+
+	&__cartBadge {
+		position: absolute;
+		top: -7px;
+		right: -7px;
+		min-width: 20px;
+		height: 20px;
+		padding: 0 5px;
+		border-radius: 999px;
+		background: #ef4444;
+		color: #fff;
+		font-size: 11px;
+		font-weight: 700;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 2px solid #fff;
+		line-height: 1;
+		pointer-events: none;
+		box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+	}
 }
 
+// ── Nav ────────────────────────────────────────────────────
 .hNav {
 	width: 100%;
 
@@ -404,7 +425,7 @@ function openApply() {
 	}
 }
 
-/* 2-rasm: search ochilganda o‘rtada uzun input */
+// ── Search ─────────────────────────────────────────────────
 .hSearch {
 	width: 100%;
 	display: flex;
@@ -456,29 +477,7 @@ function openApply() {
 	}
 }
 
-.hPhone {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	text-decoration: none;
-	color: rgba(20, 63, 150, 0.92);
-	font-weight: 700;
-
-	i {
-		font-size: 20px;
-		color: rgba(20, 63, 150, 0.92);
-		opacity: 0.9;
-	}
-
-	&__text {
-		white-space: nowrap;
-		font-size: 16px;
-		// @include devices(md) {
-		// 	display: none;
-		// }
-	}
-}
-
+// ── Lang ───────────────────────────────────────────────────
 .hLang {
 	height: 46px;
 	border-radius: 14px;
@@ -490,9 +489,11 @@ function openApply() {
 	gap: 10px;
 	cursor: pointer;
 	transition: 0.2s ease;
+
 	@include devices(sm) {
 		display: none;
 	}
+
 	&:hover {
 		box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
 	}
@@ -519,7 +520,7 @@ function openApply() {
 	}
 }
 
-/* transition (nav <-> search) */
+// ── Transitions ────────────────────────────────────────────
 .h-fade-enter-active,
 .h-fade-leave-active {
 	transition:

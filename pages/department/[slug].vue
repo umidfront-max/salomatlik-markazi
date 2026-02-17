@@ -79,16 +79,8 @@ const { data: department } = await useAsyncData(
 					:md="12"
 					:lg="6"
 				>
-					<NuxtLink
-						:to="localePath(`/service/${service.slug || service.id}`)"
-						class="service-link"
-					>
-						<CardServiceItem
-							:data="service"
-							:to="
-								localePath(`/department/${service.slug || service.id}`)
-							"
-						/>
+					<NuxtLink class="service-link">
+						<CardServicePrice :data="service" />
 					</NuxtLink>
 				</ACol>
 			</ARow>
