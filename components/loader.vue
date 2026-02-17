@@ -251,15 +251,21 @@ onMounted(() => {
 	const el = document.getElementById("app-loader");
 	if (!el) return;
 
-	nextTick(() => {
-		// 1) Content avval fade/scale bilan yo'qoladi
-		el.classList.add("hide");
+	// Kamida 2 soniya ko'rsatilsin (prod da hydration tez bo'lsa ham)
+	const MIN_MS = 3000;
+	const startTime = performance.now();
 
-		// 2) Panel animatsiyasi tugagach DOM dan o'chiramiz
+	nextTick(() => {
+		const elapsed = performance.now() - startTime;
+		const remaining = Math.max(0, MIN_MS - elapsed);
+
 		setTimeout(() => {
-			el.remove();
-			document.getElementById("loader-css")?.remove();
-		}, 620);
+			el.classList.add("hide");
+			setTimeout(() => {
+				el.remove();
+				document.getElementById("loader-css")?.remove();
+			}, 620);
+		}, remaining);
 	});
 });
 </script>
