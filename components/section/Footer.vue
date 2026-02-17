@@ -274,7 +274,7 @@ const news = [
 		inset: 0;
 		pointer-events: none;
 		opacity: 0.35;
-		background-image: url("@/assets/images/footer.webp");
+		// background-image: url("@/assets/images/footer.webp");
 		background-repeat: no-repeat;
 		background-color: #0a2241;
 		background-size: cover;
