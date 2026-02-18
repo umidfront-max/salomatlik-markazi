@@ -140,8 +140,10 @@ const animDelay = computed(() => `${(props.index || 0) * 80}ms`);
 			</div>
 			<!-- Department tag -->
 			<div v-if="departmentTitle" class="sc__dept">
-				<i class="ri-hospital-line"></i>
-				{{ departmentTitle }}
+					<span v-if="data?.durationMinutes" class="sc__meta-item">
+						<i class="ri-time-line"></i>
+						{{ data.durationMinutes }} min
+					</span>
 			</div>
 		</div>
 
@@ -151,12 +153,12 @@ const animDelay = computed(() => `${(props.index || 0) * 80}ms`);
 			<p v-if="descPlain" class="sc__desc">{{ descPlain }}</p>
 
 			<!-- Meta -->
-			<div class="sc__meta">
+			<!-- <div class="sc__meta">
 				<span v-if="data?.durationMinutes" class="sc__meta-item">
 					<i class="ri-time-line"></i>
 					{{ data.durationMinutes }} min
 				</span>
-			</div>
+			</div> -->
 		</div>
 
 		<!-- Footer: price + cart -->
@@ -219,7 +221,7 @@ const animDelay = computed(() => `${(props.index || 0) * 80}ms`);
 @keyframes badge-in {
 	from {
 		opacity: 0;
-		transform: translateX(8px);
+		transform: translateX(2px);
 	}
 	to {
 		opacity: 1;
@@ -230,6 +232,7 @@ const animDelay = computed(() => `${(props.index || 0) * 80}ms`);
 .sc {
 	position: relative;
 	display: flex;
+   height: 100%;
 	flex-direction: column;
 	background: #ffffff;
 	border-radius: 20px;
@@ -241,9 +244,9 @@ const animDelay = computed(() => `${(props.index || 0) * 80}ms`);
 	color: inherit;
 	cursor: pointer;
 	transition:
-		box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1),
-		transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
-		border-color 0.2s;
+		box-shadow 0.48s cubic-bezier(0.22, 1, 0.36, 1),
+		transform 0.48s cubic-bezier(0.22, 1, 0.36, 1),
+		border-color 0.4s;
 	animation: card-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 	animation-delay: var(--delay, 0ms);
 
@@ -251,7 +254,7 @@ const animDelay = computed(() => `${(props.index || 0) * 80}ms`);
 		box-shadow:
 			0 16px 48px rgba(37, 99, 235, 0.12),
 			0 2px 8px rgba(15, 23, 42, 0.06);
-		transform: translateY(-5px);
+		// transform: translateY(-1px);
 		border-color: #bfdbfe;
 	}
 	&:hover .sc__img {
@@ -289,7 +292,7 @@ const animDelay = computed(() => `${(props.index || 0) * 80}ms`);
 .sc__img-wrap {
 	position: relative;
 	width: 100%;
-	height: 196px;
+	height: 155px;
 	overflow: hidden;
 	background: #f1f5f9;
 	flex-shrink: 0;
@@ -320,12 +323,12 @@ const animDelay = computed(() => `${(props.index || 0) * 80}ms`);
 	display: inline-flex;
 	align-items: center;
 	gap: 5px;
-	background: rgba(255, 255, 255, 0.9);
+	background: rgba(255, 255, 255, 0.95);
 	backdrop-filter: blur(10px);
 	color: #1d4ed8;
 	font-size: 12px;
 	font-weight: 600;
-	padding: 5px 11px;
+	padding: 3px 8px;
 	border-radius: 999px;
 	border: 1px solid rgba(37, 99, 235, 0.18);
 	i {
@@ -334,7 +337,7 @@ const animDelay = computed(() => `${(props.index || 0) * 80}ms`);
 }
 
 .sc__body {
-	padding: 20px 20px 12px;
+	padding: 10px 10px 8px;
 	flex: 1;
 }
 .sc__name {
@@ -342,7 +345,7 @@ const animDelay = computed(() => `${(props.index || 0) * 80}ms`);
 	font-weight: 600;
 	color: #0f172a;
 	line-height: 1.35;
-	margin: 0 0 8px;
+	margin: 0 0 4px;
 	letter-spacing: -0.015em;
 	display: -webkit-box;
 	-webkit-line-clamp: 2;
@@ -353,9 +356,9 @@ const animDelay = computed(() => `${(props.index || 0) * 80}ms`);
 	font-size: 13.5px;
 	color: #64748b;
 	line-height: 1.6;
-	margin: 0 0 12px;
+	margin: 0 0 6px;
 	display: -webkit-box;
-	-webkit-line-clamp: 2;
+	-webkit-line-clamp: 3;
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 }
@@ -370,7 +373,7 @@ const animDelay = computed(() => `${(props.index || 0) * 80}ms`);
 	gap: 4px;
 	font-size: 12.5px;
 	font-weight: 500;
-	color: #94a3b8;
+	color: var(--blue-4);
 	i {
 		font-size: 14px;
 	}
@@ -381,7 +384,7 @@ const animDelay = computed(() => `${(props.index || 0) * 80}ms`);
 	align-items: center;
 	justify-content: space-between;
 	gap: 12px;
-	padding: 14px 20px 18px;
+	padding: 10px 10px 10px;
 	border-top: 1px solid #f1f5f9;
 }
 .sc__price-wrap {
