@@ -229,12 +229,12 @@ const getBadge = (service, index) => {
 							<strong class="row-name">{{
 								service.name?.[locale]
 							}}</strong>
-							<span
+							<!-- <span
 								v-if="getBadge(service, index)"
 								:class="`badge badge--${getBadge(service, index).color}`"
 							>
 								{{ getBadge(service, index).label }}
-							</span>
+							</span> -->
 						</div>
 						<div
 							class="row-desc"
@@ -304,9 +304,7 @@ const getBadge = (service, index) => {
 	</div>
 </template>
 
-<style scoped lang="scss">
-@use "@/assets/scss/config/mixins" as *;
-
+<style scoped>
 /* ── Root vars ─────────────────────────────── */
 .sp-wrap {
 	--c-primary: #0a2241;
@@ -325,9 +323,6 @@ const getBadge = (service, index) => {
 	gap: 24px;
 	align-items: start;
 	font-family: "Segoe UI", system-ui, sans-serif;
-	@include devices(lg) {
-		grid-template-columns: 1fr;
-	}
 }
 
 @media (max-width: 900px) {
@@ -350,9 +345,9 @@ const getBadge = (service, index) => {
 }
 
 .popular-badge {
-	font-size: 14px;
-	font-weight: 700;
-	/* letter-spacing: 0.08em; */
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: 0.08em;
 	color: var(--c-accent);
 	text-transform: uppercase;
 }
@@ -439,7 +434,7 @@ const getBadge = (service, index) => {
 
 .popular-price {
 	font-size: 2.4rem;
-	font-weight: 700;
+	font-weight: 800;
 	color: var(--c-primary);
 	line-height: 1;
 }
@@ -624,7 +619,7 @@ const getBadge = (service, index) => {
 
 .th {
 	font-size: 12px;
-	font-weight: 700;
+	font-weight: 800;
 	letter-spacing: 0.07em;
 	color: var(--c-accent);
 	text-transform: uppercase;
@@ -758,7 +753,7 @@ const getBadge = (service, index) => {
 
 .price-now {
 	font-size: 1.3rem;
-	font-weight: 700;
+	font-weight: 800;
 	color: var(--c-primary);
 	display: block;
 	line-height: 1.1;
@@ -879,30 +874,150 @@ const getBadge = (service, index) => {
 }
 
 /* ── Responsive ────────────────────────────── */
+
+/* Tablet: 768px – 1200px */
+@media (max-width: 1200px) {
+	.table-head {
+		grid-template-columns: 1fr 130px 110px 60px;
+		padding: 12px 16px;
+	}
+
+	.table-row {
+		grid-template-columns: 44px 1fr 130px 110px 60px;
+		gap: 8px;
+		padding: 14px 16px;
+	}
+
+	.price-now {
+		font-size: 1.1rem;
+	}
+
+	.disc-badge {
+		padding: 4px 10px;
+		font-size: 11px;
+	}
+}
+
+/* Mobile: max 768px */
 @media (max-width: 768px) {
+	/* Table header yashiriladi */
 	.table-head {
 		display: none;
 	}
 
+	/* Har bir row — card ko'rinishiga o'tadi */
 	.table-row {
+		display: grid;
 		grid-template-columns: 44px 1fr;
 		grid-template-rows: auto auto auto;
+		grid-template-areas:
+			"icon service"
+			"icon price"
+			".    footer";
+		gap: 4px 12px;
+		padding: 14px 16px;
 	}
 
-	.row-price,
-	.row-discount,
-	.row-buy {
-		grid-column: 2;
+	.row-icon {
+		grid-area: icon;
+		align-self: start;
+		margin-top: 2px;
+	}
+
+	.row-service {
+		grid-area: service;
 	}
 
 	.row-price {
+		grid-area: price;
+		text-align: left;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		flex-wrap: wrap;
+	}
+
+	.price-now {
+		font-size: 1.05rem;
+	}
+
+	.price-meta {
+		display: inline;
+		margin-top: 0;
+	}
+
+	/* Discount va Buy — bitta footer qatorida yonma-yon */
+	.row-discount {
+		grid-area: footer;
+		display: flex;
+		align-items: center;
+		justify-self: start;
+		align-self: center;
+	}
+
+	.row-buy {
+		grid-area: footer;
+		display: flex;
+		align-items: center;
+		justify-self: end;
+		align-self: center;
+	}
+
+	/* grid-area conflict bo'lganda — explicit column/row */
+	.row-discount {
+		grid-area: unset;
+		grid-column: 2;
+		grid-row: 3;
+		justify-self: start;
+	}
+
+	.row-buy {
+		grid-area: unset;
+		grid-column: 2;
+		grid-row: 3;
+		justify-self: end;
+	}
+}
+
+/* Kichik mobil: max 480px */
+@media (max-width: 480px) {
+	.popular-card {
+		padding: 20px 16px 16px;
+	}
+
+	.popular-price {
+		font-size: 1.9rem;
+	}
+
+	.popular-footer {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+	}
+
+	.compare p {
 		text-align: left;
 	}
 
-	.row-discount,
-	.row-buy {
-		display: inline-flex;
-		gap: 8px;
+	.popular-tags {
+		gap: 6px;
+	}
+
+	.tag {
+		font-size: 11px;
+		padding: 4px 10px;
+	}
+
+	.btn-buy {
+		font-size: 13px;
+	}
+
+	.table-row {
+		padding: 12px 12px;
+	}
+
+	.row-name {
+		font-size: 13px;
 	}
 }
 </style>
