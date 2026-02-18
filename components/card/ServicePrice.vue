@@ -140,10 +140,10 @@ const animDelay = computed(() => `${(props.index || 0) * 80}ms`);
 			</div>
 			<!-- Department tag -->
 			<div v-if="departmentTitle" class="sc__dept">
-					<span v-if="data?.durationMinutes" class="sc__meta-item">
-						<i class="ri-time-line"></i>
-						{{ data.durationMinutes }} min
-					</span>
+				<span v-if="data?.durationMinutes" class="sc__meta-item">
+					<i class="ri-time-line"></i>
+					{{ data.durationMinutes }} min
+				</span>
 			</div>
 		</div>
 
@@ -194,6 +194,8 @@ const animDelay = computed(() => `${(props.index || 0) * 80}ms`);
 </template>
 
 <style scoped lang="scss">
+@use "@/assets/scss/config/mixins" as *;
+
 @keyframes card-in {
 	from {
 		opacity: 0;
@@ -232,7 +234,7 @@ const animDelay = computed(() => `${(props.index || 0) * 80}ms`);
 .sc {
 	position: relative;
 	display: flex;
-   height: 100%;
+	height: 100%;
 	flex-direction: column;
 	background: #ffffff;
 	border-radius: 20px;
@@ -386,6 +388,10 @@ const animDelay = computed(() => `${(props.index || 0) * 80}ms`);
 	gap: 12px;
 	padding: 10px 10px 10px;
 	border-top: 1px solid #f1f5f9;
+	@include devices(sm) {
+		flex-direction: column;
+		align-items: start;
+	}
 }
 .sc__price-wrap {
 	display: flex;
@@ -399,11 +405,11 @@ const animDelay = computed(() => `${(props.index || 0) * 80}ms`);
 	line-height: 1;
 }
 .sc__price {
-	font-size: 19px;
+	font-size: 18px;
 	font-weight: 700;
 	color: #0f172a;
 	line-height: 1.15;
-	letter-spacing: -0.02em;
+	letter-spacing: -0.04em;
 	&--free {
 		color: #16a34a;
 	}
@@ -418,14 +424,14 @@ const animDelay = computed(() => `${(props.index || 0) * 80}ms`);
 .sc__cart-btn {
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
-	padding: 9px 16px;
+	gap: 4px;
+	padding: 4px 10px;
 	border-radius: 12px;
 	border: 1.5px solid #e2e8f0;
 	background: #f8fafc;
 	color: #475569;
 	font-size: 13px;
-	font-weight: 600;
+	font-weight: 500;
 	cursor: pointer;
 	white-space: nowrap;
 	transition:

@@ -80,21 +80,13 @@ const filteredGallery = computed(() =>
 				<div class="section-line"></div>
 			</div>
 
-			<ARow class="service__grid" :gutter="[20, 20]">
+			<ARow class="service__grid" :gutter="[10, 10]">
 				<ACol
-					v-for="(service, i) in filteredServices"
+					v-for="service in filteredServices"
 					:key="service.id"
-					:xs="12"
-					:sm="8"
-					:md="8"
-					:lg="6"
-					data-aos="fade-up"
-					data-aos-duration="500"
-					:data-aos-delay="i * 60"
+					class="col-5"
 				>
-            <CardServicePrice :data="service" />
-					<!-- <NuxtLink class="service-link">
-					</NuxtLink> -->
+					<CardServicePrice :data="service" />
 				</ACol>
 			</ARow>
 
@@ -273,7 +265,7 @@ const filteredGallery = computed(() =>
 	margin-bottom: 48px;
 
 	&__title {
-		font-size: clamp(1.6rem, 3.5vw, 3rem)!important;
+		font-size: clamp(1.6rem, 3.5vw, 3rem) !important;
 		font-weight: 700;
 		line-height: 1.15;
 		letter-spacing: -0.02em;
@@ -420,7 +412,7 @@ const filteredGallery = computed(() =>
 	}
 
 	@include devices(sm) {
-		padding: 24px 20px;
+		padding: 4px 0px;
 	}
 }
 
@@ -473,7 +465,25 @@ const filteredGallery = computed(() =>
 
 /* ── Service Grid ───────────────────────────────── */
 .service__grid {
-	margin-top: 0;
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 10px;
+
+	@media (max-width: 1200px) {
+		grid-template-columns: repeat(4, 1fr);
+	}
+
+	@media (max-width: 992px) {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	@media (max-width: 768px) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	@media (max-width: 480px) {
+		grid-template-columns: repeat(2, 1fr);
+	}
 }
 
 .service-link {
