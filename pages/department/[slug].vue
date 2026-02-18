@@ -79,16 +79,15 @@ const filteredGallery = computed(() =>
 				<h2 class="section-title">{{ $t("service.title3") }}</h2>
 				<div class="section-line"></div>
 			</div>
-
-			<ARow class="service__grid" :gutter="[10, 10]">
+			<CardServicePrice :list="filteredServices" />
+			<!-- <ARow class="service__grid" :gutter="[10, 10]">
 				<ACol
 					v-for="service in filteredServices"
 					:key="service.id"
 					class="col-5"
 				>
-					<CardServicePrice :data="service" />
 				</ACol>
-			</ARow>
+			</ARow> -->
 
 			<!-- ─── NEWS ─── -->
 			<div
