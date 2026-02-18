@@ -345,9 +345,8 @@ const getBadge = (service, index) => {
 }
 
 .popular-badge {
-	font-size: 11px;
-	font-weight: 800;
-	letter-spacing: 0.08em;
+	font-size: 14px;
+	font-weight: 700;
 	color: var(--c-accent);
 	text-transform: uppercase;
 }
@@ -434,7 +433,7 @@ const getBadge = (service, index) => {
 
 .popular-price {
 	font-size: 2.4rem;
-	font-weight: 800;
+	font-weight: 700;
 	color: var(--c-primary);
 	line-height: 1;
 }
@@ -619,7 +618,7 @@ const getBadge = (service, index) => {
 
 .th {
 	font-size: 12px;
-	font-weight: 800;
+	font-weight: 700;
 	letter-spacing: 0.07em;
 	color: var(--c-accent);
 	text-transform: uppercase;
@@ -753,7 +752,7 @@ const getBadge = (service, index) => {
 
 .price-now {
 	font-size: 1.3rem;
-	font-weight: 800;
+	font-weight: 700;
 	color: var(--c-primary);
 	display: block;
 	line-height: 1.1;
