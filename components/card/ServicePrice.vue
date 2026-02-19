@@ -163,14 +163,16 @@ const getBadge = (service, index) => {
 							: 'Korzinkaga qo\'shish'
 					"
 				>
-					{{ isInCart(popular) ? "✓" : "🛒" }}
+					<!-- {{ isInCart(popular) ? "✓" : "🛒" }} -->
+					<i v-if="isInCart(popular)" class="ri-check-line"></i>
+					<i v-else class="ri-shopping-cart-2-line"></i>
 				</button>
 				<button
 					class="btn-buy"
 					:class="{ 'btn-buy--added': isInCart(popular) }"
 					@click="toggleCart(popular, $event)"
 				>
-					{{ isInCart(popular) ? "✓ Qo'shildi" : "🛍️ Buy now" }}
+					{{ isInCart(popular) ? " Qo'shildi" : "Buy now" }}
 				</button>
 			</div>
 
@@ -214,13 +216,14 @@ const getBadge = (service, index) => {
 				>
 					<!-- Icon -->
 					<div class="row-icon">
-						<img
+						<i class="ri-heart-pulse-fill"></i>
+						<!-- <img
 							v-if="service.image"
 							:src="service.image"
 							:alt="service.name?.[locale]"
 							class="row-icon__img"
 						/>
-						<span v-else>{{ getIcon(index) }}</span>
+						<span v-else>{{ getIcon(index) }}</span> -->
 					</div>
 
 					<!-- Service Info -->
@@ -268,7 +271,7 @@ const getBadge = (service, index) => {
 						>
 							-{{ service.discountPercentage }}%
 						</span>
-						<span v-else class="disc-badge disc-badge--none">—</span>
+						<!-- <span v-else class="disc-badge disc-badge--none">—</span> -->
 					</div>
 
 					<!-- Buy -->
@@ -286,7 +289,8 @@ const getBadge = (service, index) => {
 									: 'Korzinkaga qo\'shish'
 							"
 						>
-							{{ isInCart(service) ? "✓" : "🛒" }}
+							<i v-if="isInCart(service)" class="ri-check-line"></i>
+							<i v-else class="ri-shopping-cart-2-line"></i>
 						</button>
 					</div>
 				</div>
@@ -304,7 +308,9 @@ const getBadge = (service, index) => {
 	</div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@use "@/assets/scss/config/mixins" as *;
+
 /* ── Root vars ─────────────────────────────── */
 .sp-wrap {
 	--c-primary: #0a2241;
@@ -474,11 +480,15 @@ const getBadge = (service, index) => {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	background: #f2f7ff;
 }
 
 .btn-cart:hover {
-	background: var(--c-accent-lt);
+	background: var(--c-accent);
 	border-color: var(--c-accent);
+	i {
+		color: white;
+	}
 }
 
 .btn-cart--added {
@@ -489,9 +499,8 @@ const getBadge = (service, index) => {
 }
 
 .btn-cart--added:hover {
-	background: #fee2e2;
-	border-color: #fca5a5;
-	color: #dc2626;
+	background: var(--c-accent);
+	border-color: var(--c-accent);
 }
 
 .btn-buy {
@@ -513,7 +522,7 @@ const getBadge = (service, index) => {
 
 .btn-buy:hover {
 	background: #1457d4;
-	transform: translateY(-2px);
+	color: #fff;
 }
 
 .btn-buy--added {
@@ -522,9 +531,8 @@ const getBadge = (service, index) => {
 }
 
 .btn-buy--added:hover {
-	background: #fee2e2;
-	color: #dc2626;
-	transform: translateY(-2px);
+	background: var(--c-accent);
+	border-color: var(--c-accent);
 }
 
 .popular-tags {
@@ -672,6 +680,12 @@ const getBadge = (service, index) => {
 	font-size: 20px;
 	overflow: hidden;
 	flex-shrink: 0;
+	i {
+		color: var(--c-accent);
+	}
+	@include devices(sm) {
+		display: none;
+	}
 }
 
 .row-icon__img {
@@ -756,6 +770,9 @@ const getBadge = (service, index) => {
 	color: var(--c-primary);
 	display: block;
 	line-height: 1.1;
+	@include devices(md) {
+		margin-top: 7px;
+	}
 }
 
 .price-now small {
@@ -823,6 +840,9 @@ const getBadge = (service, index) => {
 .btn-row-cart:hover {
 	background: var(--c-accent);
 	border-color: var(--c-accent);
+	i {
+		color: white;
+	}
 }
 
 .btn-row-cart--added {
@@ -833,9 +853,8 @@ const getBadge = (service, index) => {
 }
 
 .btn-row-cart--added:hover {
-	background: #fee2e2;
-	border-color: #fca5a5;
-	color: #dc2626;
+	background: var(--c-accent);
+	border-color: var(--c-accent);
 }
 
 @keyframes ripple-pop {
@@ -915,6 +934,9 @@ const getBadge = (service, index) => {
 			".    footer";
 		gap: 4px 12px;
 		padding: 14px 16px;
+		@include devices(sm) {
+			display: block;
+		}
 	}
 
 	.row-icon {

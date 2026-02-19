@@ -79,7 +79,7 @@ const filteredGallery = computed(() =>
 				<h2 class="section-title">{{ $t("service.title3") }}</h2>
 				<div class="section-line"></div>
 			</div>
-			<CardServicePrice :list="filteredServices" />
+			<CardServicePrice v-if="filteredServices?.length" :list="filteredServices" />
 			<!-- <ARow class="service__grid" :gutter="[10, 10]">
 				<ACol
 					v-for="service in filteredServices"
