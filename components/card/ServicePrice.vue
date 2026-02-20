@@ -609,7 +609,7 @@ const getBadge = (service, index) => {
 
 .table-head {
 	display: grid;
-	grid-template-columns: 1fr 160px 130px 70px;
+	grid-template-columns: 1fr 160px 130px 100px;
 	gap: 0;
 	padding: 14px 20px;
 	border-bottom: 1px solid #f0f4ff;
@@ -643,7 +643,7 @@ const getBadge = (service, index) => {
 
 .table-row {
 	display: grid;
-	grid-template-columns: 52px 1fr 160px 130px 70px;
+	grid-template-columns: 52px 1fr 160px 130px 100px;
 	gap: 12px;
 	align-items: center;
 	padding: 18px 20px;
@@ -892,12 +892,12 @@ const getBadge = (service, index) => {
 /* Tablet: 768px – 1200px */
 @media (max-width: 1200px) {
 	.table-head {
-		grid-template-columns: 1fr 130px 110px 60px;
+		grid-template-columns: 1fr 130px 110px 110px;
 		padding: 12px 16px;
 	}
 
 	.table-row {
-		grid-template-columns: 44px 1fr 130px 110px 60px;
+		grid-template-columns: 44px 1fr 130px 110px 110px;
 		gap: 8px;
 		padding: 14px 16px;
 	}
