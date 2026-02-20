@@ -114,14 +114,8 @@ const getBadge = (service, index) => {
 			</div>
 
 			<div class="popular-header">
-				<div class="popular-icon">
-					<img
-						v-if="popular.image"
-						:src="popular.image"
-						:alt="popular.name?.[locale]"
-						class="popular-icon__img"
-					/>
-					<span v-else>🎥</span>
+				<div class="row-icon">
+					<i class="ri-heart-pulse-fill"></i>
 				</div>
 				<div>
 					<h3 class="popular-title">{{ popular.name?.[locale] }}</h3>
@@ -567,14 +561,15 @@ const getBadge = (service, index) => {
 }
 
 .rating-star {
-	font-size: 22px;
+	font-size: 20px;
 	background: var(--c-accent-lt);
 	border-radius: 10px;
-	width: 40px;
-	height: 40px;
+	width: 44px;
+	height: 44px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	padding-bottom: 2px;
 }
 
 .rating strong {
@@ -835,6 +830,11 @@ const getBadge = (service, index) => {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	@include devices(md) {
+		width: 36px;
+		height: 36px;
+		font-size: 15px;
+	}
 }
 
 .btn-row-cart:hover {

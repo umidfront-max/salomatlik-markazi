@@ -79,7 +79,10 @@ const filteredGallery = computed(() =>
 				<h2 class="section-title">{{ $t("service.title3") }}</h2>
 				<div class="section-line"></div>
 			</div>
-			<CardServicePrice v-if="filteredServices?.length" :list="filteredServices" />
+			<CardServicePrice
+				v-if="filteredServices?.length"
+				:list="filteredServices"
+			/>
 			<!-- <ARow class="service__grid" :gutter="[10, 10]">
 				<ACol
 					v-for="service in filteredServices"
@@ -420,6 +423,10 @@ const filteredGallery = computed(() =>
 	margin-top: 72px;
 	margin-bottom: 36px;
 	position: relative;
+	@include devices(md) {
+		margin-top: 22px;
+		margin-bottom: 16px;
+	}
 }
 
 .section-title {
@@ -429,6 +436,9 @@ const filteredGallery = computed(() =>
 	line-height: 1.15;
 	letter-spacing: -0.02em;
 	margin-bottom: 16px;
+	@include devices(md) {
+		margin-bottom: 0;
+	}
 }
 
 .section-line {
