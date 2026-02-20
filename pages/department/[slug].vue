@@ -69,51 +69,6 @@ const filteredGallery = computed(() =>
 			>
 				<span v-html="department?.description?.[locale]"></span>
 			</div>
-
-			<!-- ─── SERVICES ─── -->
-			<div
-				class="section-header"
-				data-aos="fade-right"
-				data-aos-duration="600"
-			>
-				<h2 class="section-title">{{ $t("service.title3") }}</h2>
-				<div class="section-line"></div>
-			</div>
-			<CardServicePrice
-				v-if="filteredServices?.length"
-				:list="filteredServices"
-			/>
-			<!-- <ARow class="service__grid" :gutter="[10, 10]">
-				<ACol
-					v-for="service in filteredServices"
-					:key="service.id"
-					class="col-5"
-				>
-				</ACol>
-			</ARow> -->
-
-			<!-- ─── NEWS ─── -->
-			<div
-				class="section-header"
-				data-aos="fade-right"
-				data-aos-duration="600"
-			>
-				<h2 class="section-title">{{ $t("news.title") }}</h2>
-				<div class="section-line"></div>
-			</div>
-			<SectionNews :list="filteredNews" :has-header="false" />
-
-			<!-- ─── DISEASES ─── -->
-			<div
-				class="section-header"
-				data-aos="fade-right"
-				data-aos-duration="600"
-			>
-				<h2 class="section-title">{{ $t("diseases") }}</h2>
-				<div class="section-line"></div>
-			</div>
-			<SectionNews :list="filteredDiseases" :has-header="false" />
-
 			<!-- ─── DOCTORS ─── -->
 			<div
 				class="section-header"
@@ -147,7 +102,19 @@ const filteredGallery = computed(() =>
 					</div>
 				</ACol>
 			</ARow>
-
+			<!-- ─── SERVICES ─── -->
+			<div
+				class="section-header"
+				data-aos="fade-right"
+				data-aos-duration="600"
+			>
+				<h2 class="section-title">{{ $t("service.title3") }}</h2>
+				<div class="section-line"></div>
+			</div>
+			<CardServicePrice
+				v-if="filteredServices?.length"
+				:list="filteredServices"
+			/>
 			<!-- ─── GALLERY / VIDEO ─── -->
 			<div
 				class="section-header"
@@ -175,6 +142,27 @@ const filteredGallery = computed(() =>
 					</div>
 				</ACol>
 			</ARow>
+
+			<!-- ─── DISEASES ─── -->
+			<div
+				class="section-header"
+				data-aos="fade-right"
+				data-aos-duration="600"
+			>
+				<h2 class="section-title">{{ $t("diseases") }}</h2>
+				<div class="section-line"></div>
+			</div>
+			<SectionNews :list="filteredDiseases" :has-header="false" />
+			<!-- ─── NEWS ─── -->
+			<div
+				class="section-header"
+				data-aos="fade-right"
+				data-aos-duration="600"
+			>
+				<h2 class="section-title">{{ $t("news.title") }}</h2>
+				<div class="section-line"></div>
+			</div>
+			<SectionNews :list="filteredNews" :has-header="false" />
 		</div>
 	</section>
 </template>

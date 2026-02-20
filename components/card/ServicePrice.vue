@@ -1,8 +1,6 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
-
 const { locale } = useI18n();
-const localePath = useLocalePath();
 
 const props = defineProps({
 	list: {
@@ -108,9 +106,9 @@ const getBadge = (service, index) => {
 	<div class="sp-wrap">
 		<!-- LEFT: Popular Card -->
 		<div v-if="popular" class="popular-card">
-			<div class="popular-badge">MOST POPULAR</div>
+			<div class="popular-badge">{{ $t("service.MOSTPOPULAR") }}</div>
 			<div class="popular-save" v-if="popular.hasDiscount">
-				Save {{ popular.discountPercentage }}%
+				{{ $t("service.save") }} {{ popular.discountPercentage }}%
 			</div>
 
 			<div class="popular-header">
@@ -125,7 +123,7 @@ const getBadge = (service, index) => {
 			<div class="popular-desc" v-html="popular.description?.[locale]"></div>
 
 			<div class="popular-pricing">
-				<span class="popular-label">From</span>
+				<!-- <span class="popular-label">From</span> -->
 				<div class="popular-price-row">
 					<span class="popular-price">
 						{{
@@ -135,14 +133,15 @@ const getBadge = (service, index) => {
 									: popular.price,
 							)
 						}}
-						<small>so'm</small>
+						<small>{{ $t("service.sum") }}</small>
 					</span>
 					<span v-if="popular.hasDiscount" class="popular-old">
 						{{ formatPrice(popular.price) }}
 					</span>
 				</div>
 				<p class="popular-duration" v-if="popular.durationMinutes">
-					Avg. duration: {{ popular.durationMinutes }} minutes
+					{{ $t("service.duration") }}: {{ popular.durationMinutes }}
+					{{ $t("service.minut") }}
 				</p>
 			</div>
 
@@ -152,9 +151,7 @@ const getBadge = (service, index) => {
 					:class="{ 'btn-cart--added': isInCart(popular) }"
 					@click="toggleCart(popular, $event)"
 					:title="
-						isInCart(popular)
-							? 'Korzinkadan olib tashlash'
-							: 'Korzinkaga qo\'shish'
+						isInCart(popular) ? $t('service.kor1') : $t('service.kor2')
 					"
 				>
 					<!-- {{ isInCart(popular) ? "✓" : "🛒" }} -->
@@ -166,40 +163,40 @@ const getBadge = (service, index) => {
 					:class="{ 'btn-buy--added': isInCart(popular) }"
 					@click="toggleCart(popular, $event)"
 				>
-					{{ isInCart(popular) ? " Qo'shildi" : "Buy now" }}
+					{{ isInCart(popular) ? $t("service.kor1") : $t("service.kor2") }}
 				</button>
 			</div>
 
 			<div class="popular-tags">
-				<span class="tag">Prescription support</span>
-				<span class="tag">7-day follow-up</span>
-				<span class="tag">Secure video</span>
+				<span class="tag">{{ $t("service.prescriptionSupport") }}</span>
+				<span class="tag">{{ $t("service.followUp") }}</span>
+				<span class="tag">{{ $t("service.secureVideo") }}</span>
 			</div>
 
 			<div class="popular-footer">
 				<div class="rating">
 					<span class="rating-star">⭐</span>
 					<div>
-						<strong>4.8 / 5 patient rating</strong>
-						<p>Based on verified post-visit surveys</p>
+						<strong>4.8 / 5 {{ $t("service.raiting") }}</strong>
+						<p>{{ $t("service.based") }}</p>
 					</div>
 				</div>
-				<div class="compare">
+				<!-- <div class="compare">
 					<p>Need help choosing?</p>
 					<NuxtLink :to="localePath('/services')" class="compare-link">
 						Compare plans
 					</NuxtLink>
-				</div>
+				</div> -->
 			</div>
 		</div>
 
 		<!-- RIGHT: Service Table -->
 		<div class="table-wrap">
 			<div class="table-head">
-				<div class="th th--service">SERVICE</div>
-				<div class="th th--price">PRICE</div>
-				<div class="th th--discount">DISCOUNT</div>
-				<div class="th th--buy">BUY</div>
+				<div class="th th--service">{{ $t("service.SERVICE") }}</div>
+				<div class="th th--price">{{ $t("service.PRICE") }}</div>
+				<div class="th th--discount">{{ $t("service.DISCOUNT") }}</div>
+				<div class="th th--buy">{{ $t("service.BUY") }}</div>
 			</div>
 
 			<div class="table-body">
@@ -249,10 +246,10 @@ const getBadge = (service, index) => {
 										: service.price,
 								)
 							}}
-							<small>so'm</small>
+							<small>{{ $t("service.sum") }}</small>
 						</span>
 						<span v-if="service.hasDiscount" class="price-meta">
-							{{ formatPrice(service.price) }} • save
+							{{ formatPrice(service.price) }} • {{ $t("service.save") }}
 							{{ formatPrice(service.price - service.discountedPrice) }}
 						</span>
 					</div>
@@ -279,8 +276,8 @@ const getBadge = (service, index) => {
 							@click="toggleCart(service, $event)"
 							:title="
 								isInCart(service)
-									? 'Korzinkadan olib tashlash'
-									: 'Korzinkaga qo\'shish'
+									? $t('service.kor1')
+									: $t('service.kor2')
 							"
 						>
 							<i v-if="isInCart(service)" class="ri-check-line"></i>
@@ -290,13 +287,12 @@ const getBadge = (service, index) => {
 				</div>
 
 				<p v-if="!otherServices.length" class="empty">
-					No services available.
+					{{ $t("service.Not") }}
 				</p>
 			</div>
 
 			<p class="footnote">
-				*Availability may vary by location. Prices shown are for
-				demonstration.
+				{{ $t("service.availability") }}
 			</p>
 		</div>
 	</div>
