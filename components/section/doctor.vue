@@ -24,30 +24,38 @@ const swiperOptions = {
 	breakpoints: {
 		1440: {
 			spaceBetween: 24,
-			slidesPerView: props.isPage ? 4 : 4,
-		},
-		1100: {
-			spaceBetween: 20,
-			slidesPerView: props.isPage ? 3 : 4,
-		},
-		768: {
+			slidesPerView: 4,
+      },
+      992: {
 			spaceBetween: 16,
 			slidesPerView: 3.4,
-		},
-		576: {
+      },
+		768: {
+			spaceBetween: 16,
+			slidesPerView: 2.7,
+      },
+      616: {
 			spaceBetween: 16,
 			slidesPerView: 2.3,
 		},
-		456: {
-			spaceBetween: 16,
+		576: {
+			spaceBetween: 10,
 			slidesPerView: 2,
 		},
+		456: {
+			spaceBetween: 10,
+			slidesPerView: 1.7,
+		},
+		390: {
+			spaceBetween: 10,
+			slidesPerView: 1.4,
+		},
 		330: {
-			spaceBetween: 16,
+			spaceBetween: 10,
 			slidesPerView: 1.2,
 		},
 		0: {
-			spaceBetween: 16,
+			spaceBetween: 10,
 			slidesPerView: "auto",
 		},
 	},

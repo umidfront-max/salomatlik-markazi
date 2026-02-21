@@ -1,4 +1,5 @@
 <script setup>
+import { Autoplay } from "swiper/modules";
 const { locale } = useI18n();
 const { list: services } = useService();
 const { list: news } = useNews();
@@ -9,7 +10,54 @@ const { list: galery } = useGallery();
 const route = useRoute();
 const { $api } = useNuxtApp();
 const localePath = useLocalePath();
-
+const swiperOptions = {
+	modules: [Autoplay],
+	slidesPerView: 5,
+	spaceBetween: 24,
+	speed: 1000,
+	autoplay: {
+		delay: 5000,
+		disableOnInteraction: false,
+	},
+	breakpoints: {
+		1440: {
+			spaceBetween: 24,
+			slidesPerView: 4,
+		},
+		992: {
+			spaceBetween: 16,
+			slidesPerView: 3.4,
+		},
+		768: {
+			spaceBetween: 16,
+			slidesPerView: 2.7,
+		},
+		616: {
+			spaceBetween: 16,
+			slidesPerView: 2.3,
+		},
+		576: {
+			spaceBetween: 10,
+			slidesPerView: 2,
+		},
+		456: {
+			spaceBetween: 10,
+			slidesPerView: 1.7,
+		},
+		390: {
+			spaceBetween: 10,
+			slidesPerView: 1.4,
+		},
+		330: {
+			spaceBetween: 10,
+			slidesPerView: 1.2,
+		},
+		0: {
+			spaceBetween: 10,
+			slidesPerView: "auto",
+		},
+	},
+};
 const { data: department } = await useAsyncData(
 	`department_${route.params.slug}`,
 	() => $api(`/departments/${route.params.slug}`),
@@ -79,29 +127,24 @@ const filteredGallery = computed(() =>
 				<div class="section-line"></div>
 			</div>
 
-			<ARow :gutter="[{ xxl: 24, xl: 20, sm: 16, xs: 12 }, 32]">
-				<ACol
-					v-for="(item, index) in filteredDoctors"
-					:key="index"
-					:xl="6"
-					:md="8"
-					:sm="12"
-					:xs="24"
-				>
-					<div
-						class="doctor-card-wrap"
-						data-aos="fade-up"
-						data-aos-duration="500"
-						:data-aos-delay="index * 60"
+			<ClientOnly>
+				<Swiper v-bind="swiperOptions">
+					<SwiperSlide
+						v-for="(item, index) in filteredDoctors"
+						:key="index"
 					>
 						<Card
-							@click="$router.push(localePath(`/doctor/${item.id}`))"
+							@click="$router.push(localePath(`/doctor/${item.slug}`))"
 							:data="item"
 							type="doctor"
+							data-aos="flip-left"
+							data-aos-duration="300"
+							data-aos-offset="300"
+							:data-aos-delay="(index + 0) * 150"
 						/>
-					</div>
-				</ACol>
-			</ARow>
+					</SwiperSlide>
+				</Swiper>
+			</ClientOnly>
 			<!-- ─── SERVICES ─── -->
 			<div
 				class="section-header"
@@ -193,6 +236,9 @@ const filteredGallery = computed(() =>
 	background: var(--clr-bg);
 	overflow: hidden;
 	min-height: 100vh;
+	@include devices(md) {
+		padding: 40px 0 20px;
+	}
 }
 
 /* ── Background decorations ─────────────────────── */
@@ -248,6 +294,9 @@ const filteredGallery = computed(() =>
 	margin: 0 auto;
 	position: relative;
 	z-index: 1;
+	@include devices(md) {
+		padding: 0 14px;
+	}
 }
 
 /* ── Hero ───────────────────────────────────────── */

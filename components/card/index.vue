@@ -143,7 +143,7 @@ $accent: #33c1ed;
 
 		.image {
 			/* ⭐ hamma kartada bir xil balandlik */
-			--ratio: 0.78;
+			--ratio: 0.88;
 			width: 100%;
 			display: block;
 
@@ -160,8 +160,8 @@ $accent: #33c1ed;
 	/* ✅ TITLE: width ism uzunligiga qarab auto (max-content) */
 	&-box__title {
 		position: absolute;
-		right: 100px;
-		bottom: 24px;
+		right: 70px;
+		bottom: 14px;
 		transform: rotate(90deg);
 		transform-origin: bottom right;
 		width: fit-content; /* ⭐ auto width */
@@ -179,9 +179,10 @@ $accent: #33c1ed;
 			border-color 0.25s ease,
 			transform 0.25s ease;
 		@include devices(md) {
-			right: 85px;
+			right: 65px;
 			bottom: 14px;
 			max-width: 210px;
+			padding: 10px 14px;
 		}
 	}
 
@@ -218,7 +219,7 @@ $accent: #33c1ed;
 		display: flex;
 		flex-direction: column;
 		flex: 1;
-		padding: var(--space-20);
+		padding: var(--space-16);
 		background: #fff;
 
 		&__subtitle {
@@ -247,7 +248,7 @@ $accent: #33c1ed;
 			padding: 0 12px !important;
 			cursor: pointer;
 
-			@include text(18, var(--white-1), 600, 150%);
+			@include text(16, var(--white-1), 500, 150%);
 			white-space: nowrap;
 			gap: 12px !important;
 			flex: 0 0 auto;
@@ -255,7 +256,7 @@ $accent: #33c1ed;
 			&::before {
 				padding-right: 36px;
 				padding-left: 12px;
-				font-size: 18px;
+				font-size: 16px;
 			}
 
 			&:hover {
@@ -277,7 +278,7 @@ $accent: #33c1ed;
 				text-underline-offset: 4px;
 				padding: 0 !important;
 
-				@include text(18, --blue-4, 600, 150%);
+				@include text(16, --blue-4, 500, 150%);
 				text-align: center;
 				justify-content: center;
 
@@ -321,11 +322,20 @@ $accent: #33c1ed;
 			}
 
 			b {
-				@include text(20, #0b2239, 800, 150%);
+				@include text(20, #0b2239, 700, 150%);
 			}
 
 			span {
 				@include text(20, #26364b, 400, 150%);
+			}
+			@include devices(md) {
+				padding: 3px 5px;
+				span {
+					@include text(14, #26364b, 400, 150%);
+				}
+				b {
+					@include text(14, #0b2239, 700, 150%);
+				}
 			}
 		}
 	}

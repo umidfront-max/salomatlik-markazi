@@ -930,6 +930,7 @@ const getBadge = (service, index) => {
 			".    footer";
 		gap: 4px 12px;
 		padding: 14px 16px;
+		position: relative !important;
 		@include devices(sm) {
 			display: block;
 		}
@@ -943,6 +944,7 @@ const getBadge = (service, index) => {
 
 	.row-service {
 		grid-area: service;
+      padding-right: 50px;
 	}
 
 	.row-price {
@@ -973,6 +975,9 @@ const getBadge = (service, index) => {
 	}
 
 	.row-buy {
+		position: absolute !important;
+		right: 15px;
+		top: 15px;
 		grid-area: footer;
 		display: flex;
 		align-items: center;
