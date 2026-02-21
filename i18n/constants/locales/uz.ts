@@ -120,9 +120,14 @@ export default {
    form: {
       place: "Manzil",
       company: "Kompaniya",
-
       name: "Sizning ismingiz",
-
+      fullName: "Ism Familiya",
+      validations: {
+         fullName: "Iltimos, to'liq ismingizni kiriting",
+         date: "Iltimos, tashrif sanasini tanlang",
+         phone: 'Iltimos, telefon raqamingizni kiriting',
+         phoneFormat: "Telefon raqam to'liq kiritilishi kerak",
+      },
       phone: "Sizning telefoningiz",
 
       placeholder: "Bu yerga yozing",

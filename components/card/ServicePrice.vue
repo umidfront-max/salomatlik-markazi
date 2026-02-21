@@ -208,13 +208,6 @@ const getBadge = (service, index) => {
 					<!-- Icon -->
 					<div class="row-icon">
 						<i class="ri-heart-pulse-fill"></i>
-						<!-- <img
-							v-if="service.image"
-							:src="service.image"
-							:alt="service.name?.[locale]"
-							class="row-icon__img"
-						/>
-						<span v-else>{{ getIcon(index) }}</span> -->
 					</div>
 
 					<!-- Service Info -->
@@ -944,7 +937,7 @@ const getBadge = (service, index) => {
 
 	.row-service {
 		grid-area: service;
-      padding-right: 50px;
+		padding-right: 50px;
 	}
 
 	.row-price {

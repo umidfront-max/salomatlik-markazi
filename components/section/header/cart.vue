@@ -145,13 +145,8 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKey));
 							:class="{ 'is-removing': justRemoved === item.id }"
 						>
 							<!-- Service image -->
-							<div class="cd__item-img">
-								<img
-									v-if="item.image"
-									:src="item.image"
-									:alt="itemName(item)"
-								/>
-								<i v-else class="ri-stethoscope-line"></i>
+							<div class="row-icon">
+								<i class="ri-heart-pulse-fill"></i>
 							</div>
 
 							<!-- Info -->
@@ -219,6 +214,8 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKey));
 </template>
 
 <style lang="scss" scoped>
+@use "@/assets/scss/config/mixins" as *;
+
 // ── Overlay ───────────────────────────────────────────────
 .cart-overlay {
 	position: fixed;
@@ -251,7 +248,24 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKey));
 .cart-overlay-leave-to {
 	opacity: 0;
 }
-
+.row-icon {
+	width: 44px;
+	height: 44px;
+	border-radius: 12px;
+	background: #e8f1ff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 20px;
+	overflow: hidden;
+	flex-shrink: 0;
+	i {
+		color: rgba(20, 63, 150, 0.92);
+	}
+	@include devices(sm) {
+		display: none;
+	}
+}
 .cart-drawer-enter-active {
 	transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -618,7 +632,7 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKey));
 		width: 100%;
 		padding-right: 36px;
 		padding-left: 12px;
-      margin-top: 15px;
+		margin-top: 15px;
 	}
 }
 </style>

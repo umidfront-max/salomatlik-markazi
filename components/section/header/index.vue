@@ -11,6 +11,7 @@ const router = useRouter();
 
 const applyRef = ref();
 const navbarRef = ref();
+const korzinaRef = ref();
 const cartRef = ref(); // ← korzinka ref
 
 const searchQuery = ref("");
@@ -62,6 +63,9 @@ function openNavbar() {
 }
 function openApply() {
 	if (applyRef.value?.toOpen) applyRef.value.toOpen();
+}
+function openKorzina() {
+	if (korzinaRef.value?.toOpen) korzinaRef.value.toOpen();
 }
 function openCart() {
 	if (cartRef.value?.toOpen) cartRef.value.toOpen();
@@ -205,9 +209,10 @@ function openCart() {
 
 	<SectionHeaderApply ref="applyRef" />
 	<SectionHeaderNavbar @apply="openApply" ref="navbarRef" />
+	<SectionHeaderKorzinaModal @apply="openApply" ref="korzinaRef" />
 
 	<!-- ★ Cart drawer ★ -->
-	<SectionHeaderCart ref="cartRef" @booking="openApply" />
+	<SectionHeaderCart ref="cartRef" @booking="openKorzina" />
 </template>
 
 <style lang="scss" scoped>
