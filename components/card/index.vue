@@ -143,7 +143,7 @@ $accent: #33c1ed;
 
 		.image {
 			/* ⭐ hamma kartada bir xil balandlik */
-			--ratio: 0.88;
+			--ratio: 0.93;
 			width: 100%;
 			display: block;
 
