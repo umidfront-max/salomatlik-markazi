@@ -90,7 +90,7 @@ const applyRef = ref({});
 .connect-wrapper {
 	display: flex;
 	width: 100%;
-	min-height: 300px;
+	min-height: 180px;
 
 	@include devices(md) {
 		flex-direction: column;
@@ -99,7 +99,7 @@ const applyRef = ref({});
 
 .connect-block {
 	position: relative;
-	padding: 60px 40px;
+	padding: 40px 20px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -118,7 +118,7 @@ const applyRef = ref({});
 		color: var(--white-1);
 		z-index: 2;
 		clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
-		padding-right: 10%;
+		padding-right: 8%;
 		/* Compensate for slant */
 
 		@include devices(md) {
@@ -140,7 +140,7 @@ const applyRef = ref({});
 		background-color: #229ed9;
 		color: var(--white-1);
 		z-index: 1;
-		padding-left: 12%;
+		padding-left: 8%;
 		/* Compensate for overlap */
 
 		@include devices(md) {
@@ -172,7 +172,7 @@ const applyRef = ref({});
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 30px;
+	gap: 20px;
 	max-width: 800px;
 	margin: 0 auto;
 
@@ -184,8 +184,8 @@ const applyRef = ref({});
 }
 
 .connect-icon {
-	width: 80px;
-	height: 80px;
+	width: 70px;
+	height: 70px;
 	background-color: rgba(255, 255, 255, 0.2);
 	border-radius: 50%;
 	display: flex;
@@ -197,6 +197,10 @@ const applyRef = ref({});
 	animation: pulse 2s infinite;
 	--icon-color: var(--white-1);
 	--icon-size: 28px;
+	@include devices(md) {
+		width: 52px;
+		height: 52px;
+	}
 }
 
 .connect-info {
@@ -205,12 +209,12 @@ const applyRef = ref({});
 }
 
 .connect-title {
-	@include text(32, inherit, 700, 120%);
+	@include text(24, inherit, 700, 120%);
 	margin-bottom: 8px;
 }
 
 .connect-text {
-	@include text(18, rgba(255, 255, 255, 0.9), 400, 150%);
+	@include text(16, rgba(255, 255, 255, 0.9), 400, 150%);
 	max-width: 400px;
 }
 

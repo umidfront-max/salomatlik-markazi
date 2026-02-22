@@ -45,20 +45,20 @@ defineProps<{
 /* container */
 .service-card-two__content {
 	position: relative;
-	padding: 20px;
-	height: 320px;
+	padding: 15px;
+	height: 280px;
 }
 
 /* image */
 .service-card-two__image {
 	width: 100%;
-	height: 280px;
+	height: 250px;
 	border-radius: 20px;
 	object-fit: cover;
 	display: block;
 }
 .img_con {
-	padding-right: 95px;
+	padding-right: 75px;
 	height: 100%;
 }
 
@@ -69,11 +69,11 @@ defineProps<{
 	bottom: 0;
 	writing-mode: vertical-rl;
 	transform: rotate(180deg);
-	padding: 30px 0 112px 40px;
-	font-size: 20px;
+	padding: 20px 0 85px 20px;
+	font-size: 19px;
 	font-weight: 600;
 	line-height: 1.25;
-	text-transform: capitalize;
+   letter-spacing: -0.01em;
 	color: var(--dark);
 	margin: 0;
 }
@@ -87,8 +87,8 @@ defineProps<{
 	top: -6px;
 	right: -6px;
 
-	width: 100px;
-	height: 100px;
+	width: 80px;
+	height: 80px;
 
 	background: var(--corner);
 	border-bottom-left-radius: 50%;
@@ -134,6 +134,7 @@ defineProps<{
 /* icon */
 .corner__iconBox {
 	position: absolute;
+   z-index: 99;
 	inset: 12px;
 	border-radius: 50%;
 	background: rgba(255, 255, 255, 0.12);

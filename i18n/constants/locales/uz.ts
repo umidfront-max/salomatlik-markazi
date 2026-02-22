@@ -100,6 +100,7 @@ export default {
       title: "Bizning mijozlarimiz",
 
    },
+   checTitle: "Tarkibiga kiradi",
 
    apply: {
 

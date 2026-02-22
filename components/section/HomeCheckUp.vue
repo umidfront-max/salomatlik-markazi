@@ -33,10 +33,10 @@ const swiperOptions = computed(() => {
 		},
 		breakpoints: {
 			0: { slidesPerView: 1, spaceBetween: 10 },
-			768: { slidesPerView: 2, spaceBetween: 30 },
-			992: { slidesPerView: 3, spaceBetween: 30 },
-			1400: { slidesPerView: 2.6, spaceBetween: 30 },
-			1500: { slidesPerView: 2.7, spaceBetween: 20 },
+			768: { slidesPerView: 2, spaceBetween: 15 },
+			992: { slidesPerView: 3, spaceBetween: 20 },
+			1400: { slidesPerView: 2.6, spaceBetween: 20 },
+			1500: { slidesPerView: 3, spaceBetween: 20 },
 		},
 	};
 });
@@ -135,14 +135,14 @@ async function onSwiper(swiper: any) {
 .container {
 	position: relative;
 	z-index: 2;
-	padding: 40px 20px;
-	max-width: 1320px !important;
+	padding: 30px 20px;
+	max-width: 1380px !important;
 	width: 100%;
 	margin: 0px auto;
 }
 .checkups-two {
 	position: relative;
-	padding: 60px 0 50px;
+	padding: 50px 0 50px;
 	overflow: hidden;
 	// ko‘k fon + blur shapes
 	background-color: #2c51a3;

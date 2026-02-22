@@ -70,30 +70,30 @@ const durationText = computed(() => {
         <div class="price-card">
           <div>
             <div v-if="hasDiscount" class="old-price">
-              {{ checkup.oldPrice.toLocaleString() }} so'm
+              {{ checkup.oldPrice.toLocaleString() }} {{ $t('service.sum') }}
             </div>
             <div class="current-price">
-              {{ checkup.price.toLocaleString() }} so'm
+              {{ checkup.price.toLocaleString() }} {{ $t('service.sum') }}
             </div>
           </div>
 
-          <button class="btn-primary">Qabulga yozilish</button>
+          <button class="btn-primary">{{ $t('apply.title') }}</button>
         </div>
       </div>
     </div>
 
     <!-- INCLUDED SERVICES -->
     <div v-if="checkup.items?.length" class="included">
-      <h2>Tarkibiga kiradi</h2>
+      <h2>{{ $t('checTitle') }}</h2>
       <div class="included__grid">
         <div v-for="item in checkup.items" :key="item.id" class="included-card">
           <img :src="item.service?.image" />
           <div>
             <h3>{{ item.name?.[locale] }}</h3>
-            <p>{{ item.service?.durationMinutes }} min</p>
+            <p>{{ item.service?.durationMinutes }} {{ $t('service.minut') }}</p>
           </div>
           <span class="included-price">
-            {{ item.price.toLocaleString() }} so'm
+            {{ item.price.toLocaleString() }} {{ $t('service.sum') }}
           </span>
         </div>
       </div>

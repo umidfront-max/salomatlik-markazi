@@ -50,7 +50,7 @@ const { data: service } = await useAsyncData(
 						</div>
 					</div>
 
-					<button class="btn-primary">Qabulga yozilish</button>
+					<button class="btn-primary">{{ $t('apply.title') }}</button>
 				</div>
 			</div>
 		</div>

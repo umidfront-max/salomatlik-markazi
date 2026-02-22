@@ -308,7 +308,7 @@ const filteredGallery = computed(() =>
 	margin-bottom: 48px;
 
 	&__title {
-		font-size: clamp(1.6rem, 3.5vw, 3rem) !important;
+		font-size: clamp(1.6rem, 3.5vw, 2rem) !important;
 		font-weight: 700;
 		line-height: 1.15;
 		letter-spacing: -0.02em;
@@ -471,7 +471,7 @@ const filteredGallery = computed(() =>
 }
 
 .section-title {
-	font-size: clamp(1.6rem, 3.5vw, 3rem);
+	font-size: clamp(1.6rem, 3.5vw, 2rem);
 	font-weight: 700;
 	color: var(--clr-primary);
 	line-height: 1.15;
