@@ -23,6 +23,7 @@ const { data: diseases } = await useAsyncData("diseases_home", () =>
    <div>
       <SectionHero />
       <!-- <YandexMap /> -->
+      <SectionSaveCart class="pt-80" />
       <SectionHomeService class="pt-80" />
       <SectionStats class="pt-100" />
       <SectionVideo class="pt-100" />

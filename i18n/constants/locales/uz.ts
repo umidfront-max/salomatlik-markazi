@@ -123,6 +123,11 @@ export default {
       company: "Kompaniya",
       name: "Sizning ismingiz",
       fullName: "Ism Familiya",
+      successTitle: "Arizangiz qabul qilindi!",
+      successSubtitle: "Tez orada siz bilan bog'lanamiz 🙌",
+      title: "Bepul konsultatsiyaga yoziling",
+      subtitle: "Ma'lumotlaringizni qoldiring va administratorimiz tez orada siz bilan bog'lanadi",
+
       validations: {
          fullName: "Iltimos, to'liq ismingizni kiriting",
          date: "Iltimos, tashrif sanasini tanlang",
