@@ -115,11 +115,17 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKey));
 					<div class="cd__head-left">
 						<i class="ri-shopping-bag-3-line cd__head-icon"></i>
 						<div>
-							<h2 class="cd__title">Tanlangan xizmatlar</h2>
-							<span class="cd__count">{{ count }} ta xizmat</span>
+							<h2 class="cd__title">{{ $t("cart.title") }}</h2>
+							<span class="cd__count">
+								{{ $t("cart.count", { count }) }}
+							</span>
 						</div>
 					</div>
-					<button class="cd__close" @click="toClose" aria-label="Yopish">
+					<button
+						class="cd__close"
+						@click="toClose"
+						:aria-label="$t('cart.close')"
+					>
 						<i class="ri-close-line"></i>
 					</button>
 				</div>
@@ -129,10 +135,8 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKey));
 					<div class="cd__empty-icon">
 						<i class="ri-shopping-cart-2-line"></i>
 					</div>
-					<p class="cd__empty-text">Korzinka bo'sh</p>
-					<p class="cd__empty-sub">
-						Xizmatlarni qo'shish uchun + tugmasini bosing
-					</p>
+					<p class="cd__empty-text">{{ $t("cart.empty.title") }}</p>
+					<p class="cd__empty-sub">{{ $t("cart.empty.subtitle") }}</p>
 				</div>
 
 				<!-- List -->
@@ -154,10 +158,12 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKey));
 								<span class="cd__item-name">{{ itemName(item) }}</span>
 								<div class="cd__item-prices">
 									<span v-if="item.hasDiscount" class="cd__item-old">
-										{{ formatPrice(item.originalPrice) }} so'm
+										{{ formatPrice(item.originalPrice) }}
+										{{ $t("cart.currency") }}
 									</span>
 									<span class="cd__item-price">
-										{{ formatPrice(item.price) }} so'm
+										{{ formatPrice(item.price) }}
+										{{ $t("cart.currency") }}
 									</span>
 									<span
 										v-if="item.hasDiscount && item.discountPercentage"
@@ -184,10 +190,10 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKey));
 
 					<!-- Total -->
 					<div class="cd__total">
-						<span class="cd__total-label">Jami:</span>
-						<span class="cd__total-price"
-							>{{ formatPrice(total) }} so'm</span
-						>
+						<span class="cd__total-label">{{ $t("cart.total") }}:</span>
+						<span class="cd__total-price">
+							{{ formatPrice(total) }} {{ $t("cart.currency") }}
+						</span>
 					</div>
 				</div>
 
@@ -195,7 +201,7 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKey));
 				<div class="cd__footer">
 					<button v-if="count > 0" class="cd__clear" @click="clearAll">
 						<i class="ri-delete-bin-6-line"></i>
-						Barchasini o'chirish
+						{{ $t("cart.clear") }}
 					</button>
 
 					<Btn

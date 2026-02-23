@@ -179,10 +179,25 @@ export default {
       }
 
    },
+cart: {
+  title: "Tanlangan xizmatlar",
+  count: "{count} ta xizmat",
+  close: "Yopish",
 
+  empty: {
+    title: "Korzinka bo'sh",
+    subtitle: "Xizmatlarni qo'shish uchun + tugmasini bosing"
+  },
 
+  remove: "O'chirish",
+  clear: "Barchasini o'chirish",
 
+  total: "Jami",
 
+  currency: "so'm",
+
+  booking: "Qabulga yozilish"
+},
 
    home: "Bosh sahifa",
 

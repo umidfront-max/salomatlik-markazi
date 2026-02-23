@@ -78,31 +78,64 @@ export default {
    address: "Address:",
    workTime: "Working Hours:",
    form: {
-      place: "Place",
+      place: "Address",
       company: "Company",
-      name: "Your Name",
-      phone: "Your Phone",
-      placeholder: "Write here",
+      name: "Your name",
+      fullName: "First and last name",
+      successTitle: "Your request has been received!",
+      successSubtitle: "We will contact you soon 🙌",
+      title: "Book a free consultation",
+      subtitle: "Leave your details and our administrator will contact you shortly",
+
+      validations: {
+         fullName: "Please enter your full name",
+         date: "Please select a visit date",
+         phone: "Please enter your phone number",
+         phoneFormat: "Phone number must be entered completely"
+      },
+
+      phone: "Your phone",
+      placeholder: "Type here",
       select: "Select",
-      date: "Select Appointment Date",
-      comment: "Comments",
+      date: "Select appointment date",
+      comment: "Comment",
       validation: "This field is required!",
-      success: "Your application has been accepted. We will contact you soon. Thank you!",
+      success: "Your request has been received. We will contact you soon. Thank you!",
       error: "An error occurred, please try again!",
+
       tab: {
          program: {
-            title: "Medical Programs",
-            label: "Select Program",
+            title: "Medical programs",
+            label: "Select a program"
          },
          service: {
-            title: "Medical Services",
-            label: "Select Service",
+            title: "Medical services",
+            label: "Select a service"
          },
          doctor: {
-            title: "Book an Appointment with a Doctor",
-            label: "Select Doctor",
-         },
+            title: "Doctor appointment",
+            label: "Select a doctor"
+         }
       }
+   },
+   cart: {
+      title: "Selected services",
+      count: "{count} services",
+      close: "Close",
+
+      empty: {
+         title: "Cart is empty",
+         subtitle: "Press + to add services"
+      },
+
+      remove: "Remove",
+      clear: "Clear all",
+
+      total: "Total",
+
+      currency: "sum",
+
+      booking: "Book appointment"
    },
    home: "Home",
    phone1: "Phone:",
