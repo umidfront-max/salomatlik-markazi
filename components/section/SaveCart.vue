@@ -542,8 +542,9 @@ async function toSubmit() {
 /* ── Responsive ──────────────────────────────────────── */
 @media (max-width: 640px) {
 	.cf {
-		padding: 36px 20px 28px;
+		padding: 30px 24px 20px;
 		border-radius: 18px;
+      width: 94%;
 	}
 	.cf__form {
 		flex-direction: column;

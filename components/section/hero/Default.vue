@@ -57,7 +57,7 @@ const current = computed(() => String(activeIndex.value + 1).padStart(2, "0"));
 const totalStr = computed(() => String(total.value).padStart(2, "0"));
 
 const modules = [Autoplay, EffectFade, Navigation];
-const AUTOPLAY_DELAY = 600000;
+const AUTOPLAY_DELAY = 6000;
 
 const options = computed(() => ({
 	loop: true,

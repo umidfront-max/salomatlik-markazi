@@ -248,7 +248,7 @@ function openCart() {
 }
 
 .h {
-	position: sticky;
+	// position: sticky;
 	top: 0;
 	z-index: 50;
 	background: #fff;
@@ -399,7 +399,7 @@ function openCart() {
 	}
 
 	&__link {
-		font-size: 16px;
+		font-size: 18px;
 		font-weight: 500;
 		color: #0f172a;
 		text-decoration: none;

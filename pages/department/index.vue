@@ -7,13 +7,13 @@ const localePath = useLocalePath();
 	<section class="services-bg">
 		<div class="services container">
 			<h3 class="services_title">{{ $t("service.title2") }}</h3>
-			<ARow :gutter="[20, 20]">
+			<ARow :gutter="[16, 16]">
 				<ACol
 					v-for="service in list"
 					:key="service.id"
-					:xs="24"
+					:xs="12"
 					:sm="12"
-					:md="12"
+					:md="8"
 					:lg="6"
 				>
 					<NuxtLink
@@ -22,7 +22,9 @@ const localePath = useLocalePath();
 					>
 						<CardServiceItem
 							:data="service"
-							:to="localePath(`/department/${service.slug || service.id}`)"
+							:to="
+								localePath(`/department/${service.slug || service.id}`)
+							"
 						/>
 					</NuxtLink>
 				</ACol>
@@ -68,7 +70,7 @@ const localePath = useLocalePath();
 	line-height: 1.12;
 	font-weight: 600;
 	color: #0a2241;
-
+   margin-bottom: 30px;
 	@include devices(md) {
 		font-size: 34px;
 	}
@@ -82,10 +84,10 @@ const localePath = useLocalePath();
 	transition:
 		transform 0.3s ease,
 		box-shadow 0.3s ease;
-	margin-top: 40px;
+	// margin-top: 40px;
 
 	&:hover {
-		transform: translateY(-10px);
+		transform: translateY(-6px);
 	}
 }
 </style>
