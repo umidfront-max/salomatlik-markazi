@@ -20,18 +20,18 @@ const swiperOptions = {
 		},
 		992: {
 			slidesPerView: 4,
-			spaceBetween: 16,
+			spaceBetween: 24,
 		},
 		768: {
 			slidesPerView: 3,
-			spaceBetween: 16,
+			spaceBetween: 24,
 		},
 		576: {
 			slidesPerView: 2,
-			spaceBetween: 16,
+			spaceBetween: 24,
 		},
 		0: {
-			spaceBetween: 16,
+			spaceBetween: 24,
 			slidesPerView: "auto",
 		},
 	},

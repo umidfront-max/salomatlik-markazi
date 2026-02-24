@@ -248,7 +248,7 @@ function openCart() {
 }
 
 .h {
-	// position: sticky;
+	position: sticky;
 	top: 0;
 	z-index: 50;
 	background: #fff;
