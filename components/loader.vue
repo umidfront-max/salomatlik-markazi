@@ -8,7 +8,7 @@
 // Buning uchun nuxt.config.ts ga ham qo'shimcha yozing (pastdagi kommentga qarang).
 
 // ── Dismiss logikasi ──────────────────────────────────────────────
-const MIN_MS = 4000; // kamida necha ms ko'rinsin
+const MIN_MS = 2000; // kamida necha ms ko'rinsin
 const EXIT_MS = 760; // CSS panel transition (700ms) + buffer
 
 onMounted(() => {
