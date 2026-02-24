@@ -301,7 +301,7 @@ async function toSubmit() {
 /* ── Form row ─────────────────────────────────────── */
 .cf__form {
 	display: flex;
-	gap: 12px;
+	gap: 24px;
 	align-items: flex-start;
 	flex-wrap: wrap;
 	max-width: 820px;

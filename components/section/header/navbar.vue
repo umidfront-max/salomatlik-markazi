@@ -140,7 +140,7 @@ function bookingFn() {
 					v-for="(item, idx) in [
 						{ to: '/news', title: setting?.news?.[locale] },
 						{ to: '/doctor', title: setting?.doctor?.[locale] },
-						{ to: '/service', title: setting?.service?.[locale] },
+						{ to: '/department', title: setting?.service?.[locale] },
 						{ to: '/contact', title: setting?.contact?.[locale] },
 					]"
 					:key="idx"
