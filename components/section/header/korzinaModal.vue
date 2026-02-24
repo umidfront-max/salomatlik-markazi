@@ -118,7 +118,7 @@ async function toSubmit() {
 			body: {
 				fullName: form.fullName,
 				phone: form.phone,
-				service: arr.map((el) => el.id),
+				services: arr.map((el) => el.id),
 				preferredVisitAt: form.preferredVisitAt,
 			},
 		});
