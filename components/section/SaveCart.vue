@@ -198,7 +198,7 @@ async function toSubmit() {
 	);
 	max-width: 1300px;
 	width: 100%;
-	margin: 0 auto;
+	margin: 30px auto;
 	padding: 56px 40px;
 	border-radius: 22px;
 	isolation: isolate;
