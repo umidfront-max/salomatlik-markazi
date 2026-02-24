@@ -44,15 +44,15 @@ defineProps({
 	&-icon {
 		@include middle;
 		@include center;
-		width: var(--size-btn-64);
-		height: var(--size-btn-64);
+		width: var(--size-btn-52);
+		height: var(--size-btn-52);
 		backdrop-filter: blur(10px);
 		background-color: var(--red-1);
 		border-radius: 8px;
 
 		&__inner {
 			--icon-color: var(--white-1);
-			--icon-size: 24px;
+			--icon-size: 22px;
 		}
 	}
 

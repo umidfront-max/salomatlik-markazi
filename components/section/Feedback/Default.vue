@@ -1,113 +1,305 @@
 <script setup>
 defineProps({
-  data: {
-    type: Object,
-    default: () => { },
-  },
+	data: {
+		type: Object,
+		default: () => ({}),
+	},
 });
+
+function formatDate(dateStr) {
+	if (!dateStr) return "";
+	const d = new Date(dateStr);
+	return d.toLocaleDateString("uz-UZ", {
+		year: "numeric",
+		month: "short",
+		day: "numeric",
+	});
+}
+
+function getInitials(name) {
+	if (!name) return "?";
+	return name
+		.trim()
+		.split(" ")
+		.filter(Boolean)
+		.slice(0, 2)
+		.map((w) => w[0].toUpperCase())
+		.join("");
+}
+
+function getAvatarColor(name) {
+	const colors = [
+		["#6C63FF", "#48BFE3"],
+		["#F77F00", "#FCBF49"],
+		["#2EC4B6", "#CBF3F0"],
+		["#E63946", "#F1A1A8"],
+		["#457B9D", "#A8DADC"],
+		["#8338EC", "#C77DFF"],
+	];
+	const index = (name || "").charCodeAt(0) % colors.length;
+	return colors[index];
+}
 </script>
+
 <template>
-  <div class="card">
-    <div class="card-bg-pattern"></div>
-    <div class="card-quote-icon">
-      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 7.55228 14.017 7V3H19.017C20.6739 3 22.017 4.34315 22.017 6V15C22.017 16.6569 20.6739 18 19.017 18H18.017V19H18.017C18.017 20.1046 17.1216 21 16.017 21H14.017ZM5.01697 21L5.01697 18C5.01697 16.8954 5.9124 16 7.01697 16H10.017C10.5693 16 11.017 15.5523 11.017 15V9C11.017 8.44772 10.5693 8 10.017 8H6.01697C5.46468 8 5.01697 7.55228 5.01697 7V3H10.017C11.6738 3 13.017 4.34315 13.017 6V15C13.017 16.6569 11.6738 18 10.017 18H9.01697V19H9.01697C9.01697 20.1046 8.12154 21 7.01697 21H5.01697Z"
-          fill="currentColor" />
-      </svg>
-    </div>
-    <div class="card-header">
-      <h3 class="card-title">
-        {{ data.title }}
-      </h3>
-      <div class="card-rate">
-        <Icon class="card-rate__icon" name="star" v-for="_ in +data.rating" />
-        <Icon class="card-rate__icon non-active" name="star" v-for="_ in 5 - +data.rating" />
-      </div>
-    </div>
-    <p class="card-text">{{ data.short_content }}</p>
-  </div>
+	<div class="fb-card">
+		<!-- Ambient glow -->
+		<div class="fb-card__glow"></div>
+
+		<!-- Top row: avatar + name + badge -->
+		<div class="fb-card__top">
+			<div
+				class="fb-card__avatar"
+				:style="`background: linear-gradient(135deg, ${getAvatarColor(data.authorName)[0]}, ${getAvatarColor(data.authorName)[1]})`"
+			>
+				<span>{{ getInitials(data.authorName) }}</span>
+			</div>
+			<div class="fb-card__meta">
+				<span class="fb-card__name">{{ data.authorName }}</span>
+				<span class="fb-card__date" v-if="data.createdAt">
+					<Icon name="calendar" />
+					{{ data.createdAt?.substring(0, 10) }}
+				</span>
+			</div>
+			<span
+				class="fb-card__badge"
+				:class="
+					data.entityType === 'DOCTOR' ? 'badge--doctor' : 'badge--service'
+				"
+			>
+				{{ data.entityType === "DOCTOR" ? "Shifokor" : "Xizmat" }}
+			</span>
+		</div>
+
+		<!-- Stars -->
+		<div class="fb-card__stars">
+			<span
+				v-for="i in 5"
+				:key="i"
+				class="fb-card__star"
+				:class="{ active: i <= data.rating }"
+				>★</span
+			>
+		</div>
+
+		<!-- Quote icon -->
+		<div class="fb-card__quote">"</div>
+
+		<!-- Comment -->
+		<p class="fb-card__comment">{{ data.comment }}</p>
+	</div>
 </template>
+
 <style lang="scss" scoped>
 @use "@/assets/scss/config/mixins" as *;
 
-.card {
-  position: relative;
-  background: #fff;
-  padding: 30px;
-  height: 100%;
-  border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-  overflow: hidden;
+.fb-card {
+	position: relative;
+	background: #fff;
+	border-radius: 20px;
+	padding: 28px 26px 24px;
+	border: 1.5px solid rgba(108, 99, 255, 0.08);
+	overflow: hidden;
+	transition:
+		transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+		box-shadow 0.35s ease,
+		border-color 0.35s ease;
+	cursor: default;
 
-  /* Hover effects removed as per request */
-  /* &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
-    border-color: transparent;
-  } */
+	&:hover {
+		transform: translateY(-6px) scale(1.01);
+		box-shadow:
+			0 24px 48px rgba(108, 99, 255, 0.1),
+			0 4px 12px rgba(0, 0, 0, 0.05);
+		border-color: rgba(108, 99, 255, 0.25);
 
-  &-bg-pattern {
-    position: absolute;
-    bottom: -20px;
-    left: -20px;
-    width: 100px;
-    height: 100px;
-    background-image: radial-gradient(#e0e0e0 1.5px, transparent 1.5px);
-    background-size: 12px 12px;
-    opacity: 0.5;
-    z-index: 0;
-    border-radius: 50%;
-  }
+		.fb-card__glow {
+			opacity: 1;
+		}
 
-  &-quote-icon {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    color: rgba(var(--primary), 0.08);
-    z-index: 0;
-    transform: scale(1.5);
-  }
+		.fb-card__quote {
+			transform: scale(1.1) rotate(-5deg);
+			opacity: 0.08;
+		}
+	}
+	&__date {
+		@include text(16, 500, 150%);
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		margin-right: auto;
+		color: #aaa;
 
-  &-header {
-    position: relative;
-    z-index: 1;
-    margin-bottom: 16px;
-  }
+		.icon {
+			--icon-size: 16px;
+			--icon-color: #aaa;
+		}
+	}
+	/* Ambient glow at top */
+	&__glow {
+		position: absolute;
+		top: -40px;
+		right: -40px;
+		width: 160px;
+		height: 160px;
+		background: radial-gradient(
+			circle,
+			rgba(108, 99, 255, 0.15) 0%,
+			transparent 70%
+		);
+		border-radius: 50%;
+		opacity: 0;
+		transition: opacity 0.4s ease;
+		pointer-events: none;
+		z-index: 0;
+	}
 
-  &-title {
-    @include text(24, var(--black-1), 700, 140%);
-    /* Increased size and weight */
-    margin-bottom: 8px;
-  }
+	/* Giant decorative quote */
+	&__quote {
+		position: absolute;
+		bottom: 10px;
+		right: 20px;
+		font-size: 120px;
+		line-height: 1;
+		font-family: Georgia, serif;
+		color: rgba(108, 99, 255, 0.05);
+		transition:
+			transform 0.4s ease,
+			opacity 0.4s ease;
+		pointer-events: none;
+		z-index: 0;
+		user-select: none;
+	}
 
-  &-text {
-    position: relative;
-    z-index: 1;
-    @include text(18, #555, 400, 160%);
-    /* Increased size */
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
+	/* Top section */
+	&__top {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		margin-bottom: 16px;
+	}
 
-  &-rate {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+	&__avatar {
+		flex-shrink: 0;
+		width: 46px;
+		height: 46px;
+		border-radius: 14px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 
-    &__icon {
-      --icon-color: #f79440;
-      --icon-size: 18px;
-      /* Slightly larger stars */
+		span {
+			font-size: 15px;
+			font-weight: 700;
+			color: #fff;
+			letter-spacing: 0.5px;
+			text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+		}
+	}
 
-      &.non-active {
-        --icon-color: #eee;
-      }
-    }
-  }
+	&__meta {
+		flex: 1;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+
+	&__name {
+		font-size: 14px;
+		font-weight: 700;
+		color: #1a1a2e;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		letter-spacing: -0.2px;
+	}
+
+	&__date {
+		font-size: 11px;
+		color: #aaa;
+		font-weight: 400;
+	}
+
+	&__badge {
+		flex-shrink: 0;
+		font-size: 10px;
+		font-weight: 600;
+		padding: 4px 10px;
+		border-radius: 20px;
+		letter-spacing: 0.4px;
+		text-transform: uppercase;
+
+		&.badge--doctor {
+			background: rgba(108, 99, 255, 0.1);
+			color: #6c63ff;
+		}
+		&.badge--service {
+			background: rgba(46, 196, 182, 0.1);
+			color: #2ec4b6;
+		}
+	}
+
+	/* Stars */
+	&__stars {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		gap: 3px;
+		margin-bottom: 14px;
+	}
+
+	&__star {
+		font-size: 16px;
+		color: #e8e8e8;
+		transition:
+			color 0.2s ease,
+			transform 0.2s ease;
+		display: inline-block;
+
+		&.active {
+			color: #fbbf24;
+			animation: starPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+		}
+
+		@for $i from 1 through 5 {
+			&:nth-child(#{$i}).active {
+				animation-delay: #{($i - 1) * 0.07s};
+			}
+		}
+	}
+
+	/* Comment */
+	&__comment {
+		position: relative;
+		z-index: 1;
+		font-size: 14px;
+		line-height: 1.65;
+		color: #555;
+		font-weight: 400;
+		display: -webkit-box;
+		-webkit-line-clamp: 4;
+		line-clamp: 4;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		margin: 0;
+	}
+}
+
+@keyframes starPop {
+	0% {
+		transform: scale(0.5);
+		opacity: 0;
+	}
+	60% {
+		transform: scale(1.3);
+	}
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
 }
 </style>

@@ -16,7 +16,6 @@ const form = reactive({
 	phone: "",
 });
 
-// ── Rules (xuddi BookingModal pattern) ───────────────────
 const rules = {
 	fullName: [
 		{
@@ -49,7 +48,6 @@ const rules = {
 	],
 };
 
-// ── Phone focus/blur (xuddi BookingModal) ────────────────
 function onPhoneFocus() {
 	if (!form.phone) form.phone = "+998 ";
 }
@@ -57,7 +55,6 @@ function onPhoneBlur() {
 	if (form.phone === "+998 ") form.phone = "";
 }
 
-// ── Submit ────────────────────────────────────────────────
 async function toSubmit() {
 	try {
 		await formRef.value?.validate();
@@ -94,7 +91,6 @@ async function toSubmit() {
 
 <template>
 	<section class="cf">
-		<!-- Animated bg shapes -->
 		<div class="cf__bg">
 			<span class="cf__shape cf__shape--1" />
 			<span class="cf__shape cf__shape--2" />
@@ -103,19 +99,12 @@ async function toSubmit() {
 		</div>
 
 		<div class="cf__inner">
-			<!-- Text -->
 			<div class="cf__text">
-				<h2 class="cf__title">
-					{{ $t("form.title") }}
-				</h2>
-				<p class="cf__sub">
-					{{ $t("form.subtitle") }}
-				</p>
+				<h2 class="cf__title">{{ $t("form.title") }}</h2>
+				<p class="cf__sub">{{ $t("form.subtitle") }}</p>
 			</div>
 
-			<!-- Form / Success -->
 			<Transition name="swap" mode="out-in">
-				<!-- Success -->
 				<div v-if="isSuccess" key="ok" class="cf__success">
 					<div class="cf__success-icon">
 						<svg viewBox="0 0 52 52" fill="none">
@@ -146,7 +135,6 @@ async function toSubmit() {
 					</div>
 				</div>
 
-				<!-- AForm -->
 				<AForm
 					v-else
 					key="form"
@@ -156,17 +144,15 @@ async function toSubmit() {
 					:rules="rules"
 					class="cf__form"
 				>
-					<!-- Full name -->
 					<AFormItem name="fullName" class="cf__item">
 						<AInput
 							v-model:value="form.fullName"
-							:placeholder="$t('form.fullName') || 'Ваше имя'"
+							:placeholder="$t('form.fullName') || 'Ism Familiya'"
 							class="cf__input"
 							allow-clear
 						/>
 					</AFormItem>
 
-					<!-- Phone -->
 					<AFormItem name="phone" class="cf__item">
 						<AInput
 							v-model:value="form.phone"
@@ -179,16 +165,17 @@ async function toSubmit() {
 						/>
 					</AFormItem>
 
-					<!-- Submit -->
 					<AButton
 						type="primary"
 						:loading="loading"
 						class="cf__btn"
 						@click="toSubmit"
 					>
-						<template v-if="!loading">{{
-							$t("submitApplication")
-						}}</template>
+						<template v-if="!loading">
+							<span class="cf__btn-label">{{
+								$t("submitApplication")
+							}}</span>
+						</template>
 					</AButton>
 				</AForm>
 			</Transition>
@@ -203,23 +190,23 @@ async function toSubmit() {
 	position: relative;
 	overflow: hidden;
 	background: linear-gradient(
-		120deg,
-		#12c2ce 0%,
-		#1ad4cc 45%,
-		#00bcd4 75%,
-		#0097a7 100%
+		135deg,
+		rgba(20, 63, 150, 0.92) 0%,
+		rgba(26, 80, 180, 0.95) 40%,
+		rgba(15, 50, 130, 0.97) 75%,
+		rgba(10, 38, 110, 1) 100%
 	);
-	max-width: 1320px;
+	max-width: 1300px;
 	width: 100%;
-	margin: 0px auto;
-	padding: 48px 40px;
+	margin: 0 auto;
+	padding: 56px 40px;
 	border-radius: 22px;
 	isolation: isolate;
 	min-height: 270px;
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	flex-direction: column;
-	width: 100%;
 }
 
 /* ── BG shapes ──────────────────────────────────────── */
@@ -232,37 +219,37 @@ async function toSubmit() {
 .cf__shape {
 	position: absolute;
 	border-radius: 50%;
-	background: rgba(255, 255, 255, 0.13);
 }
 .cf__shape--1 {
-	width: 340px;
-	height: 340px;
-	top: -110px;
-	right: -80px;
+	width: 380px;
+	height: 380px;
+	top: -130px;
+	right: -100px;
+	background: rgba(100, 149, 237, 0.18);
 	animation: drift1 9s ease-in-out infinite alternate;
 }
 .cf__shape--2 {
-	width: 220px;
-	height: 220px;
-	bottom: -70px;
-	right: 18%;
-	background: rgba(255, 255, 255, 0.09);
+	width: 240px;
+	height: 240px;
+	bottom: -80px;
+	right: 16%;
+	background: rgba(70, 120, 220, 0.12);
 	animation: drift2 12s ease-in-out infinite alternate;
 }
 .cf__shape--3 {
-	width: 120px;
-	height: 120px;
-	top: 30px;
-	left: 42%;
-	background: rgba(255, 255, 255, 0.07);
+	width: 130px;
+	height: 130px;
+	top: 25px;
+	left: 40%;
+	background: rgba(150, 180, 255, 0.09);
 	animation: drift1 7s ease-in-out infinite alternate-reverse;
 }
 .cf__shape--4 {
-	width: 80px;
-	height: 80px;
-	bottom: 10px;
-	left: 60px;
-	background: rgba(255, 255, 255, 0.1);
+	width: 90px;
+	height: 90px;
+	bottom: 12px;
+	left: 70px;
+	background: rgba(100, 149, 237, 0.13);
 	animation: drift2 10s ease-in-out infinite alternate;
 }
 @keyframes drift1 {
@@ -286,49 +273,28 @@ async function toSubmit() {
 .cf__inner {
 	position: relative;
 	z-index: 1;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
 }
 
 /* ── Text ────────────────────────────────────────────── */
 .cf__text {
-	margin-bottom: 24px;
+	margin-bottom: 28px;
 }
-
 .cf__title {
-	font-size: clamp(20px, 2.8vw, 34px);
+	font-size: clamp(22px, 2.8vw, 36px);
 	font-weight: 700;
 	color: #fff;
-	margin: 0 0 8px;
+	margin: 0 0 10px;
 	line-height: 1.2;
 	letter-spacing: -0.02em;
 }
-.cf__title em {
-	font-style: normal;
-	position: relative;
-}
-.cf__title em::after {
-	content: "";
-	position: absolute;
-	bottom: 1px;
-	left: 0;
-	width: 100%;
-	height: 2.5px;
-	background: rgba(255, 255, 255, 0.55);
-	border-radius: 2px;
-	transform-origin: left;
-	animation: ul-in 0.7s 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-@keyframes ul-in {
-	from {
-		transform: scaleX(0);
-	}
-	to {
-		transform: scaleX(1);
-	}
-}
-
 .cf__sub {
 	font-size: 14px;
-	color: rgba(255, 255, 255, 0.78);
+	color: rgba(255, 255, 255, 0.72);
 	margin: 0;
 }
 
@@ -338,21 +304,22 @@ async function toSubmit() {
 	gap: 12px;
 	align-items: flex-start;
 	flex-wrap: wrap;
-	max-width: 900px;
+	max-width: 820px;
 	width: 100%;
+	justify-content: center;
 }
 
-/* ── AFormItem: label va error olib tashlash ────────── */
+/* ── AFormItem ────────────────────────────────────────── */
 .cf__item {
 	flex: 1;
-	min-width: 190px;
+	min-width: 220px;
+	max-width: 290px;
 	margin-bottom: 0 !important;
 }
 
 :deep(.ant-form-item-control-input-content) {
-	overflow: hidden;
+	overflow: visible;
 }
-/* Error xabarini tashqariga chiqarish */
 .cf__item :deep(.ant-form-item-explain-error) {
 	font-size: 11.5px;
 	font-weight: 600;
@@ -364,158 +331,156 @@ async function toSubmit() {
 	backdrop-filter: blur(4px);
 	margin-top: 5px;
 }
-
 .cf__item :deep(.ant-form-item-label) {
 	display: none;
 }
 
-/* ── White input ─────────────────────────────────────── */
-.cf__input,
-.cf__item :deep(.ant-input),
+/* ── Input: affix wrapper (Ism Familiya — has allow-clear) */
 .cf__item :deep(.ant-input-affix-wrapper) {
-	height: 52px;
+	height: 52px !important;
+	padding: 0 14px !important;
 	border-radius: 13px !important;
-	border: 2px solid transparent !important;
-	background: #ffffff !important;
-	font-family: "Onest", sans-serif !important;
-	font-size: 14px !important;
-	font-weight: 500 !important;
-	color: #0f172a !important;
-	box-shadow: none !important;
+	border: 2px solid rgba(255, 255, 255, 0.25) !important;
+	background: rgba(255, 255, 255, 0.97) !important;
+	box-shadow:
+		0 2px 16px rgba(0, 0, 60, 0.2),
+		inset 0 1px 2px rgba(0, 0, 0, 0.04) !important;
 	transition:
 		border-color 0.2s,
 		box-shadow 0.2s !important;
-	padding: 0 14px !important;
+	display: flex !important;
+	align-items: center !important;
 }
 
+/* inner <input> inside affix — reset everything */
+.cf__item :deep(.ant-input-affix-wrapper > input.ant-input) {
+	height: auto !important;
+	border: none !important;
+	background: transparent !important;
+	box-shadow: none !important;
+	padding: 3px !important;
+	font-family: "Onest", sans-serif !important;
+	font-size: 15px !important;
+	font-weight: 500 !important;
+	color: #0f172a !important;
+}
+
+/* ── Input: plain (Phone field — no affix wrapper) */
+.cf__item :deep(input.ant-input) {
+	height: 52px !important;
+	/* border-radius: 13px !important; */
+	border: 2px solid rgba(255, 255, 255, 0.25) !important;
+	background: rgba(255, 255, 255, 0.97) !important;
+	font-family: "Onest", sans-serif !important;
+	font-size: 15px !important;
+	font-weight: 500 !important;
+	color: #0f172a !important;
+	box-shadow:
+		0 2px 16px rgba(0, 0, 60, 0.2),
+		inset 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+	transition:
+		border-color 0.2s,
+		box-shadow 0.2s !important;
+	padding: 2px 16px !important;
+}
+
+/* Placeholders */
 .cf__item :deep(.ant-input::placeholder),
-.cf__item :deep(.ant-input-affix-wrapper .ant-input::placeholder) {
-	color: #94a3b8;
-	font-weight: 400;
+.cf__item :deep(.ant-input-affix-wrapper input::placeholder) {
+	color: #b0bec5 !important;
+	font-weight: 400 !important;
+	font-size: 16px !important;
 }
 
-/* Focus ring via outline trick */
-.cf__item :deep(.ant-input:focus),
-.cf__item :deep(.ant-input-affix-wrapper-focused) {
-	border-color: rgba(255, 255, 255, 0.7) !important;
-	box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.22) !important;
+/* Focus */
+.cf__item :deep(.ant-input-affix-wrapper-focused),
+.cf__item :deep(.ant-input-affix-wrapper:focus-within) {
+	border-color: rgba(100, 149, 237, 0.85) !important;
+	box-shadow:
+		0 0 0 4px rgba(100, 149, 237, 0.2),
+		0 2px 16px rgba(0, 0, 60, 0.15) !important;
+}
+.cf__item :deep(input.ant-input:focus) {
+	/* border-color: rgba(100, 149, 237, 0.85) !important; */
+	/* box-shadow:
+		0 0 0 4px rgba(100, 149, 237, 0.2),
+		0 2px 16px rgba(0, 0, 60, 0.15) !important;
+	outline: none !important; */
 }
 
-/* Error state border */
-.cf__item :deep(.ant-input-status-error),
+/* Error */
 .cf__item :deep(.ant-input-affix-wrapper-status-error) {
-	border-color: rgba(239, 68, 68, 0.6) !important;
-	box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+	border-color: rgba(239, 68, 68, 0.7) !important;
+	box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12) !important;
+}
+.cf__item :deep(input.ant-input-status-error) {
+	border-color: rgba(239, 68, 68, 0.7) !important;
+	box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12) !important;
 }
 
-/* Clear icon color */
+/* Clear icon */
 .cf__item :deep(.ant-input-clear-icon) {
 	color: #94a3b8;
 }
 
-/* ── Button ──────────────────────────────────────────── */
+/* ── Button — center-out hover ───────────────────────── */
 .cf__btn {
+	position: relative;
+	overflow: hidden;
 	height: 52px !important;
-	padding: 0 28px !important;
-	border-radius: 13px !important;
-	background: #fff !important;
-	border-color: #fff !important;
-	color: #0597a7 !important;
+	padding: 0 32px !important;
+	border-radius: 16px !important;
+	background: rgba(255, 255, 255, 0.12) !important;
+	border: 1.5px solid rgba(255, 255, 255, 0.55) !important;
+	color: #fff !important;
 	font-family: "Onest", sans-serif !important;
 	font-size: 14px !important;
 	font-weight: 700 !important;
+	letter-spacing: 0.01em;
 	flex-shrink: 0;
 	white-space: nowrap;
-	overflow: hidden;
-	position: relative;
-	box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3) !important;
+	backdrop-filter: blur(8px);
+	box-shadow: 0 4px 20px rgba(0, 0, 80, 0.2) !important;
 	transition:
 		transform 0.2s,
-		box-shadow 0.2s !important;
-	margin-bottom: 24px; /* align with AFormItem margin */
+		box-shadow 0.2s,
+		border-color 0.2s !important;
+	margin-bottom: 24px;
 }
 
-/* shimmer ::before */
+/* center-out white overlay */
 .cf__btn::before {
 	content: "";
 	position: absolute;
-	top: 0;
-	left: -100%;
-	width: 60%;
-	height: 100%;
-	background: linear-gradient(
-		90deg,
-		transparent,
-		rgba(255, 255, 255, 0.55),
-		transparent
-	);
-	animation: shimmer 2.8s ease-in-out infinite;
-	pointer-events: none;
+	inset: 0;
+	background: rgba(255, 255, 255, 0.22);
+	transform: scaleX(0);
+	transform-origin: center;
+	transition: transform 280ms ease;
+	border-radius: inherit;
+	z-index: 0;
+}
+.cf__btn:hover::before {
+	transform: scaleX(1) !important;
 }
 
-/* glow ring ::after */
-.cf__btn::after {
-	content: "";
-	position: absolute;
-	inset: -3px;
-	border-radius: 16px;
-	background: linear-gradient(
-		135deg,
-		rgba(255, 255, 255, 0.55),
-		rgba(255, 255, 255, 0)
-	);
-	opacity: 0;
-	transition: opacity 0.3s;
-	z-index: -1;
+/* label z-index above overlay */
+.cf__btn-label {
+	position: relative;
+	z-index: 2;
 }
-.cf__btn:hover::after {
-	opacity: 1 !important;
-}
-
-@keyframes shimmer {
-	0% {
-		left: -100%;
-		opacity: 0;
-	}
-	20% {
-		opacity: 1;
-	}
-	60% {
-		left: 160%;
-		opacity: 1;
-	}
-	61% {
-		opacity: 0;
-	}
-	100% {
-		left: 160%;
-		opacity: 0;
-	}
+.cf__btn :deep(span) {
+	position: relative;
+	z-index: 2;
 }
 
 .cf__btn:hover:not(:disabled) {
 	transform: translateY(-2px) !important;
-	box-shadow: 0 10px 32px rgba(255, 255, 255, 0.45) !important;
-	background: #f0fdff !important;
+	box-shadow: 0 10px 28px rgba(0, 0, 80, 0.3) !important;
+	border-color: rgba(255, 255, 255, 0.85) !important;
 }
 .cf__btn:active:not(:disabled) {
 	transform: translateY(0) !important;
-}
-
-/* ── Privacy ─────────────────────────────────────────── */
-.cf__privacy {
-	margin-top: 10px;
-	font-size: 11.5px;
-	color: rgba(255, 255, 255, 0.6);
-}
-.cf__privacy-link {
-	color: rgba(255, 255, 255, 0.85);
-	text-decoration: underline;
-	text-underline-offset: 2px;
-	transition: color 0.15s;
-}
-.cf__privacy-link:hover {
-	color: #fff;
 }
 
 /* ── Success ─────────────────────────────────────────── */
@@ -524,6 +489,7 @@ async function toSubmit() {
 	align-items: center;
 	gap: 16px;
 	padding: 8px 0;
+	justify-content: center;
 }
 .cf__success-icon {
 	width: 56px;
@@ -576,14 +542,16 @@ async function toSubmit() {
 /* ── Responsive ──────────────────────────────────────── */
 @media (max-width: 640px) {
 	.cf {
-		padding: 32px 20px 24px;
+		padding: 36px 20px 28px;
 		border-radius: 18px;
 	}
 	.cf__form {
 		flex-direction: column;
+		align-items: stretch;
 	}
 	.cf__item {
 		min-width: 0;
+		max-width: 100%;
 		width: 100%;
 	}
 	.cf__btn {
