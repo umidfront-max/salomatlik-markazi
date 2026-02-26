@@ -18,6 +18,7 @@ export default {
    contact: "Kontakt",
    booking: "Qabulga yozilish",
    social: 'Ishtimoiy tarmoqlar',
+   menu: 'Menular',
    reviews: "Sharhlar",
 
    articles: "Maqolalar",

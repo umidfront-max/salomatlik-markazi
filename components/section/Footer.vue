@@ -1,31 +1,11 @@
 <script setup>
 const localePath = useLocalePath();
 const { locale } = useI18n();
-const applyRef = ref();
 
 const { list: setting } = useSetting();
 const { list: deparment } = useDepartment();
 const { list: social } = useSocial();
-const { list: service } = useService();
 
-const news = [
-	{
-		id: 1,
-		title: "Collaboratively Pontificate Bleed Edge Resources",
-		author: "Admin",
-		comments: 2,
-		img: "/f1.jpg",
-		to: "/blog/1",
-	},
-	{
-		id: 2,
-		title: "Quick Sync The Horse Is Out Of The Barn, Yet This Vendor",
-		author: "Admin",
-		comments: 2,
-		img: "/f2.jpg",
-		to: "/blog/2",
-	},
-];
 </script>
 
 <template>
@@ -71,7 +51,7 @@ const news = [
 					<!-- Services -->
 					<ACol :xs="12" :md="6" :xl="7">
 						<div class="footer__col">
-							<h4 class="footer__title">Our Services</h4>
+							<h4 class="footer__title">{{ $t('menu') }}</h4>
 
 							<ul class="footer__list">
 								<li class="footer__item">
@@ -118,7 +98,7 @@ const news = [
 					<!-- Useful Links -->
 					<ACol :xs="12" :md="6" :xl="7">
 						<div class="footer__col">
-							<h4 class="footer__title">Useful Links</h4>
+							<h4 class="footer__title">{{ $t('service.title') }}</h4>
 							<ul class="footer__list">
 								<li
 									v-for="item in deparment"

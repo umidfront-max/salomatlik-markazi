@@ -7,6 +7,8 @@ export default {
    searchSite: "Search the Site",
    more: "More",
    viewAll: "View All",
+   social: "Social media",
+   menu: "Menu",
    booking: "Make appointment",
    reviews: "Reviews",
    articles: "Articles",

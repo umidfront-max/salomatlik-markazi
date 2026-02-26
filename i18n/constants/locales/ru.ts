@@ -10,6 +10,8 @@ export default {
    contact: "Контакты",
    booking: "Запись",
    reviews: "Отзывы",
+   social: "Социальные сети",
+   menu: "Меню",
    articles: "Статьи",
    manufacturer: "Производитель",
    formApplication: "Форма записи",
