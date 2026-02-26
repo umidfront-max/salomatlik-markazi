@@ -291,7 +291,7 @@ const news = [
 	}
 
 	&__top {
-		padding-bottom: 34px;
+		padding-bottom: 14px;
 	}
 
 	/* BRAND */

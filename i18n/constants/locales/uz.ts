@@ -17,7 +17,7 @@ export default {
    viewAll: "Hammasini ko'rish",
    contact: "Kontakt",
    booking: "Qabulga yozilish",
-
+   social: 'Ishtimoiy tarmoqlar',
    reviews: "Sharhlar",
 
    articles: "Maqolalar",
@@ -179,25 +179,25 @@ export default {
       }
 
    },
-cart: {
-  title: "Tanlangan xizmatlar",
-  count: "{count} ta xizmat",
-  close: "Yopish",
+   cart: {
+      title: "Tanlangan xizmatlar",
+      count: "{count} ta xizmat",
+      close: "Yopish",
 
-  empty: {
-    title: "Korzinka bo'sh",
-    subtitle: "Xizmatlarni qo'shish uchun + tugmasini bosing"
-  },
+      empty: {
+         title: "Korzinka bo'sh",
+         subtitle: "Xizmatlarni qo'shish uchun + tugmasini bosing"
+      },
 
-  remove: "O'chirish",
-  clear: "Barchasini o'chirish",
+      remove: "O'chirish",
+      clear: "Barchasini o'chirish",
 
-  total: "Jami",
+      total: "Jami",
 
-  currency: "so'm",
+      currency: "so'm",
 
-  booking: "Qabulga yozilish"
-},
+      booking: "Qabulga yozilish"
+   },
 
    home: "Bosh sahifa",
 

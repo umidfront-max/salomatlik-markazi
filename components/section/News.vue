@@ -17,7 +17,7 @@ const props = defineProps({
 const localePath = useLocalePath();
 </script>
 <template>
-	<section class="section section--xs-swiper-auto">
+	<section v-if="list?.length" class="section section--xs-swiper-auto">
 		<div class="container">
 			<div
 				v-if="hasHeader"
@@ -82,6 +82,7 @@ const localePath = useLocalePath();
 
 .section {
 	position: relative;
+   margin-bottom: 30px;
 }
 
 .cards {

@@ -27,7 +27,7 @@ const swiperOptions = {
 </script>
 
 <template>
-	<section class="section pt-100">
+	<section v-if="data?.data?.length" class="section">
 		<div class="container">
 			<div
 				class="section-header"
@@ -57,7 +57,7 @@ const swiperOptions = {
 				<template #fallback>
 					<div class="reviews-grid">
 						<div
-							v-for="(item, index) in data?.data ?? []"
+							v-for="item in data?.data ?? []"
 							:key="item.id"
 							class="reviews-grid__col"
 						>
@@ -76,7 +76,7 @@ const swiperOptions = {
 .section {
 	position: relative;
 	padding-bottom: 80px;
-
+	padding-top: 40px;
 	&::before {
 		content: "";
 		position: absolute;
@@ -93,15 +93,7 @@ const swiperOptions = {
 
 .section-header {
 	text-align: center;
-	margin-bottom: 18px;
-}
-
-.section-title {
-	font-size: clamp(1.6rem, 3.5vw, 2rem);
-	font-weight: 700;
-	color: var(--clr-primary);
-	line-height: 1.15;
-	letter-spacing: -0.02em;
+	margin-bottom: 10px;
 }
 
 .section-subtitle {
@@ -113,7 +105,7 @@ const swiperOptions = {
 }
 
 .reviews-swiper {
-	padding: 20px;
+	padding: 10px;
 	:deep(.swiper-slide) {
 		height: auto;
 	}

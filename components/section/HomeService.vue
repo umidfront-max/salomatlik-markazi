@@ -8,7 +8,7 @@ const { list } = useDepartment();
 	<section class="services-two">
 		<div class="container">
 			<div class="services-two__head">
-				<h3 class="services-two__title">{{ $t("service.title2") }}</h3>
+				<h3 class="section-title">{{ $t("service.title2") }}</h3>
 			</div>
 			<div class="services-two__container">
 				<CardServiceItem

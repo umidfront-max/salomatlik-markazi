@@ -83,7 +83,7 @@ function getAvatarColor(name) {
 		</div>
 
 		<!-- Quote icon -->
-		<div class="fb-card__quote">"</div>
+		<!-- <div class="fb-card__quote">"</div> -->
 
 		<!-- Comment -->
 		<p class="fb-card__comment">{{ data.comment }}</p>
@@ -107,11 +107,11 @@ function getAvatarColor(name) {
 	cursor: default;
 
 	&:hover {
-		transform: translateY(-6px) scale(1.01);
 		box-shadow:
 			0 24px 48px rgba(108, 99, 255, 0.1),
 			0 4px 12px rgba(0, 0, 0, 0.05);
 		border-color: rgba(108, 99, 255, 0.25);
+		transform: translateY(-6px) scale(1.01);
 
 		.fb-card__glow {
 			opacity: 1;

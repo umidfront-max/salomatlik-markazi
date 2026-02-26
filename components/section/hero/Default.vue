@@ -243,14 +243,17 @@ function onNavClick() {
 
 									<!-- ✅ STATIK Contact -->
 									<div class="main-slider-two__button-2">
-										<a href="/contact" class="mediox-btn is-outline">
-											<span class="mediox-btn__label"
-												>Contact Us</span
-											>
+										<NuxtLink
+											href="/contact"
+											class="mediox-btn is-outline"
+										>
+											<span class="mediox-btn__label">{{
+												$t("contact")
+											}}</span>
 											<span class="mediox-btn__icon">
 												<i class="ri-arrow-right-up-line"></i>
 											</span>
-										</a>
+										</NuxtLink>
 									</div>
 								</div>
 							</div>
@@ -276,7 +279,7 @@ function onNavClick() {
 
 									<div class="main-slider-two__social">
 										<h3 class="main-slider-two__social__title">
-											Ishtimoiy tarmoqlar
+											{{ $t("social") }}
 										</h3>
 										<div class="main-slider-two__social__links">
 											<a
@@ -772,7 +775,7 @@ function onNavClick() {
 }
 
 .main-slider-two__call__icon i {
-   font-size: 20px;
+	font-size: 20px;
 	animation: phoneShake 2s ease-in-out infinite;
 }
 

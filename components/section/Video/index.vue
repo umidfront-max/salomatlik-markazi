@@ -38,7 +38,10 @@ const swiperOptions = {
 };
 </script>
 <template>
-	<section class="section video container section--xs-swiper-auto">
+	<section
+		v-if="data?.data?.length"
+		class="section video container section--xs-swiper-auto"
+	>
 		<div
 			class="section-header"
 			data-aos="zoom-in-up"

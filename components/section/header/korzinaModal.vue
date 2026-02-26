@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, watch, onMounted } from "vue";
+import { ref, reactive, computed, watch, onMounted } from "vue";
 import { vMaska } from "maska/vue";
 
 const props = defineProps({
@@ -15,7 +15,7 @@ const router = useRouter();
 const route = useRoute();
 const localePath = useLocalePath();
 const { $api } = useNuxtApp();
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const open = ref(false);
 const formRef = ref(null);
@@ -23,6 +23,35 @@ const loading = ref(false);
 const messageModalVisible = ref(false);
 const messageModalType = ref("success");
 
+// ── Cart ──────────────────────────────────────────────────
+const CART_KEY = "clinic_cart";
+const cartItems = ref([]);
+
+function readCart() {
+	try {
+		cartItems.value = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+	} catch {
+		cartItems.value = [];
+	}
+}
+
+function itemName(item) {
+	if (typeof item.name === "object") return item.name?.[locale?.value] || "";
+	return item.name || "";
+}
+
+function formatPrice(p) {
+	return Number(p || 0).toLocaleString("ru-RU");
+}
+
+const cartTotal = computed(() =>
+	cartItems.value.reduce(
+		(sum, item) => sum + (Number(item.price) || 0) * (item.quantity || 1),
+		0,
+	),
+);
+
+// ── Form ──────────────────────────────────────────────────
 const form = reactive({
 	fullName: "",
 	phone: "",
@@ -43,13 +72,10 @@ const rules = {
 		{
 			required: true,
 			validator: (_, value) => {
-				// Faqat +998 yozilgan, raqam yo'q
 				const pattern = /^\+998 \d{2} \d{3} \d{2} \d{2}$/;
 				if (!value || value.trim() === "+998") {
 					return Promise.reject(t("form.validations.phone"));
-				}
-				// To'liq format: +998 XX XXX XX XX
-				else if (!pattern.test(value)) {
+				} else if (!pattern.test(value)) {
 					return Promise.reject(t("form.validations.phoneFormat"));
 				}
 				return Promise.resolve();
@@ -69,15 +95,22 @@ const rules = {
 watch(
 	() => route.query.doctor_id,
 	(value) => {
-		if (value) open.value = true;
+		if (value) {
+			readCart();
+			open.value = true;
+		}
 	},
 );
 
 onMounted(() => {
-	if (route.query.doctor_id) open.value = true;
+	if (route.query.doctor_id) {
+		readCart();
+		open.value = true;
+	}
 });
 
 function toOpen() {
+	readCart();
 	open.value = true;
 }
 
@@ -88,14 +121,12 @@ function toClose() {
 	router.push(localePath({ query: { doctor_id: undefined } }));
 }
 
-// Fokus: +998 avtomatik yoziladi
 function onPhoneFocus() {
 	if (!form.phone) {
 		form.phone = "+998 ";
 	}
 }
 
-// Blur: faqat +998 qolsa — tozalaymiz (validatsiya ishlashi uchun)
 function onPhoneBlur() {
 	if (form.phone === "+998 ") {
 		form.phone = "";
@@ -122,7 +153,8 @@ async function toSubmit() {
 				preferredVisitAt: form.preferredVisitAt,
 			},
 		});
-
+		localStorage.setItem("clinic_cart", JSON.stringify([]));
+		window.dispatchEvent(new CustomEvent("cart-updated", { detail: [] }));
 		toClose();
 		messageModalType.value = "success";
 		messageModalVisible.value = true;
@@ -203,6 +235,35 @@ defineExpose({ toOpen });
 					</AFormItem>
 				</ACol>
 
+				<!-- Cart List -->
+				<ACol v-if="cartItems.length > 0" :span="24">
+					<div class="cart-summary">
+						<p class="cart-summary__title">{{ $t("cart.title") }}</p>
+						<ul class="cart-summary__list">
+							<li
+								v-for="item in cartItems"
+								:key="item.id"
+								class="cart-summary__item"
+							>
+								<span class="cart-summary__name">{{
+									itemName(item)
+								}}</span>
+								<span class="cart-summary__price">
+									{{ formatPrice(item.price) }}
+									{{ $t("cart.currency") }}
+								</span>
+							</li>
+						</ul>
+						<div class="cart-summary__total">
+							<span>{{ $t("cart.total") }}</span>
+							<span
+								>{{ formatPrice(cartTotal) }}
+								{{ $t("cart.currency") }}</span
+							>
+						</div>
+					</div>
+				</ACol>
+
 				<!-- Submit -->
 				<ACol :span="24">
 					<AButton
@@ -253,10 +314,10 @@ defineExpose({ toOpen });
 	color: #4a5568;
 }
 
-/* ✅ Barcha inputlar bir xil height va style */
 .appointment-form :deep(.ant-input),
 .appointment-form :deep(.ant-input-affix-wrapper),
-.appointment-form :deep(.ant-picker) {
+.appointment-form :deep(.ant-picker),
+:deep(.ant-picker-input) input {
 	height: 44px;
 	width: 100%;
 	border-radius: 10px;
@@ -267,19 +328,16 @@ defineExpose({ toOpen });
 		box-shadow 0.2s;
 }
 
-/* affix-wrapper ichidagi input height ni override qilmasin */
 .appointment-form :deep(.ant-input-affix-wrapper .ant-input) {
 	height: auto;
 }
 
-/* Hover */
 .appointment-form :deep(.ant-input:hover),
 .appointment-form :deep(.ant-input-affix-wrapper:hover),
 .appointment-form :deep(.ant-picker:hover) {
 	border-color: #a0aec0;
 }
 
-/* Focus */
 .appointment-form :deep(.ant-input:focus),
 .appointment-form :deep(.ant-input-affix-wrapper-focused),
 .appointment-form :deep(.ant-picker-focused) {
@@ -291,7 +349,70 @@ defineExpose({ toOpen });
 	margin-bottom: 18px;
 }
 
-/* Submit tugmasi */
+/* ── Cart Summary ──────────────────────────────── */
+.cart-summary {
+	background: #f8fafc;
+	border: 1px solid #e2e8f0;
+	border-radius: 12px;
+	padding: 14px 16px;
+	margin-bottom: 4px;
+}
+
+.cart-summary__title {
+	font-size: 12px;
+	font-weight: 600;
+	color: #64748b;
+	margin: 0 0 10px;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+}
+
+.cart-summary__list {
+	list-style: none;
+	padding: 0;
+	margin: 0 0 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.cart-summary__item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.cart-summary__name {
+	font-size: 13px;
+	color: #0f172a;
+	font-weight: 500;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	flex: 1;
+}
+
+.cart-summary__price {
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--blue-4);
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+
+.cart-summary__total {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-top: 10px;
+	border-top: 1px dashed #e2e8f0;
+	font-size: 14px;
+	font-weight: 700;
+	color: #0f172a;
+}
+
+/* ── Submit ────────────────────────────────────── */
 .submit-btn {
 	background: var(--blue-4, #e53e3e);
 	border-color: var(--blue-4, #e53e3e);

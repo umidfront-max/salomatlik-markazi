@@ -41,7 +41,7 @@ const swiperOptions = {
 const gutter = { xxl: 24, xl: 20, xs: 16 };
 </script>
 <template>
-  <section class="section">
+  <section v-if="data?.data?.length" class="section">
     <div class="container">
       <div class="section-header" data-aos="zoom-in-up" data-aos-duration="300" data-aos-offset="300">
         <h2 class="section-title">

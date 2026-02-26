@@ -68,7 +68,7 @@ async function onSwiper(swiper: any) {
 						<div class="sec-title__top">
 							<span class="sec-title__icon" aria-hidden="true" />
 
-							<h3 class="sec-title__title">
+							<h3 class="sec-title__title section-title">
 								{{ $t("program.title1") }}
 							</h3>
 						</div>
@@ -305,7 +305,7 @@ async function onSwiper(swiper: any) {
 		}
 
 		&__title {
-			font-size: 50px;
+			font-size: var(--size-text-40);
 			line-height: 1.12;
 			font-weight: 600;
 			margin: 0;

@@ -305,7 +305,7 @@ $accent: #33c1ed;
 		gap: 8px;
 
 		&__item {
-			padding: 8px 11px;
+			padding: 7px 10px;
 			display: flex;
 			align-items: center;
 			gap: 6px;
@@ -322,11 +322,11 @@ $accent: #33c1ed;
 			}
 
 			b {
-				@include text(20, #0b2239, 700, 150%);
+				@include text(18, #0b2239, 700, 150%);
 			}
 
 			span {
-				@include text(20, #26364b, 400, 150%);
+				@include text(18, #26364b, 400, 150%);
 			}
 			@include devices(md) {
 				padding: 3px 5px;

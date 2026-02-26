@@ -16,6 +16,7 @@ const formRef = ref();
 
 const { list: checkup } = useCheckup();
 const { list: service } = useService();
+const { list: department } = useDepartment();
 const { list: doctor } = useDoctor();
 
 function asArray(maybe: any) {
@@ -58,7 +59,7 @@ const form = reactive({
 
 // ✅ tab bo‘yicha options
 const options = computed<any[]>(() => {
-	const lists = [asArray(checkup), asArray(service), asArray(doctor)];
+	const lists = [asArray(checkup), asArray(department), asArray(doctor)];
 	return lists[form.type - 1] ?? [];
 });
 

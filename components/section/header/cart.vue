@@ -1,9 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
-
 const { locale } = useI18n();
-const localePath = useLocalePath();
-const router = useRouter();
+
 
 // ── State ─────────────────────────────────────────────────
 const CART_KEY = "clinic_cart";

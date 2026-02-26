@@ -126,6 +126,7 @@ const filteredGallery = computed(() =>
 				class="section-header"
 				data-aos="fade-right"
 				data-aos-duration="600"
+				v-if="filteredDoctors?.length"
 			>
 				<h2 class="section-title">{{ $t("doctor.title") }}</h2>
 				<div class="section-line"></div>
@@ -154,6 +155,7 @@ const filteredGallery = computed(() =>
 				class="section-header"
 				data-aos="fade-right"
 				data-aos-duration="600"
+				v-if="filteredServices?.length"
 			>
 				<h2 class="section-title">{{ $t("service.title3") }}</h2>
 				<div class="section-line"></div>
@@ -167,6 +169,7 @@ const filteredGallery = computed(() =>
 				class="section-header"
 				data-aos="fade-right"
 				data-aos-duration="600"
+				v-if="filteredGallery?.length"
 			>
 				<h2 class="section-title">{{ $t("video.title") }}</h2>
 				<div class="section-line"></div>
@@ -195,6 +198,7 @@ const filteredGallery = computed(() =>
 				class="section-header"
 				data-aos="fade-right"
 				data-aos-duration="600"
+				v-if="filteredDiseases?.length"
 			>
 				<h2 class="section-title">{{ $t("diseases") }}</h2>
 				<div class="section-line"></div>
@@ -205,6 +209,7 @@ const filteredGallery = computed(() =>
 				class="section-header"
 				data-aos="fade-right"
 				data-aos-duration="600"
+				v-if="filteredNews?.length"
 			>
 				<h2 class="section-title">{{ $t("news.title") }}</h2>
 				<div class="section-line"></div>
@@ -467,18 +472,6 @@ const filteredGallery = computed(() =>
 	@include devices(md) {
 		margin-top: 22px;
 		margin-bottom: 16px;
-	}
-}
-
-.section-title {
-	font-size: clamp(1.6rem, 3.5vw, 2rem);
-	font-weight: 700;
-	color: var(--clr-primary);
-	line-height: 1.15;
-	letter-spacing: -0.02em;
-	margin-bottom: 16px;
-	@include devices(md) {
-		margin-bottom: 0;
 	}
 }
 
