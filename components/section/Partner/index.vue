@@ -1,7 +1,7 @@
 <script setup>
 const { $api } = useNuxtApp();
-const { data } = await useAsyncData("partners", () =>
-  $api("posts", {
+const { data: partners } = await useAsyncData("partners", () =>
+  $api("partners", {
     params: {
       category: "partners",
       limit: 12,
@@ -41,7 +41,7 @@ const swiperOptions = {
 const gutter = { xxl: 24, xl: 20, xs: 16 };
 </script>
 <template>
-  <section v-if="data?.data?.length" class="section">
+  <section v-if="partners?.data?.length"  class="section">
     <div class="container">
       <div class="section-header" data-aos="zoom-in-up" data-aos-duration="300" data-aos-offset="300">
         <h2 class="section-title">
@@ -50,7 +50,7 @@ const gutter = { xxl: 24, xl: 20, xs: 16 };
       </div>
       <ClientOnly>
         <Swiper v-bind="swiperOptions">
-          <SwiperSlide v-for="(item, index) in data?.data ?? []" class="section-item" :key="index">
+          <SwiperSlide v-for="(item, index) in partners?.data ?? []" class="section-item" :key="index">
             <SectionPartnerDefault :item="item" data-aos="fade-up" data-aos-duration="300" data-aos-offset="300"
               :data-aos-delay="index * 150" />
           </SwiperSlide>

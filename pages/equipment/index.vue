@@ -23,8 +23,8 @@ const { data } = useAsyncData("equipment", () =>
         :key="index"
         v-for="(item, index) in data?.data ?? []"
       >
-        <Card
-          @click="$router.push(localePath(`/equipment/${item.slug}`))"
+        <CardEquipment
+          @click="$router.push(localePath(`/equipment/${item.slug|| item.id}`))"
           :data="item"
           type="equipment"
           data-aos="fade-up"

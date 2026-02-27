@@ -15,7 +15,6 @@ const emit = defineEmits(["success", "error"]);
 const formRef = ref();
 
 const { list: checkup } = useCheckup();
-const { list: service } = useService();
 const { list: department } = useDepartment();
 const { list: doctor } = useDoctor();
 
@@ -33,22 +32,16 @@ const types = [
 const form = reactive({
 	// UI
 	type: 1,
-
 	// ✅ tab bo‘yicha alohida selectionlar (tab almashtirganda yo‘qolmaydi)
 	checkupPackageId: "" as string,
 	serviceId: "" as string,
 	doctorId: "" as string,
-
-	// Backend
+	department: "" as string,
 	fullName: "",
 	phone: "",
-
-	// ✅ ISO 8601 string (DatePicker shuni beradi)
 	preferredVisitAt: "",
-
 	source: "CHECKUP_FORM",
 	status: "NEW",
-
 	responsibleId: "",
 	nextFollowUpAt: "", // agar keyin qo‘shsangiz ham ISO bo‘lishi kerak
 	message: "",
@@ -83,13 +76,12 @@ const selectedLabel = computed(() => {
 	const opt = options.value.find((x: any) => String(x.id) === String(id));
 	if (!opt) return "";
 	return (
-		opt.name?.[locale.value] ||
-		opt.fullName?.[locale.value] ||
-		opt.title?.[locale.value] ||
-		opt.name?.ru ||
-		opt.fullName?.ru ||
-		opt.title?.ru ||
-		""
+		// opt.name?.[locale.value] ||
+		// opt.fullName?.[locale.value] ||
+		// opt.title?.[locale.value] ||
+		// opt.name?.ru ||
+		// opt.fullName?.ru ||
+		opt.id || ""
 	);
 });
 
@@ -127,12 +119,10 @@ async function toSubmit() {
 	const payload = {
 		fullName: form.fullName,
 		phone: form.phone,
-		service: selectedLabel.value, // string
+		department: selectedLabel.value, // string
 		preferredVisitAt: form.preferredVisitAt, // ISO 8601 ✅
-
 		source: "CHECKUP_FORM",
 		status: "NEW",
-
 		responsibleId: form.responsibleId || null,
 		nextFollowUpAt: form.nextFollowUpAt || null, // agar ishlatsangiz ISO yuboring
 		message: form.message || null,
@@ -280,7 +270,7 @@ async function toSubmit() {
 					<ATextarea
 						:placeholder="$t('form.placeholder')"
 						v-model:value="form.message"
-                  rows="2"
+						rows="2"
 					/>
 				</AFormItem>
 			</ACol>
