@@ -244,11 +244,11 @@ function onNavClick() {
 									<!-- ✅ STATIK Contact -->
 									<div class="main-slider-two__button-2">
 										<NuxtLink
-											href="/contact"
+											href="/doctor"
 											class="mediox-btn is-outline"
 										>
 											<span class="mediox-btn__label">{{
-												$t("contact")
+												$t("hero.ourDoctors")
 											}}</span>
 											<span class="mediox-btn__icon">
 												<i class="ri-arrow-right-up-line"></i>

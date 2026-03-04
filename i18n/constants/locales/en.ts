@@ -9,6 +9,7 @@ export default {
    viewAll: "View All",
    social: "Social media",
    menu: "Menu",
+   contactUs: "Contact Us",
    booking: "Make appointment",
    reviews: "Reviews",
    articles: "Articles",

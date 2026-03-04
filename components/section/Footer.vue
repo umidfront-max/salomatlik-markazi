@@ -27,7 +27,7 @@ const { list: social } = useSocial();
 						</p>
 
 						<NuxtLink :to="localePath('/contact')" class="footer__cta">
-							<span>{{ $t("contact") }}</span>
+							<span>{{ $t("contactUs") }}</span>
 							<span class="footer__ctaIcon">
 								<i class="ri-arrow-right-up-line"></i>
 							</span>

@@ -13,6 +13,7 @@ export default {
    searchSite: "Saytdan qidirish",
 
    more: "Batafsil",
+   contactUs: "Biz bilan Aloqa",
 
    viewAll: "Hammasini ko'rish",
    contact: "Kontakt",
