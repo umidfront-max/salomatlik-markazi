@@ -40,7 +40,7 @@ const swiperOptions = {
 };
 </script>
 <template>
-	<section class="section container section--xs-swiper-auto pt-100">
+	<section v-if="equipments?.data?.length" class="section container section--xs-swiper-auto pt-100">
 		<div class="section-header">
 			<h2 class="section-title">{{ $t("equipment") }}</h2>
 			<NuxtLink class="section-link" :to="localePath('/equipment')">

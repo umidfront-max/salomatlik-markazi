@@ -4,33 +4,38 @@ const localePath = useLocalePath();
 </script>
 
 <template>
-	<section class="services-bg">
-		<div class="services container">
-			<h3 class="services_title">{{ $t("service.title2") }}</h3>
-			<ARow :gutter="[16, 16]">
-				<ACol
-					v-for="service in list"
-					:key="service.id"
-					:xs="12"
-					:sm="12"
-					:md="8"
-					:lg="6"
-				>
-					<NuxtLink
-						:to="localePath(`/service/${service.slug || service.id}`)"
-						class="service-link"
+	<div>
+		<!-- <SectionBreadcrumbs :title="$t('service.title2')" class="section-breadcrumbs" /> -->
+		<section class="services-bg">
+			<div class="services container">
+				<h3 class="services_title">{{ $t("service.title2") }}</h3>
+				<ARow :gutter="[16, 16]">
+					<ACol
+						v-for="service in list"
+						:key="service.id"
+						:xs="12"
+						:sm="12"
+						:md="8"
+						:lg="6"
 					>
-						<CardServiceItem
-							:data="service"
-							:to="
-								localePath(`/department/${service.slug || service.id}`)
-							"
-						/>
-					</NuxtLink>
-				</ACol>
-			</ARow>
-		</div>
-	</section>
+						<NuxtLink
+							:to="localePath(`/service/${service.slug || service.id}`)"
+							class="service-link"
+						>
+							<CardServiceItem
+								:data="service"
+								:to="
+									localePath(
+										`/department/${service.slug || service.id}`,
+									)
+								"
+							/>
+						</NuxtLink>
+					</ACol>
+				</ARow>
+			</div>
+		</section>
+	</div>
 </template>
 
 <style lang="scss" scoped>
@@ -42,7 +47,7 @@ const localePath = useLocalePath();
 	margin-top: -80px;
 	margin-bottom: -100px;
 	padding-bottom: 140px;
-	background: #d6f2fd;
+	background: #f8faff;
 
 	@include devices(md) {
 		padding-left: 2px;
@@ -70,7 +75,7 @@ const localePath = useLocalePath();
 	line-height: 1.12;
 	font-weight: 600;
 	color: #0a2241;
-   margin-bottom: 30px;
+	margin-bottom: 30px;
 	@include devices(md) {
 		font-size: 34px;
 	}

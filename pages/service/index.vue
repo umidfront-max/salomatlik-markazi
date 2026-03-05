@@ -40,7 +40,7 @@ const localePath = useLocalePath();
 	margin-top: -80px;
 	margin-bottom: -100px;
 	padding-bottom: 140px;
-	background: #d6f2fd;
+	background: #f8faff;
 
 	@include devices(md) {
 		padding-left: 2px;

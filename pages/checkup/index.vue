@@ -6,7 +6,7 @@ const localePath = useLocalePath();
 <template>
 	<section class="checkups-bg">
 		<div class="checkups container">
-			<h3 class="checkups_title">{{ $t("Bizning Tekshiruvlar") }}</h3>
+			<h3 class="checkups_title">{{ $t("program.title1") }}</h3>
 			<ARow :gutter="[20, 20]">
 				<ACol
 					v-for="checkup in list"
