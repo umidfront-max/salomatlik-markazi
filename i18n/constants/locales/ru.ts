@@ -8,7 +8,7 @@ export default {
    more: "Подробнее",
    viewAll: "Смотреть все",
    contact: "Контакты",
-   booking: "Запись",
+   booking: "Записаться",
    reviews: "Отзывы",
    social: "Социальные сети",
    menu: "Меню",
