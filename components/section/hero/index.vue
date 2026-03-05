@@ -9,9 +9,9 @@ const { data } = await useAsyncData('banners', () =>
 )
 
 const banners = computed(() => {
-  const list = data.value?.data || []
+  const list = data?.value?.data || []
   return list
-    .filter((x) => x?.isActive && x?.position === 'HERO_MAIN')
+    .filter((x) => x?.isActive && x?.type === 'HERO')
     .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
 })
 
