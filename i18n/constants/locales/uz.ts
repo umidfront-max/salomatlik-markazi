@@ -127,8 +127,8 @@ export default {
       fullName: "Ism Familiya",
       successTitle: "Arizangiz qabul qilindi!",
       successSubtitle: "Tez orada siz bilan bog'lanamiz 🙌",
-      title: "Bepul konsultatsiyaga yoziling",
-      subtitle: "Ma'lumotlaringizni qoldiring va administratorimiz tez orada siz bilan bog'lanadi",
+      title: "Tezkor qo‘ng‘iroq so‘rovi",
+      subtitle: "Ma’lumotlaringizni qoldiring — 10 daqiqada bog‘lanib, savollaringizga javob beramiz.",
 
       validations: {
          fullName: "Iltimos, to'liq ismingizni kiriting",

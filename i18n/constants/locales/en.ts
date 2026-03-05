@@ -88,8 +88,8 @@ export default {
       fullName: "First and last name",
       successTitle: "Your request has been received!",
       successSubtitle: "We will contact you soon 🙌",
-      title: "Book a free consultation",
-      subtitle: "Leave your details and our administrator will contact you shortly",
+      title: "Quick Call Request",
+      subtitle: "Leave your details — we’ll contact you within 10 minutes and answer your questions.",
 
       validations: {
          fullName: "Please enter your full name",
