@@ -1,6 +1,19 @@
 <script setup>
 const localePath = useLocalePath();
 const { locale } = useI18n();
+const router = useRouter();
+
+const goToDoctor = (id) => {
+	router.push(localePath(`/doctor/${id}`));
+};
+
+const goToDoctorquery = (id) => {
+	router.push(
+		localePath({
+			query: { doctor_id: id },
+		}),
+	);
+};
 defineProps({
 	data: {
 		type: Object,
@@ -67,26 +80,14 @@ defineProps({
 					<Btn
 						class="card-info__button"
 						:data-text="$t('booking')"
-						@click.stop="
-							$router.push(
-								localePath({
-									query: { doctor_id: data.id },
-								}),
-							)
-						"
+						@click.stop="goToDoctorquery(data.id)"
 					>
 						{{ $t("booking") }}
 					</Btn>
 
 					<button
 						class="card-info__button card-info__button--secondary"
-						@click.stop="
-							$router.push(
-								localePath({
-									path: '/doctor/' + data.id,
-								}),
-							)
-						"
+						@click.stop="goToDoctor(data.id)"
 					>
 						{{ $t("moreDetails") }}
 					</button>
