@@ -87,7 +87,7 @@ const gutter = { xs: 16, xl: 20, xxl: 24 };
 			data-aos-offset="300"
 		>
 			<h2 class="section-title">
-				{{ $t("doctor.title") }}
+				{{ $t("doctor.title1") }}
 			</h2>
 
 			<NuxtLink class="section-link" :to="localePath('/doctor')">
@@ -99,7 +99,7 @@ const gutter = { xs: 16, xl: 20, xxl: 24 };
 			<Swiper v-bind="swiperOptions">
 				<SwiperSlide v-for="(item, index) in data" :key="index">
 					<Card
-						@click="router.push(localePath(`/doctor/${item.slug | item.id}`))"
+						@click="router.push(localePath(`/doctor/${item.id}`))"
 						:data="item"
 						type="doctor"
 						data-aos="flip-left"
@@ -121,7 +121,7 @@ const gutter = { xs: 16, xl: 20, xxl: 24 };
 						:key="index"
 					>
 						<Card
-							@click="router.push(localePath(`/doctor/${item.slug | item.id}`))"
+							@click="router.push(localePath(`/doctor/${item.id}`))"
 							:data="item"
 							type="doctor"
 						/>

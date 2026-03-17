@@ -140,7 +140,7 @@ const filteredGallery = computed(() =>
 						:key="index"
 					>
 						<Card
-							@click="router.push(localePath(`/doctor/${item.slug | item.id}`))"
+							@click="router.push(localePath(`/doctor/${item.id}`))"
 							:data="item"
 							type="doctor"
 							data-aos="flip-left"
