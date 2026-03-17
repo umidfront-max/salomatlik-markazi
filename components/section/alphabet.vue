@@ -1,4 +1,5 @@
 <script setup>
+const router = useRouter();
 const localePath = useLocalePath();
 defineProps({
   isPage: {
@@ -156,7 +157,7 @@ const alphabet = {
       <div class="section-row">
         <div class="section-row__col" v-for="(letter, index) in alphabet[$i18n.locale]" :key="index">
           <button class="section-letter" :class="{ active: $route.query.letter === letter }" @click="
-            $router.push({
+            router.push({
               path: localePath('/search'),
               query: {
                 letter,

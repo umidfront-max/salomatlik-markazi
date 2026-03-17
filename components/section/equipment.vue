@@ -1,5 +1,6 @@
 <script setup>
 const localePath = useLocalePath();
+const router = useRouter();
 const { $api } = useNuxtApp();
 const { data: equipments } = await useAsyncData("equipment_home", () =>
 	$api("equipment", {
@@ -40,7 +41,10 @@ const swiperOptions = {
 };
 </script>
 <template>
-	<section v-if="equipments?.data?.length" class="section container section--xs-swiper-auto pt-100">
+	<section
+		v-if="equipments?.data?.length"
+		class="section container section--xs-swiper-auto pt-100"
+	>
 		<div class="section-header">
 			<h2 class="section-title">{{ $t("equipment") }}</h2>
 			<NuxtLink class="section-link" :to="localePath('/equipment')">
@@ -52,7 +56,11 @@ const swiperOptions = {
 			<Swiper style="padding: 20px 0px" v-bind="swiperOptions">
 				<SwiperSlide v-for="(item, index) in equipments?.data" :key="index">
 					<CardEquipment
-						@click="$router.push(localePath(`/equipment/${item.slug || item.id}`))"
+						@click="
+							router.push(
+								localePath(`/equipment/${item.slug || item.id}`),
+							)
+						"
 						:data="item"
 						type="equipment"
 						data-aos="flip-right"
@@ -75,7 +83,9 @@ const swiperOptions = {
 					>
 						<CardEquipment
 							@click="
-								$router.push(localePath(`/equipment/${item.slug || item.id}`))
+								router.push(
+									localePath(`/equipment/${item.slug || item.id}`),
+								)
 							"
 							:data="item"
 							type="equipment"

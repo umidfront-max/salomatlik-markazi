@@ -1,5 +1,7 @@
 <script setup>
 import { Autoplay } from "swiper/modules";
+const router = useRouter();
+
 const props = defineProps({
 	isPage: {
 		type: Boolean,
@@ -97,7 +99,7 @@ const gutter = { xs: 16, xl: 20, xxl: 24 };
 			<Swiper v-bind="swiperOptions">
 				<SwiperSlide v-for="(item, index) in data" :key="index">
 					<Card
-						@click="$router.push(localePath(`/doctor/${item.slug}`))"
+						@click="router.push(localePath(`/doctor/${item.slug | item.id}`))"
 						:data="item"
 						type="doctor"
 						data-aos="flip-left"
@@ -119,7 +121,7 @@ const gutter = { xs: 16, xl: 20, xxl: 24 };
 						:key="index"
 					>
 						<Card
-							@click="$router.push(localePath(`/doctor/${item.slug}`))"
+							@click="router.push(localePath(`/doctor/${item.slug | item.id}`))"
 							:data="item"
 							type="doctor"
 						/>

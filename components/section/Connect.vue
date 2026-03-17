@@ -2,7 +2,7 @@
 const { list: setting } = useSetting();
 const { t } = useI18n();
 const { locale } = useI18n();
-const applyRef = ref({});
+const applyRef1 = ref();
 </script>
 
 <template>
@@ -23,7 +23,7 @@ const applyRef = ref({});
 						</p>
 					</div>
 					<Btn
-						@click="applyRef.toOpen(true)"
+						@click="applyRef1.toOpen(true)"
 						color="white-1"
 						text-color="red-1"
 						:size="52"
@@ -74,7 +74,7 @@ const applyRef = ref({});
 		</div>
 	</section>
 	<ClientOnly>
-		<SectionHeaderApply ref="applyRef" />
+		<SectionHeaderApply ref="applyRef1" />
 	</ClientOnly>
 </template>
 

@@ -4,6 +4,7 @@ import { toGetNumber } from "~/utilities/mixins";
 const { list: setting } = useSetting();
 const { locale } = useI18n();
 const gutter = { xxl: 24, xl: 20, xs: 12, sm: 16 };
+
 </script>
 <template>
 	<section class="section contact-section">

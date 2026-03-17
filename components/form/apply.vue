@@ -9,6 +9,10 @@ const { $api } = useNuxtApp();
 
 const props = defineProps({
 	open: { type: Boolean, default: false },
+	doctorId: {
+		type: String,
+		default: () => "",
+	},
 });
 const emit = defineEmits(["success", "error"]);
 
@@ -96,21 +100,15 @@ watch(
 	() => props.open,
 	(val) => {
 		if (!val) return;
-		if (route.query.doctor_id) {
+		if (props.doctorId) {
 			form.type = 3;
-			form.doctorId = String(route.query.doctor_id);
+			form.doctorId = props.doctorId;
 		} else {
 			form.type = 1;
 		}
 	},
 );
 
-onMounted(() => {
-	if (route.query.doctor_id) {
-		form.type = 3;
-		form.doctorId = String(route.query.doctor_id);
-	}
-});
 
 async function toSubmit() {
 	await formRef.value?.validate();

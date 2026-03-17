@@ -124,7 +124,7 @@ toSetStore(useSocial, social);
 
 		<SectionConnect />
 		<SectionFooter />
-
+	
 		<Widget />
 	</div>
 </template>

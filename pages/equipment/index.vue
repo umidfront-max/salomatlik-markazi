@@ -1,4 +1,5 @@
 <script setup>
+const router = useRouter();
 const route = useRoute();
 const localePath = useLocalePath();
 const { $api } = useNuxtApp();
@@ -24,7 +25,7 @@ const { data } = useAsyncData("equipment", () =>
         v-for="(item, index) in data?.data ?? []"
       >
         <CardEquipment
-          @click="$router.push(localePath(`/equipment/${item.slug|| item.id}`))"
+          @click="router.push(localePath(`/equipment/${item.slug|| item.id}`))"
           :data="item"
           type="equipment"
           data-aos="fade-up"

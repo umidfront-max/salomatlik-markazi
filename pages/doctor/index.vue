@@ -1,5 +1,6 @@
 <script setup>
 const { list } = useDoctor();
+const router = useRouter();
 const localePath = useLocalePath();
 const { $api } = useNuxtApp();
 defineComponent({ name: "home" });
@@ -25,7 +26,7 @@ const { data: doctors } = await useAsyncData("doctors_home", () =>
 				:xs="24"
 			>
 				<Card
-					@click="$router.push(localePath(`/doctor/${item.id}`))"
+					@click="router.push(localePath(`/doctor/${item.id}`))"
 					:data="item"
 					type="doctor"
 					data-aos="fade-up"

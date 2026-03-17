@@ -6,6 +6,7 @@ const { list: news } = useNews();
 const { list: diseases } = useDiseases();
 const { list: doctors } = useDoctor();
 const { list: galery } = useGallery();
+const router = useRouter();
 
 const route = useRoute();
 const { $api } = useNuxtApp();
@@ -139,7 +140,7 @@ const filteredGallery = computed(() =>
 						:key="index"
 					>
 						<Card
-							@click="$router.push(localePath(`/doctor/${item.slug}`))"
+							@click="router.push(localePath(`/doctor/${item.slug | item.id}`))"
 							:data="item"
 							type="doctor"
 							data-aos="flip-left"

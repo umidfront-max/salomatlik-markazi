@@ -92,22 +92,6 @@ const rules = {
 	],
 };
 
-watch(
-	() => route.query.doctor_id,
-	(value) => {
-		if (value) {
-			readCart();
-			open.value = true;
-		}
-	},
-);
-
-onMounted(() => {
-	if (route.query.doctor_id) {
-		readCart();
-		open.value = true;
-	}
-});
 
 function toOpen() {
 	readCart();

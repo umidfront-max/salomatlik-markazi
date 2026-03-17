@@ -1,6 +1,8 @@
 <script setup>
 const localePath = useLocalePath();
 const { locale } = useI18n();
+const router = useRouter();
+
 defineProps({
 	data: {
 		type: Object,
@@ -11,6 +13,11 @@ defineProps({
 		default: "doctor",
 	},
 });
+
+const goToDoctor = (id) => {
+	router.push(localePath(`/doctor/${id}`));
+};
+
 </script>
 
 <template>
@@ -119,16 +126,14 @@ defineProps({
 						class="card-info__button"
 						:data-text="$t('booking')"
 						@click.stop="
-							$router.push(localePath({ query: { doctor_id: data.id } }))
+							router.push(localePath({ query: { doctor_id: data.id } }))
 						"
 					>
-						{{ $t("booking") }}
+						{{ $t("booking1") }}
 					</Btn>
 					<button
 						class="card-info__button card-info__button--secondary"
-						@click.stop="
-							$router.push(localePath({ path: '/doctor/' + data.id }))
-						"
+						@click.stop="goToDoctor(data.id)"
 					>
 						{{ $t("moreDetails") }}
 					</button>

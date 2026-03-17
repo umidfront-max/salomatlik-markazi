@@ -1,7 +1,5 @@
 <script setup>
 const { locale } = useI18n();
-const { list: social } = useSocial();
-const { list: menu } = useMenu();
 const { data: setting } = await useAsyncData("settings", () =>
 	$api("settings"),
 );

@@ -7,19 +7,11 @@ const localePath = useLocalePath();
 const open = ref(false);
 const messageModalVisible = ref(false);
 const messageModalType = ref("success");
-
-watch(
-	() => route.query.doctor_id,
-	(value) => {
-		if (value) {
-			toOpen(true);
-		}
+const props = defineProps({
+	doctorId: {
+		type: String,
+		default: () => "",
 	},
-);
-onMounted(() => {
-	if (route.query.doctor_id) {
-		toToggle(true);
-	}
 });
 
 function toOpen() {
@@ -27,7 +19,7 @@ function toOpen() {
 }
 function toClose() {
 	open.value = false;
-	router.push(localePath({ query: { doctor_id: undefined } }));
+	router.push(localePath({ query: {} }));
 }
 
 const handleSuccess = () => {
@@ -45,21 +37,28 @@ const handleError = () => {
 defineExpose({ toOpen });
 </script>
 <template>
-	<AModal
-		:title="$t('formApplication')"
-		:footer="null"
-		width="1040px"
-		@ok="toClose"
-		@cancel="toClose"
-		v-model:visible="open"
-		:forceRender="true"
-	>
-		<FormApply :open="open" @success="handleSuccess" @error="handleError" />
-	</AModal>
+	<div>
+		<AModal
+			:title="$t('formApplication')"
+			:footer="null"
+			width="1040px"
+			@ok="toClose"
+			@cancel="toClose"
+			v-model:visible="open"
+			:forceRender="true"
+		>
+			<FormApply
+				:open="open"
+				@success="handleSuccess"
+				@error="handleError"
+				:doctorId="props.doctorId"
+			/>
+		</AModal>
 
-	<!-- Message Modal -->
-	<ModalMessage
-		v-model:visible="messageModalVisible"
-		:type="messageModalType"
-	/>
+		<!-- Message Modal -->
+		<ModalMessage
+			v-model:visible="messageModalVisible"
+			:type="messageModalType"
+		/>
+	</div>
 </template>
