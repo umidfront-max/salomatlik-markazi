@@ -87,7 +87,7 @@ const gutter = { xs: 16, xl: 20, xxl: 24 };
 			data-aos-offset="300"
 		>
 			<h2 class="section-title">
-				{{ $t("doctor.title1") }}
+				{{ $t("doctor.title") }}
 			</h2>
 
 			<NuxtLink class="section-link" :to="localePath('/doctor')">
