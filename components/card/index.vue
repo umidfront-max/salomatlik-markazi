@@ -98,8 +98,8 @@ defineProps({
 				</li>
 			</ul>
 		</div>
-   
-      <SectionHeaderApply :doctorId="data.id" ref="applyRef" />
+
+		<SectionHeaderApply :doctorId="data.id" ref="applyRef" />
 	</div>
 </template>
 
@@ -108,6 +108,12 @@ defineProps({
 
 $accent: #33c1ed;
 
+.container {
+	max-width: 1320px !important;
+	width: 100%;
+	margin: 0 auto;
+	padding: 40px 20px;
+}
 .card {
 	height: 100%;
 	display: flex;
