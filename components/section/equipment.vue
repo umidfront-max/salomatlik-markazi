@@ -43,7 +43,7 @@ const swiperOptions = {
 <template>
 	<section
 		v-if="equipments?.data?.length"
-		class="section container section--xs-swiper-auto pt-100"
+		class="section container section--xs-swiper-auto pt-10 pb-10"
 	>
 		<div class="section-header">
 			<h2 class="section-title">{{ $t("equipment") }}</h2>

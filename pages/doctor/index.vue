@@ -2,23 +2,13 @@
 const { list } = useDoctor();
 const router = useRouter();
 const localePath = useLocalePath();
-const { $api } = useNuxtApp();
-defineComponent({ name: "home" });
-const { data: doctors } = await useAsyncData("doctors_home", () =>
-	$api("doctors", {
-		params: {
-			limit: 5,
-			is_visible_home: true,
-		},
-	}),
-);
+defineComponent({ name: "doctors" });
 </script>
 <template>
 	<section class="section container pb-100">
-    
 		<ARow :gutter="[{ xxl: 24, xl: 20, sm: 16, xs: 12 }, 32]">
 			<ACol
-				v-for="(item, index) in doctors.data"
+				v-for="(item, index) in list"
 				:key="index"
 				:xl="6"
 				:md="8"

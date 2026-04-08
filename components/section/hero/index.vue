@@ -5,7 +5,7 @@ const { locale } = useI18n()
 const lang = computed(() => locale.value || 'uz')
 
 const { data } = await useAsyncData('banners', () =>
-  $api('banners', { params: { category: 'banners', limit: 12 } })
+  $api('banners', { params: { limit: 12 } })
 )
 
 const banners = computed(() => {

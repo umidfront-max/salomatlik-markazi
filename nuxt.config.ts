@@ -11,6 +11,7 @@ export default defineNuxtConfig({
       "@nuxtjs/sitemap",
    ],
    app: {
+      pageTransition: { name: 'page', mode: 'out-in' },
       head: {
          bodyAttrs: {
             class: process.env.SITE_NAME,

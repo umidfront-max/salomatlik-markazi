@@ -54,9 +54,10 @@ const menus = computed(() => [
 const breadcrumbs = computed(() => {
 	const result = [];
 
-	if (typeof route.name !== "string") return result;
+	const routeName = route.name?.toString() ?? "";
+	if (!routeName) return result;
 
-	const name = route.name.split("___")[0];
+	const name = routeName.split("___")[0];
 
 	menus.value.forEach((item) => {
 		if (name.includes(item.page)) {

@@ -120,7 +120,7 @@ toSetStore(useSocial, social);
 		<SectionHeader />
 		<SectionBreadcrumbs v-if="isVisibleBreadcrumbs" />
 
-		<NuxtPage></NuxtPage>
+		<NuxtPage />
 
 		<SectionConnect />
 		<SectionFooter />

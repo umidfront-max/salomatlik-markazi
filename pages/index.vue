@@ -32,7 +32,7 @@ const { data: diseases } = await useAsyncData("diseases_home", () =>
       <!-- <SectionProgram class="pb-100" /> -->
       <SectionDoctor class="pb-100" />
       <SectionNews :list="news?.data ?? []" />
-      <SectionEquipment class="pb-100" />
+      <SectionEquipment  />
       <SectionNews :list="diseases?.data ?? []" :is-diseases="true" />
       <SectionFeedback />
       <SectionPartner class="pt-100" />
