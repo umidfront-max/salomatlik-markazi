@@ -7,15 +7,6 @@ const { data: detail = {} } = await useAsyncData(
 	`menu_${route.params.slug}`,
 	() => $api(`news/${route.params.slug}`),
 );
-const { data: news } = await useAsyncData(
-	`news_similar_${route.params.slug}`,
-	() =>
-		$api("news", {
-			params: {
-				limit: 8,
-			},
-		}),
-);
 const { data: diseases } = await useAsyncData(
 	`diseases_by_news_${route.params.slug}`,
 	() =>

@@ -1,8 +1,6 @@
 <script setup>
 const { locale } = useI18n();
-const { data: setting } = await useAsyncData("settings", () =>
-	$api("settings"),
-);
+const { list: setting } = useSetting();
 
 const localePath = useLocalePath();
 const router = useRouter();
@@ -110,7 +108,7 @@ function openCart() {
 						<ul class="hNav__list">
 							<li class="hNav__item">
 								<NuxtLink class="hNav__link" :to="localePath('/news')">
-									{{ setting?.data?.news?.[locale] }}
+									{{ setting?.news?.[locale] }}
 								</NuxtLink>
 							</li>
 							<li class="hNav__item">
@@ -118,7 +116,7 @@ function openCart() {
 									class="hNav__link"
 									:to="localePath('/doctor')"
 								>
-									{{ setting?.data?.doctor?.[locale] }}
+									{{ setting?.doctor?.[locale] }}
 								</NuxtLink>
 							</li>
 							<li class="hNav__item">
@@ -126,7 +124,7 @@ function openCart() {
 									class="hNav__link"
 									:to="localePath('/department')"
 								>
-									{{ setting?.data?.service?.[locale] }}
+									{{ setting?.service?.[locale] }}
 								</NuxtLink>
 							</li>
 							<li class="hNav__item">
@@ -134,7 +132,7 @@ function openCart() {
 									class="hNav__link"
 									:to="localePath('/contact')"
 								>
-									{{ setting?.data?.contact?.[locale] }}
+									{{ setting?.contact?.[locale] }}
 								</NuxtLink>
 							</li>
 						</ul>

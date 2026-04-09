@@ -56,6 +56,14 @@ export default {
       practicesPerformed: "Procedures Performed",
       about: "About the Doctor",
       education: "Education",
+      experience: "Work Experience",
+      departments: "Departments",
+      yearsOfExperience: "years of experience",
+      workplace: "Workplace",
+      patients: "patients",
+      operations: "operations",
+      phone: "Phone",
+      present: "present",
    },
    team: {
       title: "Our Team"
@@ -73,6 +81,7 @@ export default {
    partner: {
       title: "Our Clients",
    },
+   checTitle: "Includes",
    apply: {
       title: "Book an Appointment",
       text: "Fill out the application form, and our staff will contact you shortly.",

@@ -24,14 +24,15 @@ defineProps({
 				{{ data.fullName?.[locale] }}
 			</h1>
 
-			<p v-if="data.sub_title" class="doctor-detail__role">
-				{{ data.specialization?.[locale] }}
+			<p v-if="data.specialization?.[locale]" class="doctor-detail__role">
+				{{ data.specialization[locale] }}
 			</p>
 
 			<ul class="doctor-detail__chips">
-				<li class="doctor-detail__chip doctor-detail__chip--rating">
-					<Icon name="star" />
-					<b>{{ data.rating }}</b>
+				<li v-if="data.yearsOfExperience" class="doctor-detail__chip doctor-detail__chip--accent">
+					<Icon name="calendar" />
+					<b>{{ data.yearsOfExperience }}</b>
+					<span>{{ $t("doctor.yearsOfExperience") }}</span>
 				</li>
 
 				<li class="doctor-detail__chip">
@@ -40,13 +41,8 @@ defineProps({
 						(data.experiences ?? []).reduce(
 							(acc, cur) => acc + Number(cur.patientsCount ?? 0),
 							0,
-						)
+						).toLocaleString()
 					}}</b>
-				</li>
-
-				<li class="doctor-detail__chip">
-					<span>{{ $t("reviews") }}:</span>
-					<b>{{ data.count_reviews }}</b>
 				</li>
 
 				<li class="doctor-detail__chip">
@@ -55,8 +51,13 @@ defineProps({
 						(data.experiences ?? []).reduce(
 							(acc, cur) => acc + Number(cur.operationsCount ?? 0),
 							0,
-						)
+						).toLocaleString()
 					}}</b>
+				</li>
+
+				<li v-if="data.phone" class="doctor-detail__chip doctor-detail__chip--phone">
+					<Icon name="phone-fill" />
+					<a :href="`tel:${data.phone}`" class="doctor-detail__phone-link">{{ data.phone }}</a>
 				</li>
 			</ul>
 		</div>
@@ -176,12 +177,37 @@ $accent: #33c1ed;
 		}
 
 		&--wide {
-			flex: 1 1 280px; /* uzun chip */
+			flex: 1 1 280px;
 			justify-content: space-between;
 		}
 
 		&--rating {
 			background: rgba(51, 193, 237, 0.12);
+		}
+
+		&--accent {
+			background: rgba(51, 193, 237, 0.15);
+			border-color: rgba(51, 193, 237, 0.4);
+		}
+
+		&--phone {
+			background: rgba(45, 180, 120, 0.08);
+			border-color: rgba(45, 180, 120, 0.25);
+
+			:deep(.icon), :deep(svg) {
+				color: #2db478;
+			}
+		}
+	}
+
+	&__phone-link {
+		font-size: 18px;
+		font-weight: 800;
+		color: #0b2239;
+		text-decoration: none;
+
+		&:hover {
+			color: #2db478;
 		}
 	}
 

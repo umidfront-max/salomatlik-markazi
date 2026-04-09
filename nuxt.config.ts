@@ -180,7 +180,7 @@ export default defineNuxtConfig({
       name: process.env.SITE_NAME,
    },
    css: [
-      "ant-design-vue/dist/antd.css",
+      "ant-design-vue/dist/antd.min.css",
       'remixicon/fonts/remixicon.css',
       "swiper/css",
       "~/assets/font/stylesheet.css",

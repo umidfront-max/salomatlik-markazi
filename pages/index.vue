@@ -1,29 +1,21 @@
 <script setup>
 const { $api } = useNuxtApp();
 defineComponent({ name: "home" });
-const { data: news } = await useAsyncData("news_home", () =>
-	$api("news", {
-		params: {
-			limit: 5,
-			is_visible_home: true,
-		},
-	}),
-);
-const { data: diseases } = await useAsyncData("diseases_home", () =>
-	$api("diseases", {
-		params: {
-			limit: 5,
-			category: "diseases",
-			is_visible_home: true,
-		},
-	}),
-);
+const [{ data: news }, { data: diseases }] = await Promise.all([
+	useAsyncData("news_home", () =>
+		$api("news", { params: { limit: 5, is_visible_home: true } }),
+	),
+	useAsyncData("diseases_home", () =>
+		$api("diseases", {
+			params: { limit: 5, category: "diseases", is_visible_home: true },
+		}),
+	),
+]);
 </script>
 <template>
    <div>
       <SectionHero />
-      <!-- <YandexMap /> -->
-      <SectionSaveCart class="pt-80" />
+<SectionSaveCart class="pt-80" />
       <SectionHomeService class="pt-80" />
       <SectionStats class="pt-100" />
       <SectionVideo class="pt-100" />

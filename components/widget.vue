@@ -32,9 +32,6 @@ const getItemStyle = (index) => {
 		transitionDelay: `${index * 80}ms`,
 	};
 };
-onMounted(() => {
-	console.log("updated");
-});
 const telegram = computed(() =>
 	socials.find((item) => item.icon === "telegram"),
 );
@@ -62,7 +59,7 @@ const telegram = computed(() =>
 					:style="getItemStyle(3)"
 				>
 					<Icon name="whatsapp" class="widget-item__icon" />
-					<span class="widget-item__text">Whatsapp</span>
+					<span class="widget-item__text">WhatsApp</span>
 				</a>
 				<a
 					:href="setting.instagram?.[locale]"

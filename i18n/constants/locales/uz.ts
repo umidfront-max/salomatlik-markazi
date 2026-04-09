@@ -72,7 +72,15 @@ export default {
       receipts: "Qabul soni",
       practicesPerformed: "Bajarilgan amaliyotlar",
       about: "Shifokor haqida",
-      education: "Ta'lim"
+      education: "Ta'lim",
+      experience: "Ish tajribasi",
+      departments: "Bo'limlar",
+      yearsOfExperience: "yillik tajriba",
+      workplace: "Ish joyi",
+      patients: "bemor",
+      operations: "operatsiya",
+      phone: "Telefon",
+      present: "hozirgi kunga"
 
    },
    team: {

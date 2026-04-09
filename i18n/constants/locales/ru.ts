@@ -55,6 +55,14 @@ export default {
       practicesPerformed: "Выполненные процедуры",
       about: "О враче",
       education: "Образование",
+      experience: "Опыт работы",
+      departments: "Отделения",
+      yearsOfExperience: "лет опыта",
+      workplace: "Место работы",
+      patients: "пациентов",
+      operations: "операций",
+      phone: "Телефон",
+      present: "наст. время",
    },
    team: {
       title: "Наша команда"
@@ -72,6 +80,7 @@ export default {
    partner: {
       title: "Наши клиенты",
    },
+   checTitle: "Включает в себя",
    apply: {
       title: "Записаться на приём",
       text: "Заполните форму записи, и наши сотрудники свяжутся с вами в ближайшее время.",

@@ -11,10 +11,10 @@ export default defineNuxtPlugin((nuxtApp: any) => {
             }
         },
         onResponseError(e) {
-            console.log(e)
+            if (import.meta.dev) console.error('[API Response Error]', e)
         },
         onRequestError(e) {
-            console.error(`bu error: ${e}`)
+            if (import.meta.dev) console.error('[API Request Error]', e)
         }
     })
     return {

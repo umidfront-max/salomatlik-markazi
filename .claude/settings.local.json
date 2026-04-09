@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -r 'useAsyncData\\\\|useFetch\\\\|$fetch' 'c:\\\\Users\\\\UMIDJON\\\\Desktop\\\\med-madad-shifo-main\\\\components' '--include=*.vue')",
+      "Bash(grep -v '$t')",
+      "Bash(grep -v '\\\\$t\\\\|item\\\\|setting\\\\|:alt')"
+    ]
+  }
+}

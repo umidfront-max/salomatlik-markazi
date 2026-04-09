@@ -161,7 +161,7 @@ const { list: social } = useSocial();
 						<Icon name="location" />
 					</div>
 					<a
-						target="_black"
+						target="_blank"
 						:href="setting.addressLink?.[locale]"
 						class="footer__stripText"
 					>
