@@ -77,9 +77,15 @@ const filteredNews = computed(() =>
 const filteredDiseases = computed(() =>
 	diseases.filter((el) => el.department?.id == route.params.slug),
 );
-const filteredDoctors = computed(() =>
-	doctors.filter((el) => el.department?.id == route.params.slug),
-);
+const filteredDoctors = computed(() => {
+	const slug = route.params.slug;
+	return doctors.filter((el) => {
+		if (Array.isArray(el.departments)) {
+			return el.departments.some((d) => d.id === slug || d.slug === slug);
+		}
+		return el.department?.id === slug || el.department?.slug === slug;
+	});
+});
 const filteredGallery = computed(() =>
 	(galery ?? []).filter((el) => el.department?.id == route.params.slug),
 );

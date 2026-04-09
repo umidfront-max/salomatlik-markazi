@@ -8,9 +8,19 @@ const { data: checkup } = await useAsyncData(
   () => $api(`checkup/${route.params.slug}`)
 )
 
-const hasDiscount = computed(() => {
-  return checkup.value?.oldPrice && checkup.value.oldPrice > checkup.value.price
+useHead({
+  title: computed(() => checkup.value?.metaTitle?.[locale.value] || checkup.value?.name?.[locale.value]),
+  meta: [
+    { name: 'description', content: computed(() => checkup.value?.metaDescription?.[locale.value]) },
+    { property: 'og:title', content: computed(() => checkup.value?.metaTitle?.[locale.value] || checkup.value?.name?.[locale.value]) },
+    { property: 'og:description', content: computed(() => checkup.value?.metaDescription?.[locale.value]) },
+    { property: 'og:image', content: computed(() => checkup.value?.image) },
+  ]
 })
+
+const hasDiscount = computed(() =>
+  checkup.value?.oldPrice && checkup.value.oldPrice > checkup.value.price
+)
 
 const discountPercent = computed(() => {
   if (!hasDiscount.value) return 0
@@ -29,220 +39,509 @@ const durationText = computed(() => {
 </script>
 
 <template>
-  <section class="checkup container" v-if="checkup">
-    <div class="checkup__grid">
+  <div class="ck-page" v-if="checkup">
+    <div class="ck-page__container container">
 
-      <!-- IMAGE -->
-      <div class="checkup__image">
-        <img :src="checkup.image" :alt="checkup.name?.[locale]" />
+      <!-- ── HERO GRID ── -->
+      <div class="ck-hero">
 
-        <div v-if="hasDiscount" class="discount-badge">
-          -{{ discountPercent }}%
-        </div>
-      </div>
-
-      <!-- INFO -->
-      <div class="checkup__info">
-        <span class="checkup__department">
-          {{ checkup.department?.title?.[locale] }}
-        </span>
-
-        <h1 class="checkup__title">
-          {{ checkup.name?.[locale] }}
-        </h1>
-
-        <div class="checkup__meta">
-          <div class="meta-item">⏱ {{ durationText }}</div>
-          <div class="meta-item">👥 {{ checkup.gender }}</div>
-        </div>
-
-        <div
-          class="checkup__desc"
-          v-html="checkup.description?.[locale]"
-        />
-
-        <!-- FEATURES -->
-        <ul v-if="checkup.features?.length" class="features">
-          <li v-for="f in checkup.features" :key="f">✔ {{ f }}</li>
-        </ul>
-
-        <!-- PRICE CARD -->
-        <div class="price-card">
-          <div>
-            <div v-if="hasDiscount" class="old-price">
-              {{ checkup.oldPrice.toLocaleString() }} {{ $t('service.sum') }}
-            </div>
-            <div class="current-price">
-              {{ checkup.price.toLocaleString() }} {{ $t('service.sum') }}
+        <!-- IMAGE -->
+        <div class="ck-hero__media">
+          <div class="ck-hero__img-wrap">
+            <img
+              :src="checkup.image"
+              :alt="checkup.name?.[locale]"
+              class="ck-hero__img"
+            />
+            <div class="ck-hero__img-overlay" aria-hidden="true"></div>
+            <div v-if="hasDiscount" class="ck-hero__badge">
+              −{{ discountPercent }}%
             </div>
           </div>
-
-          <button class="btn-primary">{{ $t('apply.title') }}</button>
         </div>
-      </div>
-    </div>
 
-    <!-- INCLUDED SERVICES -->
-    <div v-if="checkup.items?.length" class="included">
-      <h2>{{ $t('checTitle') }}</h2>
-      <div class="included__grid">
-        <div v-for="item in checkup.items" :key="item.id" class="included-card">
-          <img :src="item.service?.image" />
-          <div>
-            <h3>{{ item.name?.[locale] }}</h3>
-            <p>{{ item.service?.durationMinutes }} {{ $t('service.minut') }}</p>
-          </div>
-          <span class="included-price">
-            {{ item.price.toLocaleString() }} {{ $t('service.sum') }}
+        <!-- INFO -->
+        <div class="ck-hero__info">
+
+          <!-- Department tag -->
+          <span
+            v-if="checkup.department?.title?.[locale]"
+            class="ck-tag"
+          >
+            {{ checkup.department.title[locale] }}
           </span>
+
+          <!-- Title -->
+          <h1 class="ck-hero__title">{{ checkup.name?.[locale] }}</h1>
+
+          <!-- Meta chips -->
+          <div class="ck-chips">
+            <span v-if="durationText" class="ck-chip">
+              <Icon name="clock" class="ck-chip__icon" />
+              {{ durationText }}
+            </span>
+            <span v-if="checkup.gender" class="ck-chip">
+              <Icon name="consultant" class="ck-chip__icon" />
+              {{ checkup.gender }}
+            </span>
+            <span v-if="checkup.items?.length" class="ck-chip ck-chip--accent">
+              {{ checkup.items.length }} {{ $t('checTitle') }}
+            </span>
+          </div>
+
+          <!-- Description -->
+          <div
+            v-if="checkup.description?.[locale]"
+            class="ck-hero__desc prose"
+            v-html="checkup.description[locale]"
+          />
+
+          <!-- Features -->
+          <ul v-if="checkup.features?.length" class="ck-features">
+            <li v-for="f in checkup.features" :key="f" class="ck-features__item">
+              <Icon name="check-circle" class="ck-features__icon" />
+              {{ f }}
+            </li>
+          </ul>
+
+          <!-- Price card -->
+          <div class="ck-price">
+            <div class="ck-price__left">
+              <span v-if="hasDiscount" class="ck-price__old">
+                {{ checkup.oldPrice.toLocaleString() }} {{ $t('service.sum') }}
+              </span>
+              <span class="ck-price__current">
+                {{ checkup.price?.toLocaleString() }} {{ $t('service.sum') }}
+              </span>
+            </div>
+            <button class="ck-btn">{{ $t('apply.title') }}</button>
+          </div>
+
         </div>
       </div>
+
+      <!-- ── INCLUDED SERVICES ── -->
+      <div v-if="checkup.items?.length" class="ck-included">
+        <h2 class="ck-included__title">{{ $t('checTitle') }}</h2>
+        <div class="ck-included__grid">
+          <div
+            v-for="item in checkup.items"
+            :key="item.id"
+            class="ck-card"
+          >
+            <div class="ck-card__img-wrap">
+              <img
+                v-if="item.service?.image"
+                :src="item.service.image"
+                :alt="item.name?.[locale]"
+                class="ck-card__img"
+              />
+              <div v-else class="ck-card__img-placeholder">
+                <Icon name="apply" />
+              </div>
+            </div>
+            <div class="ck-card__body">
+              <h3 class="ck-card__name">{{ item.name?.[locale] }}</h3>
+              <span v-if="item.service?.durationMinutes" class="ck-card__meta">
+                <Icon name="clock" />
+                {{ item.service.durationMinutes }} {{ $t('service.minut') }}
+              </span>
+            </div>
+            <span class="ck-card__price">
+              {{ item.price?.toLocaleString() }} {{ $t('service.sum') }}
+            </span>
+          </div>
+        </div>
+      </div>
+
     </div>
-  </section>
+  </div>
 </template>
 
 <style scoped lang="scss">
-.checkup {
-  padding: 60px 0;
+@use "@/assets/scss/config/mixins" as *;
 
-  &__grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
+// ── Tokens ────────────────────────────────────────
+$accent:    #2563eb;
+$accent-lt: #e8f2ff;
+$green:     #16a34a;
+$green-lt:  #dcfce7;
+$red:       #ef4444;
+$border:    rgba(2, 10, 20, 0.08);
+$shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.06);
+$shadow-md: 0 10px 40px rgba(0, 0, 0, 0.1);
 
-    @media (max-width: 992px) {
-      grid-template-columns: 1fr;
+// ── Page wrapper ──────────────────────────────────
+.ck-page {
+  padding: 48px 0 100px;
+  background: #f8fafc;
+
+  @include devices(sm) {
+    padding: 24px 0 60px;
+  }
+}
+
+// ── Hero grid ─────────────────────────────────────
+.ck-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+
+  @include devices(lg) {
+    gap: 32px;
+  }
+
+  @include devices(md) {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  // ── Image side ──
+  &__media {
+    position: sticky;
+    top: 24px;
+
+    @include devices(md) {
+      position: static;
     }
   }
 
-  &__image {
+  &__img-wrap {
     position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: $shadow-md;
+  }
 
-    img {
-      width: 100%;
-      border-radius: 20px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+  &__img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+
+    @include devices(xs) {
+      aspect-ratio: 16 / 9;
     }
   }
 
-  &__department {
-    background: #e8f2ff;
-    color: #1d4ed8;
+  &__img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.18) 0%,
+      transparent 50%
+    );
+    pointer-events: none;
+  }
+
+  &__badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: $red;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
     padding: 6px 14px;
-    border-radius: 999px;
-    font-weight: 600;
-    font-size: 14px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba($red, 0.4);
+    letter-spacing: 0.02em;
+  }
+
+  // ── Info side ──
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 
   &__title {
-    font-size: 38px;
-    font-weight: 700;
-    margin: 16px 0;
-  }
-
-  &__meta {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 20px;
-    color: #64748b;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-weight: 800;
+    line-height: 1.2;
+    color: #0b2239;
+    margin: 0;
   }
 
   &__desc {
-    margin-bottom: 24px;
-    line-height: 1.7;
+    color: #475569;
+    line-height: 1.75;
+
+    :deep(p) { margin-bottom: 10px; }
+    :deep(ul), :deep(ol) { padding-left: 18px; margin-bottom: 10px; }
+    :deep(li) { margin-bottom: 4px; }
+    :deep(strong) { color: #0b2239; }
   }
 }
 
-.discount-badge {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  background: #ef4444;
-  color: white;
-  padding: 8px 14px;
-  border-radius: 12px;
+// ── Tag ───────────────────────────────────────────
+.ck-tag {
+  display: inline-block;
+  background: $accent-lt;
+  color: $accent;
+  font-size: 13px;
   font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 999px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
-.features {
-  margin: 20px 0;
-  padding-left: 0;
-  list-style: none;
-
-  li {
-    margin-bottom: 6px;
-    color: #16a34a;
-    font-weight: 500;
-  }
-}
-
-.price-card {
+// ── Chips ─────────────────────────────────────────
+.ck-chips {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ck-chip {
+  display: inline-flex;
   align-items: center;
-  background: #f8fafc;
-  padding: 20px 24px;
-  border-radius: 16px;
-  border: 1px solid #e2e8f0;
-
-  .old-price {
-    text-decoration: line-through;
-    color: #94a3b8;
-  }
-
-  .current-price {
-    font-size: 28px;
-    font-weight: 700;
-  }
-}
-
-.btn-primary {
-  background: #2563eb;
-  color: white;
-  border: none;
-  padding: 14px 26px;
-  border-radius: 12px;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid $border;
+  font-size: 14px;
   font-weight: 600;
-  cursor: pointer;
+  color: #475569;
+  box-shadow: $shadow-sm;
+
+  &__icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+  }
+
+  &--accent {
+    background: $accent-lt;
+    border-color: rgba($accent, 0.2);
+    color: $accent;
+  }
 }
 
-.included {
-  margin-top: 70px;
+// ── Features ──────────────────────────────────────
+.ck-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 
-  h2 {
-    font-size: 26px;
-    margin-bottom: 20px;
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #1e293b;
+  }
+
+  &__icon {
+    color: $green;
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+// ── Price card ────────────────────────────────────
+.ck-price {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  background: #fff;
+  border-radius: 18px;
+  border: 1px solid $border;
+  box-shadow: $shadow-sm;
+
+  @include devices(xs) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px 16px;
+  }
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__old {
+    font-size: 15px;
+    color: #94a3b8;
+    text-decoration: line-through;
+  }
+
+  &__current {
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    font-weight: 800;
+    color: #0b2239;
+  }
+}
+
+// ── CTA button ────────────────────────────────────
+.ck-btn {
+  flex-shrink: 0;
+  background: $accent;
+  color: #fff;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background: darken($accent, 8%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba($accent, 0.35);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  @include devices(xs) {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+// ── Included section ──────────────────────────────
+.ck-included {
+  margin-top: 72px;
+
+  @include devices(sm) {
+    margin-top: 48px;
+  }
+
+  &__title {
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    font-weight: 700;
+    color: #0b2239;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid $accent-lt;
   }
 
   &__grid {
     display: grid;
-    gap: 16px;
+    gap: 14px;
   }
 }
 
-.included-card {
+// ── Included card ─────────────────────────────────
+.ck-card {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 16px;
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
+  padding: 16px 20px;
+  background: #fff;
+  border: 1px solid $border;
+  border-radius: 16px;
+  box-shadow: $shadow-sm;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 
-  img {
-    width: 60px;
-    height: 60px;
-    border-radius: 10px;
+  &:hover {
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.09);
+    transform: translateY(-1px);
+  }
+
+  @include devices(xs) {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  &__img-wrap {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: $accent-lt;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include devices(xs) {
+      width: 52px;
+      height: 52px;
+    }
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
 
-  h3 {
-    margin: 0;
-    font-size: 16px;
+  &__img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $accent;
+    opacity: 0.6;
   }
 
-  .included-price {
-    margin-left: auto;
-    font-weight: 600;
+  &__body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0b2239;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    @include devices(xs) {
+      white-space: normal;
+    }
+  }
+
+  &__meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    color: #94a3b8;
+
+    :deep(.icon) {
+      width: 13px;
+      height: 13px;
+    }
+  }
+
+  &__price {
+    flex-shrink: 0;
+    font-size: 16px;
+    font-weight: 800;
+    color: $accent;
+    white-space: nowrap;
+
+    @include devices(xs) {
+      width: 100%;
+      text-align: right;
+    }
   }
 }
 </style>

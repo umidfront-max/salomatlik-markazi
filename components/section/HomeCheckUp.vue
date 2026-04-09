@@ -103,7 +103,7 @@ async function onSwiper(swiper: any) {
 				>
 					<SwiperSlide v-for="checkup in list" :key="checkup.id">
 						<NuxtLink
-							:to="localePath(`/checkup/${checkup.slug || checkup.id}`)"
+							:to="localePath(`/checkup/${checkup.id}`)"
 							class="slide-link"
 						>
 							<CardServiceCheckUp :data="checkup" />
