@@ -142,7 +142,7 @@ function bookingFn() {
 						{ to: '/doctor', title: setting?.doctor?.[locale] },
 						{ to: '/department', title: setting?.service?.[locale] },
 						{ to: '/contact', title: setting?.contact?.[locale] },
-						{ to: '/aboutUs', title: setting?.aboutUs?.[locale] || $t('aboutUs') },
+						{ to: '/aboutUs', title: $t('aboutUs') },
 					]"
 					:key="idx"
 				>

@@ -208,12 +208,16 @@ watch(
 
 .section {
 	position: relative;
-	padding: calc(80px + var(--height-header-part) * 2) 0 60px;
+	padding: 80px 0 60px;
 	background: linear-gradient(135deg, var(--blue-2) 0%, var(--blue-1) 100%);
 	overflow: hidden;
 	isolation: isolate;
-	margin-top: calc(0px - var(--height-header-part) * 2);
 	margin-bottom: 80px;
+
+	@include devices(md) {
+		padding: 48px 0 40px;
+		margin-bottom: 48px;
+	}
 
 	&-bg {
 		position: absolute;

@@ -95,9 +95,6 @@ toSetStore(useSocial, social);
 </template>
 
 <style lang="scss">
-.wrapper-page {
-	//   padding-top: 160px; // Header height compensation (80px top + 80px bottom sections)
-}
 body {
 	font-family: "Tilda Sans", sans-serif;
 }
