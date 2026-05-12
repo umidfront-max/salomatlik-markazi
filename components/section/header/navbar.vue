@@ -142,6 +142,7 @@ function bookingFn() {
 						{ to: '/doctor', title: setting?.doctor?.[locale] },
 						{ to: '/department', title: setting?.service?.[locale] },
 						{ to: '/contact', title: setting?.contact?.[locale] },
+						{ to: '/aboutUs', title: setting?.aboutUs?.[locale] || $t('aboutUs') },
 					]"
 					:key="idx"
 				>
@@ -150,8 +151,9 @@ function bookingFn() {
 						:to="localePath(item.to)"
 						role="menuitem"
 						@click="toClose"
-						>{{ item.title }}</NuxtLink
 					>
+						<span v-html="item.title"></span>
+					</NuxtLink>
 				</li>
 			</ul>
 
@@ -520,6 +522,31 @@ function bookingFn() {
 	transform: translateY(0);
 	opacity: 1;
 	transition-delay: 0.52s;
+}
+.menu.active .menu-menu__item:nth-child(5) .menu-menu__link {
+	transform: translateY(0);
+	opacity: 1;
+	transition-delay: 0.58s;
+}
+
+/* keep v-html inline (don't break layout) */
+.menu-menu__link :deep(p),
+.menu-menu__link :deep(h1),
+.menu-menu__link :deep(h2),
+.menu-menu__link :deep(h3),
+.menu-menu__link :deep(h4),
+.menu-menu__link :deep(div) {
+	display: inline;
+	margin: 0;
+	padding: 0;
+	font: inherit;
+	color: inherit;
+	line-height: inherit;
+}
+.menu-menu__link :deep(a) {
+	color: inherit;
+	text-decoration: none;
+	pointer-events: none;
 }
 
 /* contact block & address animations (phones side-by-side) */

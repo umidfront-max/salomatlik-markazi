@@ -49,7 +49,16 @@ const menus = computed(() => [
 		to: "/contact",
 		title: setting?.contact?.[locale.value],
 	},
+	{
+		page: "aboutUs",
+		to: "/aboutUs",
+		title: t("aboutUs"),
+	},
 ]);
+
+// strip HTML tags for plain-text breadcrumbs / page title
+const stripHtml = (s) =>
+	typeof s === "string" ? s.replace(/<[^>]*>/g, "").trim() : s;
 
 const breadcrumbs = computed(() => {
 	const result = [];
@@ -78,7 +87,7 @@ watch(
 	() => {
 		if (!props.title) {
 			useHead({
-				title: activeTitle.value,
+				title: stripHtml(activeTitle.value),
 			});
 		}
 	},
@@ -168,7 +177,7 @@ watch(
 					<Icon name="angle-right" class="section-list__separator" />
 
 					<span v-if="!$props.title" class="section-list__text">
-						{{ item.title }}
+						{{ stripHtml(item.title) }}
 					</span>
 
 					<NuxtLink
@@ -176,20 +185,20 @@ watch(
 						:to="localePath(item.to)"
 						class="section-list__link"
 					>
-						{{ item.title }}
+						{{ stripHtml(item.title) }}
 					</NuxtLink>
 				</li>
 
 				<li class="section-list__item" v-if="$props.title">
 					<Icon name="angle-right" class="section-list__separator" />
 					<span class="section-list__text">
-						{{ $props.title }}
+						{{ stripHtml($props.title) }}
 					</span>
 				</li>
 			</ul>
 
 			<h1 class="section-label">
-				{{ activeTitle }}
+				{{ stripHtml(activeTitle) }}
 			</h1>
 		</div>
 	</section>

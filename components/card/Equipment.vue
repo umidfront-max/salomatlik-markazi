@@ -15,15 +15,16 @@ defineProps({
 	<!-- ───────── EQUIPMENT CARD ───────── -->
 	<template v-if="type === 'equipment'">
 		<div class="eq-card">
+         
 			<div class="eq-card__media">
 				<Image
-					:src="'https://api-his.irismed.uz' + data.images?.[0]"
+					:src="data.images?.[0]?.url"
 					class="eq-card__img"
 				/>
 			</div>
 			<div class="eq-card__body">
 				<p class="eq-card__title">{{ data.title?.[$i18n.locale] }}</p>
-				<p class="eq-card__model" v-if="data.model">{{ data.model }}</p>
+				<p class="eq-card__model" v-html="data.shortDescription?.[$i18n.locale]" v-if="data.shortDescription?.[$i18n.locale]"></p>
 				<p class="eq-card__manufacturer" v-if="data.manufacturer?.[$i18n.locale]">
 					{{ $t("manufacturer") }}:
 					<span>{{ data.manufacturer?.[$i18n.locale] }}</span>

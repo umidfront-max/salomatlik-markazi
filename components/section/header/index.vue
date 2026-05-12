@@ -108,7 +108,7 @@ function openCart() {
 						<ul class="hNav__list">
 							<li class="hNav__item">
 								<NuxtLink class="hNav__link" :to="localePath('/news')">
-									{{ setting?.news?.[locale] }}
+									<span class="hNav__html" v-html="setting?.news?.[locale]"></span>
 								</NuxtLink>
 							</li>
 							<li class="hNav__item">
@@ -116,7 +116,7 @@ function openCart() {
 									class="hNav__link"
 									:to="localePath('/doctor')"
 								>
-									{{ setting?.doctor?.[locale] }}
+									<span class="hNav__html" v-html="setting?.doctor?.[locale]"></span>
 								</NuxtLink>
 							</li>
 							<li class="hNav__item">
@@ -124,7 +124,7 @@ function openCart() {
 									class="hNav__link"
 									:to="localePath('/department')"
 								>
-									{{ setting?.service?.[locale] }}
+									<span class="hNav__html" v-html="setting?.service?.[locale]"></span>
 								</NuxtLink>
 							</li>
 							<li class="hNav__item">
@@ -132,7 +132,15 @@ function openCart() {
 									class="hNav__link"
 									:to="localePath('/contact')"
 								>
-									{{ setting?.contact?.[locale] }}
+									<span class="hNav__html" v-html="setting?.contact?.[locale]"></span>
+								</NuxtLink>
+							</li>
+							<li class="hNav__item">
+								<NuxtLink
+									class="hNav__link"
+									:to="localePath('/aboutUs')"
+								>									
+									<span>{{ $t('aboutUs') }}</span>
 								</NuxtLink>
 							</li>
 						</ul>
@@ -391,6 +399,32 @@ function openCart() {
 
 		@include devices(xl) {
 			display: none;
+		}
+	}
+
+	&__html {
+		// Reset block tags from v-html so they sit inline inside <a>
+		display: inline;
+
+		:deep(p),
+		:deep(h1),
+		:deep(h2),
+		:deep(h3),
+		:deep(h4),
+		:deep(h5),
+		:deep(h6),
+		:deep(div) {
+			display: inline;
+			margin: 0;
+			padding: 0;
+			font: inherit;
+			color: inherit;
+			line-height: inherit;
+		}
+		:deep(a) {
+			color: inherit;
+			text-decoration: none;
+			pointer-events: none;
 		}
 	}
 

@@ -9,7 +9,7 @@ const { locale } = useI18n();
 </script>
 <template>
 	<a :href="item.websiteUrl" target="_blank" class="section-item__wrapper">
-		<img :src="'https://api-his.irismed.uz' + item.logo" alt="partner" />
+		<img :src="'https://api-his.wemard.uz' + item.logo" alt="partner" />
 		<p class="text-center">{{ item?.name?.[locale] }}</p>
 	</a>
 </template>

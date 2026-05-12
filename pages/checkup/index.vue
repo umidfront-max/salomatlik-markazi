@@ -17,12 +17,12 @@ const localePath = useLocalePath();
 					:lg="8"
 				>
 					<NuxtLink
-						:to="localePath(`/checkup/${checkup.slug || checkup.id}`)"
+						:to="localePath(`/checkup/${checkup.id}`)"
 						class="checkup-link"
 					>
 						<CardServiceCheckUp
 							:data="checkup"
-							:to="localePath(`/checkup/${checkup.slug || checkup.id}`)"
+							:to="localePath(`/checkup/${checkup.id}`)"
 						/>
 					</NuxtLink>
 				</ACol>

@@ -40,9 +40,9 @@ export default {
       title2: "Biz sizga xizmat ko'rsatamiz",
       title3: "Xizmat turlari",
       description: "Bizning klinikamiz mijozlarga eng sifatli xizmatlarni taqdim etadi. Quyidagi xizmatlarga eng yaxshi mutaxassislarimizni biriktirganmiz. Sizga 17 yildan beri eng sifatli tibbiyotni taqdim etib kelyotganimizdan mamnunmiz!",
-      prescriptionSupport: "Retsept bo'yicha yordam",
-      followUp: "7 kunlik kuzatuv",
-      secureVideo: "Xavfsiz video",
+      prescriptionSupport: "Kutishlarsiz qabul",
+      followUp: "Qabuldan keyin mutaxasis bilan online muloqot",
+      secureVideo: "Keyingi qabullar uchun imtiyozlar",
       kor1: "Korzinkadan olib tashlash",
       kor2: "Korzinkaga qo'shish",
       duration: "Davomiyligi",
@@ -209,6 +209,7 @@ export default {
       booking: "Qabulga yozilish"
    },
 
+   aboutUs: "Biz haqimizda",
    home: "Bosh sahifa",
 
    phone1: "Telefon:",
