@@ -26,28 +26,24 @@ defineProps({
 			<div class="card-image">
 				<Image :src="data.image" />
 			</div>
-
-			<!-- rotated ribbon title -->
-			<div class="card-box__title">
-				<p class="card-info__title">
-					{{ data.fullName?.[locale] }}
-				</p>
-			</div>
 		</div>
 
 		<div class="card-info">
 			<template v-if="type === 'doctor'">
+				<p class="card-info__name">
+					{{ data.fullName?.[locale] }}
+				</p>
 				<span class="card-info__subtitle">
 					{{ data.specialization?.[locale] }}
 				</span>
 
 				<ul class="card-tag">
-					<li class="card-tag__item">
+					<li class="card-tag__item card-tag__item--rating">
 						<Icon name="star" />
-						<b>{{ data.rating }}</b>
+						<b>{{ data.rating ?? 0 }}</b>
 					</li>
 					<li class="card-tag__item">
-						<span> {{ $t("patient") }}: </span>
+						<span>{{ $t("patient") }}:</span>
 						<b>{{
 							(data.experiences ?? []).reduce(
 								(acc, cur) => acc + Number(cur.patientsCount ?? 0),
@@ -56,11 +52,11 @@ defineProps({
 						}}</b>
 					</li>
 					<li class="card-tag__item">
-						<span> {{ $t("reviews") }}: </span>
-						<b>{{ data.count_reviews }}</b>
+						<span>{{ $t("reviews") }}:</span>
+						<b>{{ data.count_reviews ?? 0 }}</b>
 					</li>
-					<li class="card-tag__item">
-						<span> {{ $t("doctor.practicesPerformed") }}: </span>
+					<li class="card-tag__item card-tag__item--full">
+						<span>{{ $t("doctor.practicesPerformed") }}:</span>
 						<b>{{
 							(data.experiences ?? []).reduce(
 								(acc, cur) => acc + Number(cur.operationsCount ?? 0),
@@ -139,16 +135,21 @@ $accent: #33c1ed;
 		position: relative;
 	}
 
-	/* ✅ IMG heightlari bir xil bo'lishi uchun: fixed ratio */
+	/* ✅ IMG: kichikroq, ramkali, optimal o'lcham */
 	&-image {
 		width: 100%;
 		display: block;
+		padding: 12px 12px 0;
+		box-sizing: border-box;
 
 		.image {
-			/* ⭐ hamma kartada bir xil balandlik */
-			--ratio: 0.93;
+			--ratio: 1; /* kvadrat — kichikroq va simmetrik */
 			width: 100%;
 			display: block;
+			border-radius: 14px;
+			overflow: hidden;
+			border: 1px solid rgba(2, 10, 20, 0.08);
+			background: #f5f8fb;
 
 			:deep(img) {
 				width: 100%;
@@ -156,65 +157,24 @@ $accent: #33c1ed;
 				display: block;
 				object-fit: cover;
 				object-position: center top;
+				transition: transform 0.35s ease;
 			}
 		}
-	}
 
-	/* ✅ TITLE: width ism uzunligiga qarab auto (max-content) */
-	&-box__title {
-		position: absolute;
-		right: 70px;
-		bottom: 14px;
-		transform: rotate(90deg);
-		transform-origin: bottom right;
-		width: fit-content; /* ⭐ auto width */
-		max-width: 240px; /* uzun bo'lsa cheklansin */
-		padding: 14px 18px;
-
-		border-radius: 12px;
-		background: rgba(255, 255, 255, 0.95);
-		border: 1px solid rgba(0, 0, 0, 0.06);
-		box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
-		backdrop-filter: blur(8px);
-
-		transition:
-			background 0.25s ease,
-			border-color 0.25s ease,
-			transform 0.25s ease;
 		@include devices(md) {
-			right: 65px;
-			bottom: 14px;
-			max-width: 210px;
-			padding: 10px 14px;
+			padding: 10px 10px 0;
+			.image { --ratio: 1; border-radius: 12px; }
 		}
 	}
 
-	/* ✅ TEXT max 2 qator */
-	&-info__title {
-		margin: 0;
-		font-size: 20px;
-		font-weight: 400;
-		line-height: 1.3;
-		color: #0b2239;
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2; /* ⭐ 2 qator */
-		overflow: hidden;
-		transition: color 0.25s ease;
-		@include devices(md) {
-			font-size: 16px;
-		}
+	/* Hover'da rasm engil zoom */
+	&:hover &-image .image :deep(img) {
+		transform: scale(1.03);
 	}
 
-	/* ✅ IMG hover bo'lganda: title bg = accent, text = white */
-	&:hover &-box__title {
-		background: $accent;
-		border-color: rgba(255, 255, 255, 0.22);
-		transform: rotate(90deg) translateX(-2px);
-	}
-
-	&:hover &-info__title {
-		color: #fff;
+	/* Doctor name hover'da accent rang bo'ladi */
+	&:hover &-info__name {
+		color: $accent;
 	}
 
 	/* CONTENT */
@@ -222,55 +182,70 @@ $accent: #33c1ed;
 		display: flex;
 		flex-direction: column;
 		flex: 1;
-		padding: var(--space-16);
+		padding: 14px 16px 16px;
 		background: #fff;
+		gap: 4px;
+
+		&__name {
+			margin: 0;
+			font-size: 16px;
+			font-weight: 700;
+			color: #0b2239;
+			line-height: 1.35;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+			line-clamp: 2;
+			overflow: hidden;
+		}
 
 		&__subtitle {
-			@include text(20, rgba(var(--black), 0.6), 400, 150%);
-			margin-bottom: var(--space-16);
+			font-size: 13.5px;
+			font-weight: 400;
+			color: rgba(11, 34, 57, 0.55);
+			margin-bottom: 10px;
+			line-height: 1.4;
 		}
 
 		&__actions {
 			display: flex;
-			gap: 12px;
-			margin-top: var(--space-20);
+			align-items: center;
+			gap: 10px;
+			margin-top: 12px;
 		}
 
 		&__button {
-			height: var(--size-btn-52);
+			height: 40px;
 			border: none;
 			outline: none;
-			display: flex;
+			display: inline-flex;
 			align-items: center;
-			justify-content: space-between;
+			justify-content: center;
 			transition: all 0.25s ease;
-
 			background-color: var(--blue-4);
-			border-radius: 12px;
-			text-align: center;
-			padding: 0 12px !important;
+			border-radius: 10px;
+			padding: 0 14px !important;
 			cursor: pointer;
-
-			@include text(16, var(--white-1), 500, 150%);
+			font-size: 13.5px;
+			font-weight: 600;
+			color: #fff;
 			white-space: nowrap;
-			gap: 12px !important;
+			gap: 8px !important;
 			flex: 0 0 auto;
 
 			&::before {
-				padding-right: 36px;
-				padding-left: 12px;
-				font-size: 16px;
+				padding-right: 28px;
+				padding-left: 8px;
+				font-size: 13.5px;
 			}
 
 			&:hover {
-				// background-color: darken((--blue-4), 10%);
 				transform: translateY(-2px);
-				box-shadow: 0 10px 26px rgba(51, 193, 237, 0.35);
+				box-shadow: 0 8px 18px rgba(20, 63, 150, 0.28);
 			}
 
 			&:active {
 				transform: translateY(0);
-				box-shadow: 0 6px 18px rgba(51, 193, 237, 0.25);
 			}
 
 			&--secondary {
@@ -280,19 +255,14 @@ $accent: #33c1ed;
 				text-decoration: underline;
 				text-underline-offset: 4px;
 				padding: 0 !important;
-
-				@include text(16, --blue-4, 500, 150%);
-				text-align: center;
+				font-size: 13.5px;
+				font-weight: 500;
 				justify-content: center;
+				height: auto;
 
 				&:hover {
 					background-color: transparent;
 					color: var(--blue-4);
-					transform: none;
-					box-shadow: none;
-				}
-
-				&:active {
 					transform: none;
 					box-shadow: none;
 				}
@@ -303,42 +273,62 @@ $accent: #33c1ed;
 	/* TAGS */
 	&-tag {
 		margin-top: auto;
+		padding: 0;
 		display: flex;
 		flex-wrap: wrap;
-		gap: 8px;
+		gap: 6px;
+		list-style: none;
 
 		&__item {
-			padding: 7px 10px;
-			display: flex;
+			padding: 5px 10px;
+			display: inline-flex;
 			align-items: center;
-			gap: 6px;
+			gap: 5px;
 
 			border: 1px solid rgba(51, 193, 237, 0.22);
 			background: rgba(51, 193, 237, 0.08);
-			border-radius: 10px;
+			border-radius: 8px;
+			line-height: 1;
 
 			:deep(.icon),
 			:deep(svg) {
 				color: #f79440;
 				fill: currentColor;
 				stroke: currentColor;
+				width: 14px;
+				height: 14px;
+				flex-shrink: 0;
 			}
 
 			b {
-				@include text(18, #0b2239, 700, 150%);
+				font-size: 14px;
+				font-weight: 700;
+				color: #0b2239;
 			}
 
 			span {
-				@include text(18, #26364b, 400, 150%);
+				font-size: 13px;
+				font-weight: 400;
+				color: #26364b;
 			}
+
+			/* Rating pill — accent fon */
+			&--rating {
+				background: rgba(247, 148, 64, 0.1);
+				border-color: rgba(247, 148, 64, 0.3);
+			}
+
+			/* Long pill — to'liq qator */
+			&--full {
+				width: 100%;
+				justify-content: flex-start;
+			}
+
 			@include devices(md) {
-				padding: 3px 5px;
-				span {
-					@include text(14, #26364b, 400, 150%);
-				}
-				b {
-					@include text(14, #0b2239, 700, 150%);
-				}
+				padding: 4px 8px;
+				gap: 4px;
+				b { font-size: 13px; }
+				span { font-size: 12px; }
 			}
 		}
 	}

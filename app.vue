@@ -83,7 +83,7 @@ toSetStore(useSocial, social);
 	>
 		<Loader />
 		<SectionHeader />
-		<SectionBreadcrumbs v-if="isVisibleBreadcrumbs" />
+		<SectionBreadcrumbs v-show="isVisibleBreadcrumbs" />
 
 		<NuxtPage />
 

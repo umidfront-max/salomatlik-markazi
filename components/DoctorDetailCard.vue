@@ -29,8 +29,8 @@ defineProps({
 			</p>
 
 			<ul class="doctor-detail__chips">
-				<li v-if="data.yearsOfExperience" class="doctor-detail__chip doctor-detail__chip--accent">
-					<Icon name="calendar" />
+				<li v-if="data.yearsOfExperience" class="doctor-detail__chip">
+					<Icon name="calendar" class="doctor-detail__chip-icon" />
 					<b>{{ data.yearsOfExperience }}</b>
 					<span>{{ $t("doctor.yearsOfExperience") }}</span>
 				</li>
@@ -55,8 +55,8 @@ defineProps({
 					}}</b>
 				</li>
 
-				<li v-if="data.phone" class="doctor-detail__chip doctor-detail__chip--phone">
-					<Icon name="phone-fill" />
+				<li v-if="data.phone" class="doctor-detail__chip">
+					<Icon name="phone-fill" class="doctor-detail__chip-icon" />
 					<a :href="`tel:${data.phone}`" class="doctor-detail__phone-link">{{ data.phone }}</a>
 				</li>
 			</ul>
@@ -135,7 +135,7 @@ $accent: #33c1ed;
 		color: rgba(11, 34, 57, 0.72);
 	}
 
-	/* chips */
+	/* chips — UNIFIED: same color, same size, compact */
 	&__chips {
 		list-style: none;
 		padding: 0;
@@ -143,71 +143,53 @@ $accent: #33c1ed;
 
 		display: flex;
 		flex-wrap: wrap;
-		gap: 10px;
+		gap: 6px;
 	}
 
 	&__chip {
 		display: inline-flex;
 		align-items: center;
-		gap: 10px;
+		gap: 5px;
 
-		padding: 10px 14px;
-		border-radius: 12px;
+		padding: 6px 12px;
+		border-radius: 8px;
+		line-height: 1;
 
-		background: rgba(51, 193, 237, 0.1);
-		border: 1px solid rgba(51, 193, 237, 0.25);
+		background: rgba(51, 193, 237, 0.08);
+		border: 1px solid rgba(51, 193, 237, 0.22);
 
 		span {
-			font-size: 16px;
-			font-weight: 600;
-			color: rgba(11, 34, 57, 0.72);
+			font-size: 13px;
+			font-weight: 500;
+			color: rgba(11, 34, 57, 0.7);
 		}
 
 		b {
-			font-size: 18px;
-			font-weight: 800;
+			font-size: 13.5px;
+			font-weight: 700;
 			color: #0b2239;
 		}
 
 		:deep(.icon),
 		:deep(svg) {
-			color: #ff9b3f;
+			color: $accent;
 			fill: currentColor;
 			stroke: currentColor;
-		}
-
-		&--wide {
-			flex: 1 1 280px;
-			justify-content: space-between;
-		}
-
-		&--rating {
-			background: rgba(51, 193, 237, 0.12);
-		}
-
-		&--accent {
-			background: rgba(51, 193, 237, 0.15);
-			border-color: rgba(51, 193, 237, 0.4);
-		}
-
-		&--phone {
-			background: rgba(45, 180, 120, 0.08);
-			border-color: rgba(45, 180, 120, 0.25);
-
-			:deep(.icon), :deep(svg) {
-				color: #2db478;
-			}
+			width: 14px;
+			height: 14px;
+			flex-shrink: 0;
 		}
 	}
 
 	&__phone-link {
-		font-size: 18px;
-		font-weight: 800;
+		font-size: 13.5px;
+		font-weight: 700;
 		color: #0b2239;
 		text-decoration: none;
+		line-height: 1;
 
 		&:hover {
-			color: #2db478;
+			color: $accent;
 		}
 	}
 

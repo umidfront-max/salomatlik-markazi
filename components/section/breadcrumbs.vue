@@ -85,7 +85,8 @@ const activeTitle = computed(() => {
 watch(
 	() => route.path,
 	() => {
-		if (!props.title) {
+		// only set head title when there is an actual breadcrumb match
+		if (!props.title && breadcrumbs.value.length) {
 			useHead({
 				title: stripHtml(activeTitle.value),
 			});
