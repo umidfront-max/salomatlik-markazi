@@ -559,12 +559,6 @@ const currentTab = computed(
 							<span v-if="genderLabel" class="ck-panel__badge">
 								{{ genderLabel }}
 							</span>
-							<span
-								v-if="checkup.department?.title?.[locale]"
-								class="ck-panel__gender"
-							>
-								{{ checkup.department.title[locale] }}
-							</span>
 						</div>
 						<h1 class="ck-panel__title">{{ checkup.name?.[locale] }}</h1>
 						<p v-if="ageLabel" class="ck-panel__subtitle">
@@ -967,8 +961,8 @@ $shadow-sm: 0 4px 18px rgba(0, 0, 0, 0.07);
 		padding: 20px 0 60px;
 	}
 	&__inner {
-		--width-container: 1180px;
-		max-width: 1180px;
+		--width-container: 1320px;
+		max-width: 1320px;
 	}
 }
 

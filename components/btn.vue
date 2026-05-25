@@ -58,7 +58,7 @@ function toHandleClick(event) {
       right: 0;
       display: flex;
       align-items: center;
-      padding: 0 130px;
+      padding: 0 20px;
       height: 100%;
       color: white;
       font-size: 16px;
