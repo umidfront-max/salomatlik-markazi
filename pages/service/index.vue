@@ -4,7 +4,9 @@ const localePath = useLocalePath();
 </script>
 
 <template>
-	<section class="services-bg">
+	<div>
+		<SectionBreadcrumbs />
+		<section class="services-bg">
 		<div class="services container">
 			<h3 class="services_title">{{ $t("service.title2") }}</h3>
 			<ARow :gutter="[20, 20]">
@@ -26,9 +28,10 @@ const localePath = useLocalePath();
 						/>
 					</NuxtLink>
 				</ACol>
-			</ARow>
-		</div>
-	</section>
+				</ARow>
+			</div>
+		</section>
+	</div>
 </template>
 
 <style lang="scss" scoped>

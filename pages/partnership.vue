@@ -25,34 +25,37 @@ const handleError = () => {
 };
 </script>
 <template>
-  <section
-    class="section container pb-100"
-    data-aos="fade-up"
-    data-aos-duration="450"
-  >
-    <ATabs v-model:activeKey="activeKey">
-      <ATabPane
-        :key="index"
-        :tab="item.title"
-        v-for="(item, index) in data?.data ?? []"
-      >
-        <h2 class="section-title">
-          {{ item.sub_title }}
-        </h2>
-        <div class="section-content" v-html="item.content"></div>
-      </ATabPane>
-    </ATabs>
-    <div class="section-form">
-      <h2 class="section-form__title">{{ $t("formApplication") }}</h2>
-      <FormPartnership @success="handleSuccess" @error="handleError" />
-    </div>
+  <div>
+    <SectionBreadcrumbs />
+    <section
+      class="section container pb-100"
+      data-aos="fade-up"
+      data-aos-duration="450"
+    >
+      <ATabs v-model:activeKey="activeKey">
+        <ATabPane
+          :key="index"
+          :tab="item.title"
+          v-for="(item, index) in data?.data ?? []"
+        >
+          <h2 class="section-title">
+            {{ item.sub_title }}
+          </h2>
+          <div class="section-content" v-html="item.content"></div>
+        </ATabPane>
+      </ATabs>
+      <div class="section-form">
+        <h2 class="section-form__title">{{ $t("formApplication") }}</h2>
+        <FormPartnership @success="handleSuccess" @error="handleError" />
+      </div>
 
-    <!-- Message Modal -->
-    <ModalMessage
-      v-model:visible="messageModalVisible"
-      :type="messageModalType"
-    />
-  </section>
+      <!-- Message Modal -->
+      <ModalMessage
+        v-model:visible="messageModalVisible"
+        :type="messageModalType"
+      />
+    </section>
+  </div>
 </template>
 <style lang="scss" scoped>
 @use "@/assets/scss/config/mixins" as *;

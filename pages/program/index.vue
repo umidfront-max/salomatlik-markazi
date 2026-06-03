@@ -22,8 +22,10 @@ const patterns = [
 </script>
 
 <template>
-  <section class="section">
-    <div class="container">
+  <div>
+    <SectionBreadcrumbs />
+    <section class="section">
+      <div class="container">
       <div class="program-grid">
         <NuxtLink v-for="(item, index) in list" :key="item.id" :to="localePath(`/program/${item.slug}`)"
           class="program-card" :style="`--card-gradient: ${gradients[index % gradients.length]}`" data-aos="fade-up"
@@ -82,10 +84,11 @@ const patterns = [
 
           <!-- Decorative Corner -->
           <div class="program-card__corner"></div>
-        </NuxtLink>
+          </NuxtLink>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <style lang="scss" scoped>

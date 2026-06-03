@@ -4,31 +4,34 @@ const localePath = useLocalePath();
 </script>
 
 <template>
-	<section class="checkups-bg">
-		<div class="checkups container">
-			<h3 class="checkups_title">{{ $t("program.title1") }}</h3>
-			<ARow :gutter="[20, 20]">
-				<ACol
-					v-for="checkup in list"
-					:key="checkup.id"
-					:xs="24"
-					:sm="12"
-					:md="12"
-					:lg="8"
-				>
-					<NuxtLink
-						:to="localePath(`/checkup/${checkup.id}`)"
-						class="checkup-link"
+	<div>
+		<SectionBreadcrumbs />
+		<section class="checkups-bg">
+			<div class="checkups container">
+				<h3 class="checkups_title">{{ $t("program.title1") }}</h3>
+				<ARow :gutter="[20, 20]">
+					<ACol
+						v-for="checkup in list"
+						:key="checkup.id"
+						:xs="24"
+						:sm="12"
+						:md="12"
+						:lg="8"
 					>
-						<CardServiceCheckUp
-							:data="checkup"
+						<NuxtLink
 							:to="localePath(`/checkup/${checkup.id}`)"
-						/>
-					</NuxtLink>
-				</ACol>
-			</ARow>
-		</div>
-	</section>
+							class="checkup-link"
+						>
+							<CardServiceCheckUp
+								:data="checkup"
+								:to="localePath(`/checkup/${checkup.id}`)"
+							/>
+						</NuxtLink>
+					</ACol>
+				</ARow>
+			</div>
+		</section>
+	</div>
 </template>
 
 <style lang="scss" scoped>

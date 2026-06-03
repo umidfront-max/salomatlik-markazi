@@ -1,10 +1,13 @@
 <script setup>
 </script>
 <template>
-  <SectionAboutDefault />
-  <SectionAboutStats />
-  <SectionAboutTeam />
-  <SectionAboutCertificate />
-  <SectionAboutGallery />
+  <div>
+    <SectionBreadcrumbs />
+    <SectionAboutDefault />
+    <SectionAboutStats />
+    <SectionAboutTeam />
+    <SectionAboutCertificate />
+    <SectionAboutGallery />
+  </div>
 </template>
 

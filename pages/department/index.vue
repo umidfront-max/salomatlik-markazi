@@ -5,7 +5,7 @@ const localePath = useLocalePath();
 
 <template>
 	<div>
-		<!-- <SectionBreadcrumbs :title="$t('service.title2')" class="section-breadcrumbs" /> -->
+		<SectionBreadcrumbs />
 		<section class="services-bg">
 			<div class="services container">
 				<h3 class="services_title">{{ $t("service.title2") }}</h3>

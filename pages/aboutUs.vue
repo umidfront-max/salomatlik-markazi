@@ -8,7 +8,9 @@ useHead({
 </script>
 
 <template>
-	<section class="about">
+	<div>
+		<SectionBreadcrumbs />
+		<section class="about">
 		<div class="container about__inner">
 			<div
 				v-if="setting?.aboutUs?.[locale]"
@@ -18,8 +20,9 @@ useHead({
 			<p v-else class="about__placeholder">
 				{{ $t("aboutUs") }}
 			</p>
-		</div>
-	</section>
+			</div>
+		</section>
+	</div>
 </template>
 
 <style scoped lang="scss">

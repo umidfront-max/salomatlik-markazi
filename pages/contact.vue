@@ -7,7 +7,9 @@ const gutter = { xxl: 24, xl: 20, xs: 12, sm: 16 };
 
 </script>
 <template>
-	<section class="section contact-section">
+	<div>
+		<SectionBreadcrumbs />
+		<section class="section contact-section">
 		<div class="section-map" v-html="setting?.map?.[locale]"></div>
 		<div class="container">
 			<ARow :gutter="[gutter, gutter]">
@@ -59,9 +61,10 @@ const gutter = { xxl: 24, xl: 20, xs: 12, sm: 16 };
 						<FormApply />
 					</div>
 				</ACol>
-			</ARow>
-		</div>
-	</section>
+				</ARow>
+			</div>
+		</section>
+	</div>
 </template>
 <style lang="scss">
 @use "@/assets/scss/config/mixins" as *;

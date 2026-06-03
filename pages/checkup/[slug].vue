@@ -1609,6 +1609,7 @@ $shadow-sm: 0 4px 18px rgba(0, 0, 0, 0.07);
 	border-radius: 24px;
 	box-shadow: $shadow-sm;
 	text-align: center;
+   
 
 	@include devices(md) {
 		margin-top: 40px;

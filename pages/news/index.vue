@@ -11,10 +11,13 @@ const { data } = await useAsyncData("news", () =>
 );
 </script>
 <template>
-  <section class="section container">
-    <SectionNews :list="data.data || []" :has-header="false" />
-    <Pagination module="news" :pagination="data ?? {}" />
-  </section>
+  <div>
+    <SectionBreadcrumbs />
+    <section class="section container">
+      <SectionNews :list="data.data || []" :has-header="false" />
+      <Pagination module="news" :pagination="data ?? {}" />
+    </section>
+  </div>
 </template>
 <style lang="scss" scoped>
 .container {

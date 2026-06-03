@@ -13,7 +13,9 @@ const { data } = useAsyncData("gallery", () =>
 const gutter = { xxl: 24, xl: 20, xs: 12, sm: 16 };
 </script>
 <template>
-  <section class="section container pb-100">
+  <div>
+    <SectionBreadcrumbs />
+    <section class="section container pb-100">
     <ARow :gutter="[gutter, gutter]">
       <ACol
         :xl="6"
@@ -30,8 +32,9 @@ const gutter = { xxl: 24, xl: 20, xs: 12, sm: 16 };
         />
       </ACol>
     </ARow>
-    <Pagination module="video" :pagination="data?.pagination ?? {}" />
-  </section>
+      <Pagination module="video" :pagination="data?.pagination ?? {}" />
+    </section>
+  </div>
 </template>
 <style lang="scss" scoped>
 .section {
