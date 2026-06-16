@@ -57,6 +57,10 @@ function bookingFn() {
 	toClose();
 	emits("apply");
 }
+
+// strip HTML tags (for tel:/mailto: hrefs)
+const stripHtml = (s) =>
+	typeof s === "string" ? s.replace(/<[^>]*>/g, "").trim() : "";
 </script>
 
 <template>
@@ -162,35 +166,35 @@ function bookingFn() {
 					<div class="menu-contact__item address">
 						<span class="menu-contact__label">{{ $t("phone1") }}</span>
 						<a
-							class="menu-contact__value"
-							:href="`tel:${(setting?.phone?.[locale] || '').replace(/\s/g, '')}`"
-						>
-							{{ setting?.phone?.[locale] }}
-						</a>
+							class="menu-contact__value menu-html"
+							:href="`tel:${stripHtml(setting?.phone?.[locale]).replace(/\s/g, '')}`"
+							v-html="setting?.phone?.[locale]"
+						></a>
 					</div>
 					<div class="menu-contact__item address">
 						<span class="menu-contact__label">{{ $t("phone2") }}</span>
 						<a
-							class="menu-contact__value"
-							:href="`tel:${(setting?.phone2?.[locale] || '').replace(/\s/g, '')}`"
-						>
-							{{ setting?.phone2?.[locale] }}
-						</a>
+							class="menu-contact__value menu-html"
+							:href="`tel:${stripHtml(setting?.phone2?.[locale]).replace(/\s/g, '')}`"
+							v-html="setting?.phone2?.[locale]"
+						></a>
 					</div>
 				</li>
 
 				<li class="menu-contact__item address">
 					<span class="menu-contact__label">{{ $t("address") }}</span>
-					<a class="menu-contact__value">{{
-						setting?.address?.[locale]
-					}}</a>
+					<a
+						class="menu-contact__value menu-html"
+						v-html="setting?.address?.[locale]"
+					></a>
 				</li>
 
 				<li class="menu-contact__item worktime">
 					<span class="menu-contact__label">{{ $t("workTime") }}</span>
-					<a class="menu-contact__value">{{
-						setting?.workTime?.[locale]
-					}}</a>
+					<a
+						class="menu-contact__value menu-html"
+						v-html="setting?.workTime?.[locale]"
+					></a>
 				</li>
 			</ul>
 		</div>
@@ -590,6 +594,26 @@ function bookingFn() {
 	@include devices(sm) {
 		font-size: 14px;
 	}
+}
+
+/* Inline-render API HTML inside contact values */
+.menu-html {
+	:deep(p),
+	:deep(div),
+	:deep(span),
+	:deep(h1),
+	:deep(h2),
+	:deep(h3),
+	:deep(h4) {
+		display: inline;
+		margin: 0;
+		padding: 0;
+		font: inherit;
+		color: inherit;
+		line-height: inherit;
+	}
+	:deep(br) { display: none; }
+	:deep(a) { color: inherit; text-decoration: none; }
 }
 
 /* staggered reveal for contact items when menu active */

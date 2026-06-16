@@ -5,6 +5,10 @@ import { Autoplay, EffectFade, Navigation } from "swiper/modules";
 const { list: setting } = useSetting();
 const { locale } = useI18n();
 
+// strip HTML tags (for tel:/mailto: hrefs)
+const stripHtml = (s: any): string =>
+	typeof s === "string" ? s.replace(/<[^>]*>/g, "").trim() : "";
+
 type Banner = {
 	id: string;
 	title?: Record<string, string>;
@@ -270,9 +274,11 @@ function onNavClick() {
 												{{ $t("phone1") }}
 											</p>
 											<h4 class="main-slider-two__call__number">
-												<a href="tel:+208-555-0112">{{
-													setting.phone?.[locale]
-												}}</a>
+												<a
+													class="hero-html"
+													:href="`tel:${stripHtml(setting.phone?.[locale])}`"
+													v-html="setting.phone?.[locale]"
+												></a>
 											</h4>
 										</div>
 									</div>
@@ -813,6 +819,23 @@ function onNavClick() {
 	color: #fff;
 	text-decoration: none;
 }
+
+/* Inline-render API HTML (strip <p>/<div> block layout) */
+.hero-html :deep(p),
+.hero-html :deep(div),
+.hero-html :deep(span),
+.hero-html :deep(h1),
+.hero-html :deep(h2),
+.hero-html :deep(h3),
+.hero-html :deep(h4) {
+	display: inline;
+	margin: 0;
+	padding: 0;
+	font: inherit;
+	color: inherit;
+	line-height: inherit;
+}
+.hero-html :deep(br) { display: none; }
 .main-slider-two__social__title {
 	margin: 0 0 3px;
 	color: #fff;

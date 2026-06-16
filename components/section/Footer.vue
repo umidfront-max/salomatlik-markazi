@@ -6,6 +6,9 @@ const { list: setting } = useSetting();
 const { list: deparment } = useDepartment();
 const { list: social } = useSocial();
 
+// strip HTML tags (for tel:/mailto: links)
+const stripHtml = (s) =>
+	typeof s === "string" ? s.replace(/<[^>]*>/g, "").trim() : "";
 </script>
 
 <template>
@@ -166,9 +169,10 @@ const { list: social } = useSocial();
 						class="footer__stripText"
 					>
 						<span class="footer__stripLabel">{{ $t("address") }}</span>
-						<span class="footer__stripValue">
-							{{ setting?.address?.[locale] || "—" }}
-						</span>
+						<span
+							class="footer__stripValue footer__html"
+							v-html="setting?.address?.[locale] || '—'"
+						></span>
 					</a>
 				</div>
 
@@ -181,11 +185,10 @@ const { list: social } = useSocial();
 					<div class="footer__stripText">
 						<span class="footer__stripLabel">{{ $t("email") }}</span>
 						<a
-							class="footer__stripValue footer__stripValue--link"
-							:href="`mailto:${setting?.email?.[locale]}`"
-						>
-							{{ setting?.email?.[locale] || "—" }}
-						</a>
+							class="footer__stripValue footer__stripValue--link footer__html"
+							:href="`mailto:${stripHtml(setting?.email?.[locale])}`"
+							v-html="setting?.email?.[locale] || '—'"
+						></a>
 					</div>
 				</div>
 
@@ -198,15 +201,14 @@ const { list: social } = useSocial();
 					<div class="footer__stripText">
 						<span class="footer__stripLabel">{{ $t("phone1") }}</span>
 						<a
-							class="footer__stripValue footer__stripValue--link"
+							class="footer__stripValue footer__stripValue--link footer__html"
 							:href="
 								setting?.phone?.[locale]
-									? `tel:${setting.phone?.[locale]}`
+									? `tel:${stripHtml(setting.phone?.[locale])}`
 									: '#'
 							"
-						>
-							{{ setting?.phone?.[locale] || "—" }}
-						</a>
+							v-html="setting?.phone?.[locale] || '—'"
+						></a>
 					</div>
 				</div>
 			</div>
@@ -229,6 +231,26 @@ const { list: social } = useSocial();
 </template>
 
 <style lang="scss" scoped>
+// Inline-render API HTML (strips block-level layout from <p>, etc.)
+.footer__html {
+	:deep(p),
+	:deep(div),
+	:deep(span),
+	:deep(h1),
+	:deep(h2),
+	:deep(h3),
+	:deep(h4) {
+		display: inline;
+		margin: 0;
+		padding: 0;
+		font: inherit;
+		color: inherit;
+		line-height: inherit;
+	}
+	:deep(br) { display: none; }
+	:deep(a) { color: inherit; text-decoration: none; }
+}
+
 .footer {
 	position: relative;
 	overflow: hidden;

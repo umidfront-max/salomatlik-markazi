@@ -5,6 +5,9 @@ const { list: setting } = useSetting();
 const { locale } = useI18n();
 const gutter = { xxl: 24, xl: 20, xs: 12, sm: 16 };
 
+// strip HTML tags (for tel: links)
+const stripHtml = (s) =>
+	typeof s === "string" ? s.replace(/<[^>]*>/g, "").trim() : "";
 </script>
 <template>
 	<div>
@@ -18,10 +21,10 @@ const gutter = { xxl: 24, xl: 20, xs: 12, sm: 16 };
 						<Icon name="headphone" class="section-card-icon" />
 						<span class="section-card-label">{{ $t("phone1") }}</span>
 						<a
-							:href="toGetNumber(setting?.phone?.[locale])"
-							class="section-card-value"
-							>{{ setting?.phone?.[locale] }}</a
-						>
+							:href="toGetNumber(stripHtml(setting?.phone?.[locale]))"
+							class="section-card-value contact-html"
+							v-html="setting?.phone?.[locale]"
+						></a>
 					</div>
 				</ACol>
 				<ACol :xl="6" :xs="12">
@@ -29,28 +32,32 @@ const gutter = { xxl: 24, xl: 20, xs: 12, sm: 16 };
 						<Icon name="telephone" class="section-card-icon" />
 						<span class="section-card-label">{{ $t("phone2") }}</span>
 						<a
-							:href="toGetNumber(setting?.phone2?.[locale])"
-							class="section-card-value"
-							>{{ setting?.phone2?.[locale] }}</a
-						>
+							:href="toGetNumber(stripHtml(setting?.phone2?.[locale]))"
+							class="section-card-value contact-html"
+							v-html="setting?.phone2?.[locale]"
+						></a>
 					</div>
 				</ACol>
 				<ACol :xl="6" :xs="12">
 					<div class="section-card">
 						<Icon name="location" class="section-card-icon" />
 						<span class="section-card-label">{{ $t("address") }}</span>
-						<a href="" class="section-card-value">{{
-							setting?.address?.[locale]
-						}}</a>
+						<a
+							href=""
+							class="section-card-value contact-html"
+							v-html="setting?.address?.[locale]"
+						></a>
 					</div>
 				</ACol>
 				<ACol :xl="6" :xs="12">
 					<div class="section-card">
 						<Icon name="clock" class="section-card-icon" />
 						<span class="section-card-label">{{ $t("workTime") }}</span>
-						<a href="" class="section-card-value"
-							>{{ setting?.workTime?.[locale] }}
-						</a>
+						<a
+							href=""
+							class="section-card-value contact-html"
+							v-html="setting?.workTime?.[locale]"
+						></a>
 					</div>
 				</ACol>
 				<ACol span="24">
@@ -68,6 +75,19 @@ const gutter = { xxl: 24, xl: 20, xs: 12, sm: 16 };
 </template>
 <style lang="scss">
 @use "@/assets/scss/config/mixins" as *;
+
+// Inline-render API HTML (strip <p>/<div> block-layout)
+.contact-html {
+	p, div, span, h1, h2, h3, h4 {
+		display: inline;
+		margin: 0;
+		padding: 0;
+		font: inherit;
+		color: inherit;
+		line-height: inherit;
+	}
+	br { display: none; }
+}
 
 .contact-section {
 	--width-container: 1440px;
