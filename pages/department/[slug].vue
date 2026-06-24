@@ -59,7 +59,7 @@ const swiperOptions = {
 	},
 };
 // Department detail — use larger limit (100) for related lists on this page
-const LIMIT = 100;
+const LIMIT = 200;
 
 const [
 	{ data: department },
