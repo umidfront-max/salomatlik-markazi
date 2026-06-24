@@ -1,11 +1,6 @@
 <script setup>
 import { Autoplay } from "swiper/modules";
 const { locale } = useI18n();
-const { list: services } = useService();
-const { list: news } = useNews();
-const { list: diseases } = useDiseases();
-const { list: doctors } = useDoctor();
-const { list: galery } = useGallery();
 const router = useRouter();
 
 const route = useRoute();
@@ -63,23 +58,52 @@ const swiperOptions = {
 		},
 	},
 };
-const { data: department } = await useAsyncData(
-	`department_${route.params.slug}`,
-	() => $api(`/departments/${route.params.slug}`),
-);
+// Department detail — use larger limit (100) for related lists on this page
+const LIMIT = 100;
+
+const [
+	{ data: department },
+	{ data: deptServices },
+	{ data: deptDoctors },
+	{ data: deptNews },
+	{ data: deptDiseases },
+	{ data: deptGallery },
+] = await Promise.all([
+	useAsyncData(`department_${route.params.slug}`, () =>
+		$api(`/departments/${route.params.slug}`),
+	),
+	useAsyncData(`dept_services_${route.params.slug}`, () =>
+		$api("medical-services", { params: { limit: LIMIT } }),
+	),
+	useAsyncData(`dept_doctors_${route.params.slug}`, () =>
+		$api("doctors", { params: { limit: LIMIT, is_visible_home: false } }),
+	),
+	useAsyncData(`dept_news_${route.params.slug}`, () =>
+		$api("news", { params: { limit: LIMIT } }),
+	),
+	useAsyncData(`dept_diseases_${route.params.slug}`, () =>
+		$api("diseases", { params: { limit: LIMIT } }),
+	),
+	useAsyncData(`dept_gallery_${route.params.slug}`, () =>
+		$api("gallery", { params: { limit: LIMIT, is_visible_home: false } }),
+	),
+]);
+
+// Normalize responses (handles {data: []} or raw array)
+const asList = (d) => (Array.isArray(d) ? d : d?.data ?? []);
 
 const filteredServices = computed(() =>
-	services.filter((el) => el.department?.id == route.params.slug),
+	asList(deptServices.value).filter((el) => el.department?.id == route.params.slug),
 );
 const filteredNews = computed(() =>
-	news.filter((el) => el.department?.id == route.params.slug),
+	asList(deptNews.value).filter((el) => el.department?.id == route.params.slug),
 );
 const filteredDiseases = computed(() =>
-	diseases.filter((el) => el.department?.id == route.params.slug),
+	asList(deptDiseases.value).filter((el) => el.department?.id == route.params.slug),
 );
 const filteredDoctors = computed(() => {
 	const slug = route.params.slug;
-	return doctors.filter((el) => {
+	return asList(deptDoctors.value).filter((el) => {
 		if (Array.isArray(el.departments)) {
 			return el.departments.some((d) => d.id === slug || d.slug === slug);
 		}
@@ -87,7 +111,7 @@ const filteredDoctors = computed(() => {
 	});
 });
 const filteredGallery = computed(() =>
-	(galery ?? []).filter((el) => el.department?.id == route.params.slug),
+	asList(deptGallery.value).filter((el) => el.department?.id == route.params.slug),
 );
 </script>
 

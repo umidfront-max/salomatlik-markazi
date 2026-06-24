@@ -4,7 +4,7 @@ const { $api } = useNuxtApp();
 const { data } = await useAsyncData("news", () =>
   $api("news", {
     params: {
-      limit: 5,
+      limit: 30,
       page: route.query.page,
     },
   })

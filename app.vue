@@ -27,6 +27,9 @@ const toSetStore = (store, data, key = "list") => {
 	toSet(key, data.value?.data);
 };
 
+// Default page size for global lists
+const LIMIT = 30;
+
 // Barcha API so'rovlarni PARALLEL yuborish (ketma-ket emas)
 const [
 	{ data: service },
@@ -40,21 +43,21 @@ const [
 	{ data: department },
 	{ data: social },
 ] = await Promise.all([
-	useAsyncData("service", () => $api("medical-services")),
-	useAsyncData("checkUp", () => $api("checkup")),
+	useAsyncData("service", () => $api("medical-services", { params: { limit: LIMIT } })),
+	useAsyncData("checkUp", () => $api("checkup", { params: { limit: LIMIT } })),
 	useAsyncData("program", () =>
-		$api("posts", { params: { category: "program" } }),
+		$api("posts", { params: { category: "program", limit: LIMIT } }),
 	),
 	useAsyncData("doctor", () =>
-		$api("doctors", { params: { limit: 500, is_visible_home: false } }),
+		$api("doctors", { params: { limit: LIMIT, is_visible_home: false } }),
 	),
 	useAsyncData("gallery", () =>
-		$api("gallery", { params: { limit: 500, is_visible_home: false } }),
+		$api("gallery", { params: { limit: LIMIT, is_visible_home: false } }),
 	),
-	useAsyncData("diseases", () => $api("diseases")),
-	useAsyncData("news", () => $api("news")),
+	useAsyncData("diseases", () => $api("diseases", { params: { limit: LIMIT } })),
+	useAsyncData("news", () => $api("news", { params: { limit: LIMIT } })),
 	useAsyncData("settings", () => $api("settings")),
-	useAsyncData("departments", () => $api("departments")),
+	useAsyncData("departments", () => $api("departments", { params: { limit: LIMIT } })),
 	useAsyncData("social", () => $api("social")),
 ]);
 

@@ -5,7 +5,7 @@ const { $api } = useNuxtApp();
 const { data } = useAsyncData("gallery", () =>
   $api("gallery", {
     params: {
-      limit: 4,
+      limit: 30,
       page: route.query.page,
     },
   })
